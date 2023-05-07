@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { schema } = mongoose;
+const { Schema } = mongoose;
 
-const userSchema = new schema(
+const userSchema = new Schema(
   {
     name: String,
     email: String,
@@ -13,6 +13,6 @@ const userSchema = new schema(
   }
 );
 
-const User = mongoose.model("User", userSchema); // Defindo um model com nome "user" e passando um schema "userSchema"
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
