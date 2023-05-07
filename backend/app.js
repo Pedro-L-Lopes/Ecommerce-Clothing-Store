@@ -12,6 +12,17 @@ const app = express(); // Para inicializar aplicação(invocando o framework)
 app.use(express.json()); // Habilitar json
 app.use(express.urlencoded({ extended: false })); // Aceitar form data // Configurar quando for trabalhar com as reqs, por enquanto deixa desconfigurado
 
+// Importando middlewares
+// Resolver Cors (requisições de um mesmo dominio)
+app.use(cors({ credentials: true, origin: "htpp://localhost:3000" })); // Mudar quando mudar a origen da requisição
+
+// Diretorio de upload de imagens
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+        //A pasta vai conter aquivos estaticos  // Juntando o diretorio atual + /uploads para salvar as pastas
+
+// Conexão com banco de dados
+require("./config/db.js")
+
 // Rotas
 const router = require("./routes/Router.js"); // Arquivo com redirecionamento para todas as rotas
 
