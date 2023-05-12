@@ -2,6 +2,7 @@ const User = require("../models/User");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -91,7 +92,46 @@ const getCurrentUser = async (req, res) => {
 
 // Atualização de usuário
 const update = async (req, res) => {
-  res.send("Update");
+  const { name, password, bio } = req.body;
+
+  let profileImage = null;
+
+  if (req.file) {
+    // Pegando imagem e modificando nome do arquivo
+    profileImage = req.file.filename;
+  }
+
+  const reqUser = req.user; // Usuário da requisição (pegando o token)
+
+  // Convertendo para object id
+  const user = await User.findById(
+    new mongoose.Types.ObjectId(reqUser._id)
+  ).select("-password");
+
+  if (name) {
+    user.name = name; // Se o nome veio pela requisição o nome é atualizado
+  }
+
+  if (password) {
+    // O salt vai dar uma "poluida" na string
+    const salt = await bcrypt.genSalt(); // genSalt() gera a string aleatória
+    const passwordHash = await bcrypt.hash(password, salt); // Gera uma senha aleatória muito loka
+
+    user.password = passwordHash;
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage;
+  }
+
+  if (bio) {
+    user.bio = bio;
+  }
+
+  // Salvando no banco
+  await user.save();
+
+  res.status(200).json(user);
 };
 
 module.exports = {
