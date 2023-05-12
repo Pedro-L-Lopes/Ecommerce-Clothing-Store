@@ -1,9 +1,5 @@
-//
-
 const multer = require("multer"); // Upload de arquivos
 const path = require("path"); // Modulo padrão de caminhos/diretorios do node
-const { base } = require("../models/User");
-const { error } = require("console");
 
 // Destino da imagem
 const imageStorage = multer.diskStorage({
@@ -29,6 +25,7 @@ const imageStorage = multer.diskStorage({
 const imageUpload = multer({
   storage: imageStorage,
   fileFilte(req, file, cb) {
+    //expressão regular para verificar as extensões do arquivo
     if (!file.originalname.match(/\.(png || jpg)$/)) {
       // Upload de png e jpg
       return cb(new Error("Por favor, envie apenas png ou jpg!"));
