@@ -44,6 +44,6 @@ const imageUploadProducts = multer({
     }
     cb(undefined, true);
   },
-}).array("images", 5);
+}).array("images", 3);
 
 module.exports = { imageUpload, imageUploadProducts };
