@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema(
   {
-    images: [String],
+    images: [
+      {
+        filename: String,
+      },
+    ],
     name: String,
     price: Number,
     description: String,
@@ -12,7 +16,7 @@ const productSchema = new Schema(
     salePrice: Number,
     regularPrice: Number,
     category: String,
-    userId: mongoose.objectId,
+    userId: mongoose.Types.ObjectId,
   },
   {
     timestamps: true,

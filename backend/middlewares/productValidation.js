@@ -11,7 +11,7 @@ const productInsertValidation = () => {
       .isLength({ min: 3 })
       .withMessage("O nome precisa ter no mínimo 3 carcteres!"),
     body("images").custom((value, { req }) => {
-      if (!req.file) {
+      if (!req.files) {
         throw new Error("Insira pelo menos uma imagem.");
       }
       return true;
