@@ -7,6 +7,7 @@ const {
   login,
   getCurrentUser,
   update,
+  getUserById,
 } = require("../controllers/UserController");
 
 // Middlewares
@@ -32,5 +33,6 @@ router.put(
   imageUpload.single("profileImage"),
   update
 );
+router.get("/:id", getUserById); // Não precisa de middleware, qualquer usuário pode ver qualquer perfil
 
 module.exports = router;
