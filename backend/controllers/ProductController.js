@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const User = require("../models/User");
 
 const mongoose = require("mongoose");
 
@@ -6,11 +7,28 @@ const mongoose = require("mongoose");
 const createProduct = async (req, res) => {
   const { name } = req.body;
 
-  const image = req.files.filename;
+  const images = req.files.map((file) => ({filename: file.filename}));
 
-  console.log(req.body);
+  const reqUser = req.user; // Usuário da requisição
 
-  res.send("Produto criado");
+  const user = await User.findById(reqUser._id);
+
+  // Criando produto
+  const newProduct = await Product.create({
+    images,
+    name,
+    userId: user._id,
+    userName: user.name,
+  });
+
+  // Verificando se o produto foi criado com sucesso, retorna o dado
+  if (!newProduct) {
+    res.status(422).json({
+      errors: ["Houve um problema, por favor tente novamente mais tarde."],
+    });
+  }
+
+  res.status(201).json(newProduct);
 };
 
 module.exports = {
