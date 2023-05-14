@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 // Controller
-const { createProduct } = require("../controllers/ProductController");
+const {
+  createProduct,
+  deleteProduct,
+} = require("../controllers/ProductController");
 
 // Middlewares
 const { productInsertValidation } = require("../middlewares/productValidation");
@@ -19,5 +22,6 @@ router.post(
   validate,
   createProduct // InsertPhoto
 );
+router.delete("/:id", authGuard, deleteProduct);
 
 module.exports = router;
