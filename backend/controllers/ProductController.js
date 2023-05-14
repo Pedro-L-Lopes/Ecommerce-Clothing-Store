@@ -1,6 +1,9 @@
 const Product = require("../models/Product");
 const User = require("../models/User");
 
+const fs = require("fs");
+const path = require("path");
+
 const mongoose = require("mongoose");
 
 // Inserindo produto com um usuário relacionado a ele // Insert Photo
@@ -53,6 +56,20 @@ const deleteProduct = async (req, res) => {
         errors: ["Ocorreu um erro, por favor tente novamente mais tarde."],
       });
     }
+
+    // Remover as fotos do disco
+    product.images.forEach((image) => {
+      const imagePath = path.join(
+        __dirname,
+        "../uploads/products",
+        image.filename
+      );
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          res.status(500).json({ error: ["Erro ao excluir fotos do disco!"] });
+        }
+      });
+    });
 
     await Product.findByIdAndDelete(product._id);
 
