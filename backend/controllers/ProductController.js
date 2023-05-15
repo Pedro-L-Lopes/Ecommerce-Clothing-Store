@@ -82,7 +82,20 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+// Pegando todas os produtos
+const getAllProducts = async (req, res) => {
+  // Buscando todos os produtos = find({}) // sort() = ordenar  // exec() = executar
+  const products = await Product.find({})
+    .sort([["createdAt", -1]])
+    .exec();
+
+  return res.status(200).json(products);
+};
+
+
+
 module.exports = {
   createProduct,
   deleteProduct,
+  getAllProducts,
 };

@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   createProduct,
   deleteProduct,
+  getAllProducts,
 } = require("../controllers/ProductController");
 
 // Middlewares
@@ -23,5 +24,7 @@ router.post(
   createProduct // InsertPhoto
 );
 router.delete("/:id", authGuard, deleteProduct);
+router.get("/", authGuard, getAllProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
+
 
 module.exports = router;
