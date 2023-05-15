@@ -19,6 +19,38 @@ const productInsertValidation = () => {
       } //quebra a aplicação
       return true;
     }),
+    // Validação para o campo "price"
+    body("price").isNumeric().withMessage("Insira um valor valido."),
+
+    // Validação para o campo "size"
+    body("size")
+      .optional()
+      .isArray({ min: 1 })
+      .withMessage("Insira pelo menos um tamanho."),
+
+    // Validação para o campo "description"
+    body("description")
+      .optional()
+      .isString()
+      .withMessage("Insira uma descrição válida."),
+
+    // Validação para o campo "onSale"
+    body("onSale")
+      .optional()
+      .isBoolean()
+      .withMessage("Insira um valor booleano."),
+
+    // Validação para o campo "salePrice"
+    body("salePrice")
+      .optional()
+      .isNumeric()
+      .withMessage("Insira um valor numérico para o salePrice."),
+
+    // Validação para o campo "regularPrice"
+    body("regularPrice")
+      .optional()
+      .isNumeric()
+      .withMessage("Insira um valor numérico para o regularPrice."),
   ];
 };
 
@@ -35,6 +67,6 @@ const productUpdateValidation = () => {
 };
 
 module.exports = {
-  productInsertValidation, 
+  productInsertValidation,
   productUpdateValidation,
 };

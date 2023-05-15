@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 // Inserindo produto com um usuário relacionado a ele // Insert Photo
 const createProduct = async (req, res) => {
-  const { name } = req.body;
+  const { name, price, size, description, onSale, salePrice } = req.body;
 
   const images = req.files.map((file) => ({ filename: file.filename }));
 
@@ -20,6 +20,11 @@ const createProduct = async (req, res) => {
   const newProduct = await Product.create({
     images,
     name,
+    price,
+    size,
+    description,
+    onSale,
+    salePrice,
     userId: user._id,
     userName: user.name,
   });
