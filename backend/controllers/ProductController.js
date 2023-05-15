@@ -55,6 +55,7 @@ const deleteProduct = async (req, res) => {
       res.status(422).json({
         errors: ["Ocorreu um erro, por favor tente novamente mais tarde."],
       });
+      return;
     }
 
     // Remover as fotos do disco
@@ -96,11 +97,60 @@ const getAllProducts = async (req, res) => {
 const getUserProducts = async (req, res) => {
   const { id } = req.params; // Id da url pois qualquer um pode ver qualquer produto
 
-  const products = await Product.find({ userId: id })
+  const products = await Product.find({ userId: id }) // Buscando pelo id do usuario
     .sort([["createdAt", -1]])
     .exec();
 
   return res.status(200).json(products);
+};
+
+// Pegando produto por id
+const getProductById = async (req, res) => {
+  const { id } = req.params; // Id que vem da url
+
+  const product = await Product.findById(new mongoose.Types.ObjectId(id)); // Buscando produto por id
+
+  // Checando se produto existe
+  if (!product) {
+    res.status(404).json({ errors: ["Produto não encontrado."] });
+    return;
+  }
+
+  res.status(200).json(product);
+};
+
+// Atualizando produto
+const updateProduct = async (req, res) => {
+  const { id } = req.params; // Id que vem da url
+
+  const { name } = req.body; // Nome do produto
+
+  const reqUser = req.user; // Usuário da requisição
+
+  const product = await Product.findById(id);
+
+  // Checando se o produto existe
+  if (!product) {
+    res.status(404).json({ errors: ["Produto não encontrado."] });
+    return;
+  }
+
+  // Checando se o produto pertence ao usuário
+  if (!product.userId.equals(reqUser._id)) {
+    res.status(422).json({
+      errors: ["Ocorreu um erro, porfavor tente novamente mais tarde."],
+    });
+    return;
+  }
+
+  // Checando se o nome veio
+  if (name) {
+    product.name = name;
+  }
+
+  await product.save();
+
+  res.status(200).json({ product, message: "Produto atualizado com sucesso." });
 };
 
 module.exports = {
@@ -108,4 +158,6 @@ module.exports = {
   deleteProduct,
   getAllProducts,
   getUserProducts,
+  getProductById,
+  updateProduct,
 };
