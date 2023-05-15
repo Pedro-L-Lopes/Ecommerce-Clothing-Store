@@ -128,7 +128,7 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params; // Id que vem da url
 
-  const { name } = req.body; // Nome do produto
+  const { name, price, size, description, onSale, salePrice } = req.body; // Nome do produto
 
   const reqUser = req.user; // Usuário da requisição
 
@@ -148,9 +148,29 @@ const updateProduct = async (req, res) => {
     return;
   }
 
-  // Checando se o nome veio
+  // Checando os campos alterados vieram
   if (name) {
     product.name = name;
+  }
+
+  if (price) {
+    product.price = price;
+  }
+
+  if (size) {
+    product.size = size;
+  }
+
+  if (description) {
+    product.description = description;
+  }
+
+  if (onSale) {
+    product.onSale = onSale;
+  }
+
+  if (salePrice) {
+    product.salePrice = salePrice;
   }
 
   await product.save();
