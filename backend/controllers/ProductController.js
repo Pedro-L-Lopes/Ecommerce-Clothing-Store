@@ -92,10 +92,20 @@ const getAllProducts = async (req, res) => {
   return res.status(200).json(products);
 };
 
+// Pegando fotos do usuário (loja)
+const getUserProducts = async (req, res) => {
+  const { id } = req.params; // Id da url pois qualquer um pode ver qualquer produto
 
+  const products = await Product.find({ userId: id })
+    .sort([["createdAt", -1]])
+    .exec();
+
+  return res.status(200).json(products);
+};
 
 module.exports = {
   createProduct,
   deleteProduct,
   getAllProducts,
+  getUserProducts,
 };

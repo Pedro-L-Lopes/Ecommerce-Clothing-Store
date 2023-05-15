@@ -6,6 +6,7 @@ const {
   createProduct,
   deleteProduct,
   getAllProducts,
+  getUserProducts,
 } = require("../controllers/ProductController");
 
 // Middlewares
@@ -26,5 +27,6 @@ router.post(
 router.delete("/:id", authGuard, deleteProduct);
 router.get("/", authGuard, getAllProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
 
+router.get("/user/:id", authGuard, getUserProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
 
 module.exports = router;
