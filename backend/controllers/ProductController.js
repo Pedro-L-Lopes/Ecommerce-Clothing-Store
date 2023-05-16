@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 
 // Inserindo produto com um usuário relacionado a ele // Insert Photo
 const createProduct = async (req, res) => {
-  const { name, price, size, description, onSale, salePrice } = req.body;
+  const { name, price, size, description, onSale, salePrice, available } =
+    req.body;
 
   const images = req.files.map((file) => ({ filename: file.filename }));
 
@@ -25,6 +26,7 @@ const createProduct = async (req, res) => {
     description,
     onSale,
     salePrice,
+    available,
     userId: user._id,
     userName: user.name,
   });
@@ -128,7 +130,8 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params; // Id que vem da url
 
-  const { name, price, size, description, onSale, salePrice } = req.body; // Nome do produto
+  const { name, price, size, description, onSale, salePrice, available } =
+    req.body; // Nome do produto
 
   const reqUser = req.user; // Usuário da requisição
 
@@ -171,6 +174,10 @@ const updateProduct = async (req, res) => {
 
   if (salePrice) {
     product.salePrice = salePrice;
+  }
+
+  if (available) {
+    product.available = available;
   }
 
   await product.save();
