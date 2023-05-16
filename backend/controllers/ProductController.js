@@ -185,6 +185,17 @@ const updateProduct = async (req, res) => {
   res.status(200).json({ product, message: "Produto atualizado com sucesso." });
 };
 
+// Buscando produtos pelo titulo
+const searchProducts = async (req, res) => {
+  const { q } = req.query; // Argumento q da querry string da url
+
+  // Com a expressão regular diz que o q(o que estou procurando) está em qualquer lugar da string
+  // O "i" ignora a case sensitive
+  const products = await Product.find({ name: new RegExp(q, "i") }).exec();
+
+  res.status(200).json(products);
+};
+
 module.exports = {
   createProduct,
   deleteProduct,
@@ -192,4 +203,5 @@ module.exports = {
   getUserProducts,
   getProductById,
   updateProduct,
+  searchProducts,
 };

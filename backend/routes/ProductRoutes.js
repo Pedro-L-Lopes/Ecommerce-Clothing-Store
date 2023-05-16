@@ -9,6 +9,7 @@ const {
   getUserProducts,
   getProductById,
   updateProduct,
+  searchProducts,
 } = require("../controllers/ProductController");
 
 // Middlewares
@@ -28,7 +29,8 @@ router.post(
   productInsertValidation(),
   validate,
   createProduct // InsertPhoto
-);
+  );
+router.get("/search", authGuard, searchProducts); // Retirar authGuard
 router.delete("/:id", authGuard, deleteProduct);
 router.get("/", authGuard, getAllProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
 router.get("/user/:id", authGuard, getUserProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
