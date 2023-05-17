@@ -37,4 +37,6 @@ export const requestConfig = (method, data, token = null, image = null) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`; // Utilizando o Authorization que fez a validação la no back
   }
+
+  return config;
 };

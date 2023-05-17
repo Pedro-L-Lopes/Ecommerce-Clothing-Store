@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 // Hooks
 import { useState, useEffect } from "react";
 
+// Redux
+import { register, reset } from "../../slices/authSlice";
+
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
