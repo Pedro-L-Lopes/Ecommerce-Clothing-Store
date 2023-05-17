@@ -16,17 +16,28 @@ import {
 // import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  return <nav id="nav">
-    <Link to="/">Shop Naw</Link>
-    <form>
-      <BsSearch />
-      <input type="text" />
-    </form>
-    <ul id="navlinks">
-      <NavLink to="/login">Entrar</NavLink>
-      <NavLink to="/Register">Cadastrar</NavLink>
-    </ul>
-  </nav>;
+  return (
+    <nav id="nav">
+      <Link to="/">Shop Naw</Link>
+      <form id="search-form">
+        <BsSearch />
+        <input type="text" />
+      </form>
+      <ul id="nav-links">
+        <li>
+          <NavLink>
+            <BsHouseDoorFill />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/login">Entrar</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Register">Cadastrar</NavLink>
+        </li>
+      </ul>
+    </nav>
+  );
 };
 
 export default Navbar;
