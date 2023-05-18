@@ -18,6 +18,8 @@ const register = async (data) => {
       // Salvando na localStorage para extrair depois e ver se o usuário está logado // Tranforma em string novamente a resposta
       localStorage.setItem("user", JSON.stringify(res));
     }
+
+    return res;
   } catch (error) {
     console.log(error);
   }
