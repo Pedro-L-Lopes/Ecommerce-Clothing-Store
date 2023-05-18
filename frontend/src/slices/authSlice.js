@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
 
 // Deslogando usuário
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout;
+  await authService.logout();
 });
 
 // Criando slice com as funções do slice
@@ -77,7 +77,7 @@ export const authSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.error = false;
-        state.user = null; 
+        state.user = null;
       });
   },
 });
