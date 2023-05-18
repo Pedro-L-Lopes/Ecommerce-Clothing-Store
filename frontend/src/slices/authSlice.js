@@ -31,6 +31,11 @@ export const register = createAsyncThunk(
   }
 );
 
+// Deslogando usuário
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await authService.logout;
+});
+
 // Criando slice com as funções do slice
 export const authSlice = createSlice({
   name: "auth", // Nome pelo qual vai ser chamado na store e vai ter como extrair valores
@@ -66,6 +71,13 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload; // Ativa o erro
         state.user = null;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        // Limpando tudo
+        state.loading = false;
+        state.success = false;
+        state.error = false;
+        state.user = null; 
       });
   },
 });
