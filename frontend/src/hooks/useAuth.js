@@ -13,7 +13,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true); // Não carregar nada enquanto não souber se o user ta autenticado
 
   // Ativado sempre que o usuário mudar
-  useAuth(() => {
+  useEffect(() => {
     if (user) {
       // Se tem algum usuário na localStorage
       setAuth(true);

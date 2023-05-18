@@ -29,12 +29,12 @@ router.post(
   productInsertValidation(),
   validate,
   createProduct // InsertPhoto
-  );
-router.get("/search", authGuard, searchProducts); // Retirar authGuard
+);
+router.get("/search", searchProducts); // Retirar authGuard
 router.delete("/:id", authGuard, deleteProduct);
-router.get("/", authGuard, getAllProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
-router.get("/user/:id", authGuard, getUserProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
-router.get("/:id", authGuard, getProductById); // Retirar authGuard
+router.get("/", getAllProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
+router.get("/user/:id", getUserProducts); // Retirar authGuard, usuário não precisará estar logado para ver produtos
+router.get("/:id", getProductById); // Retirar authGuard
 router.put(
   "/:id",
   authGuard,
