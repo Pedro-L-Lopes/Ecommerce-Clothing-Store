@@ -1,7 +1,7 @@
 // Verificar os estados (Loading, erro, sucesso e etc) // Estará no store para ser compartilhado com o projeto
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { authService } from "../services/authService";
+import authService from "../services/authService";
 
 // Pegando usuário da localStorage (se tiver)
 const user = JSON.parse(localStorage.getItem("user"));
@@ -32,7 +32,6 @@ export const register = createAsyncThunk(
 );
 
 // Criando slice com as funções do slice
-
 export const authSlice = createSlice({
   name: "auth", // Nome pelo qual vai ser chamado na store e vai ter como extrair valores
   initialState,
@@ -41,7 +40,7 @@ export const authSlice = createSlice({
       // Reseta todos os estados // Ex: Limpar um componente como se fosse recarregar a pag
       state.loading = false;
       state.error = false;
-      state.sucsess = false;
+      state.success = false;
     },
   },
   // Parte das execuções que a gente faz na api // Trabalha diretamente com o estado atual de cada req
@@ -72,4 +71,4 @@ export const authSlice = createSlice({
 });
 
 export const { reset } = authSlice.actions;
-export default authSlice.reducer; 
+export default authSlice.reducer;

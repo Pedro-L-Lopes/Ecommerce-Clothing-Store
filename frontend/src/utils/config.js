@@ -19,7 +19,7 @@ export const requestConfig = (method, data, token = null, image = null) => {
     // Funções que não vão ter dados mas precisa ter o retorno de algo // Não tem cabeçalho pois não tem dados para mandar, só precisa definir o metodo que lá no server a função já vai se resolver sozinha
     config = {
       method,
-      headers,
+      headers: {},
     };
   } else {
     // Ultimo caso, quando vem dados

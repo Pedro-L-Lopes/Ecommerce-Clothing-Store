@@ -1,6 +1,6 @@
 // Requisição http que tem haver com a autenticação do usuário // Register // Login
 
-import { api, requestConfig } from "../utils";
+import { api, requestConfig } from "../utils/config";
 
 // Registrar usuário
 const register = async (data) => {
@@ -9,7 +9,7 @@ const register = async (data) => {
   try {
     // Espera uma resposta da minha api(url) + url que quero acessar + configurações
     const res = await fetch(api + "/users/register", config)
-      .then((res) => res, json()) // Then recebe dados e os transforma em objeto javascript
+      .then((res) => res.json()) // Then recebe dados e os transforma em objeto javascript
       .catch((err) => err); // Retorna um erro e cai no catch
 
     // Se receber uma resposta

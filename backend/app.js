@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false })); // Aceitar form data // Config
 
 // Importando middlewares
 // Resolver Cors (requisições de um mesmo dominio)
-app.use(cors({ credentials: true, origin: "htpp://localhost:3000" })); // Mudar quando mudar a origen da requisição
+app.use(cors({ credentials: true, origin: "http://localhost:3000" })); // Mudar quando mudar a origen da requisição
 
 // Diretorio de upload de imagens
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
