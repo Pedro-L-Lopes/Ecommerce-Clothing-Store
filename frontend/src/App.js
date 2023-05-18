@@ -28,8 +28,8 @@ function App() {
         <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={!auth ? <Login /> : <Home />} />
+            <Route path="/register" element={!auth ? <Register /> : <Home />} />
           </Routes>
         </div>
         <Footer />
