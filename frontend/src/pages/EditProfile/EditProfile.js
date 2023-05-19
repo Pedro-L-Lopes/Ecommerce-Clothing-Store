@@ -177,7 +177,7 @@ const EditProfile = () => {
 
     if (password) {
       userData.password = password;
-    }
+    } 
 
     // // Construindo form data
     // const formData = new FormData(); // Instanciando um novo objeto chamado form data

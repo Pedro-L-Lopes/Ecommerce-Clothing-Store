@@ -8,6 +8,7 @@ import { useAuth } from "./hooks/useAuth";
 // Paginas
 import Home from "./pages/Home/Home";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 
@@ -32,6 +33,10 @@ function App() {
             <Route
               path="/profile"
               element={auth ? <EditProfile /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/users/:id"
+              element={auth ? <Profile /> : <Navigate to="/" />}
             />
             <Route
               path="/login"

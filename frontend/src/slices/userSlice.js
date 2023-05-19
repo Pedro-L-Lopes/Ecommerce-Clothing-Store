@@ -39,6 +39,18 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+// Pegando detalhes do usuário // Pegando pelo id ao invês do token como é na função "profile"
+export const getUserDetails = createAsyncThunk(
+  "user/get",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = userService.getUserDetails(id, token);
+
+    return data;
+  }
+);
+
 export const userSlice = createSlice({
   name: "user", // Nome pelo qual vai ser chamado na store
   initialState,
@@ -81,6 +93,19 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload; // Ativa o erro
         state.user = {};
+      })
+      .addCase(getUserDetails.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        // Action: dados recebidos do profile la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = false;
+        state.user = action.payload;
       });
   },
 });
