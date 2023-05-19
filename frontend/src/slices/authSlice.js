@@ -36,6 +36,20 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
 
+// Logando usuário
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+  // thunkAPI permite funções extras, ex: para a execução e identificar erro da api e isso que vai fazer o desparo do comportamento de erro aqui
+  const data = await authService.login(user); // Com o usuário da localStorage, usa a função login do authService e registra o usuário
+
+  // Chechando erros
+  if (data.errors) {
+    // Rejeitando a requisição //errors é o array do back com varias mensagens, sempre pegando o primeiro erro e exibindo
+    return thunkAPI.rejectWithValue(data.errors[0]);
+  }
+
+  return data; // usuário cadastrado
+});
+
 // Criando slice com as funções do slice
 export const authSlice = createSlice({
   name: "auth", // Nome pelo qual vai ser chamado na store e vai ter como extrair valores
@@ -77,6 +91,25 @@ export const authSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.error = false;
+        state.user = null;
+      })
+      .addCase(login.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        // Action: dados recebidos do login la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = false;
+        state.user = action.payload; // Atualiza os dados do usuário ao valor fornecido na action
+      })
+      .addCase(login.rejected, (state, action) => {
+        // Tem action pq o dado é a msg de erro
+        state.loading = false;
+        state.error = action.payload; // Ativa o erro
         state.user = null;
       });
   },

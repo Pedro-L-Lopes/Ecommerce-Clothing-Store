@@ -30,9 +30,32 @@ const logout = () => {
   localStorage.removeItem("user");
 };
 
+// Logando usuário
+const login = async (data) => {
+  const config = requestConfig("POST", data);
+
+  try {
+    const res = await fetch(api + "/users/login", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    console.log(res);
+
+    // Sempre va estar colocando algo na localStorage como user, mesmo os erros, fazer um tratamento mlehor para ver se chegou alguma propriedade do usuário ex: id, aí não colocaria o erro na localStorage
+    if (res._id) {
+      localStorage.setItem("user", JSON.stringify(res));
+    }
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const authService = {
   register,
   logout,
+  login,
 };
 
 export default authService;

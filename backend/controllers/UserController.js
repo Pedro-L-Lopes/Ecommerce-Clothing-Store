@@ -92,7 +92,7 @@ const getCurrentUser = async (req, res) => {
 
 // Atualização de usuário
 const update = async (req, res) => {
-  const { name, password, bio } = req.body;
+  const { name, password } = req.body;
 
   let profileImage = null;
 
@@ -122,10 +122,6 @@ const update = async (req, res) => {
 
   if (profileImage) {
     user.profileImage = profileImage;
-  }
-
-  if (bio) {
-    user.bio = bio;
   }
 
   // Salvando no banco
