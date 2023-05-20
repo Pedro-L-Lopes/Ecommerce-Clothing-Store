@@ -7,7 +7,7 @@ const publishProduct = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
   try {
-    const res = await fetch(api, "/products", config)
+    const res = await fetch(api + "/products", config)
       .then((res) => res.json())
       .catch((err) => err);
 

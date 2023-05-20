@@ -25,8 +25,9 @@ const productInsertValidation = () => {
     // Validação para o campo "size"
     body("size")
       .optional()
-      .isArray({ min: 1 })
-      .withMessage("Insira pelo menos um tamanho."),
+      // .isArray({ min: 1 })
+      // .withMessage("Insira pelo menos um tamanho.")
+      ,
 
     // Validação para o campo "description"
     body("description")
