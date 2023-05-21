@@ -39,6 +39,23 @@ export const getUserProducts = createAsyncThunk(
   }
 );
 
+// Deletando produto
+export const deleteProduct = createAsyncThunk(
+  "product/delete",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await productService.deleteProduct(id, token);
+
+    // Checando erros
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -84,6 +101,30 @@ export const productSlice = createSlice({
         state.success = true;
         state.error = null;
         state.products = action.payload;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        // Action: dados recebidos do deleteProduct la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.products = state.products.filter((product) => {
+          return product._id !== action.payload.id; // Se for diferente retorna a foto, senão exclui ela
+        });
+
+        state.message = action.payload.message; // Message que vem da api 
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        // Action: dados recebidos do deleteProduct la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.error = action.payload;
+        state.product = {};
       });
   },
 });

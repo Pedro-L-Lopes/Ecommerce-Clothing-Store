@@ -1,5 +1,6 @@
 // Requisição http que tem haver com os produtos
 
+import { json } from "react-router-dom";
 import { api, requestConfig } from "../utils/config";
 
 // Publicando produto
@@ -32,9 +33,25 @@ const getUserProducts = async (id, token) => {
   }
 };
 
+// Deletando produto
+const deleteProduct = async (id, token) => {
+  const config = requestConfig("DELETE", null, token);
+
+  try {
+    const res = await fetch(api + `/products/` + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const productService = {
   publishProduct,
   getUserProducts,
+  deleteProduct,
 };
 
 export default productService;

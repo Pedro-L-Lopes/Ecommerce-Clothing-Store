@@ -18,6 +18,7 @@ import {
   publishProduct,
   resetMessage,
   getUserProducts,
+  deleteProduct,
 } from "../../slices/photoSlice";
 
 const Profile = () => {
@@ -70,6 +71,12 @@ const Profile = () => {
     setImages(selectedImages);
   };
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
   const submitHandle = async (e) => {
     e.preventDefault();
 
@@ -105,9 +112,14 @@ const Profile = () => {
     // setOnSale("");
     // setSalePrice("");
 
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
+    resetComponentMessage();
+  };
+
+  // Deletando produto
+  const handleDelete = async (id) => {
+    dispatch(deleteProduct(id));
+
+    resetComponentMessage();
   };
 
   const handleCheckboxClick = (value) => {
@@ -303,8 +315,8 @@ const Profile = () => {
                     <p>{product.name}</p>
                     {onSale || onSale != 0 ? (
                       <>
-                        <p>{product.salePrice}</p> 
-                        <p>{product.price}</p> 
+                        <p>{product.salePrice}</p>
+                        <p>{product.price}</p>
                       </>
                     ) : (
                       <p>{product.price}</p>
@@ -315,7 +327,7 @@ const Profile = () => {
                           <BsFillEyeFill />
                         </Link>
                         <BsPencilFill />
-                        <BsXLg />
+                        <BsXLg onClick={() => handleDelete(product._id)} />
                       </div>
                     ) : (
                       <Link className="btn" to={`/products/${product._id}`}>
