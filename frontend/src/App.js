@@ -15,7 +15,7 @@ import Register from "./pages/Auth/Register";
 // Componentes
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AddProduct from "./pages/AddProducts/AddProduct";
+import AddProduct from "./pages/AddProduct/AddProduct";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -39,8 +39,8 @@ function App() {
               path="/users/:id"
               element={auth ? <Profile /> : <Navigate to="/" />}
             />
-            <Route 
-              path="/addproducts"
+            <Route
+              path="/users/:id/add"
               element={auth ? <AddProduct /> : <Navigate to="/" />}
             />
             <Route

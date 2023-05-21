@@ -1,15 +1,137 @@
-import '../Profile/Profile.css'
+import "../Profile/Profile.css";
+
+import { uploads } from "../../utils/config";
+
+// Components
+import Message from "../../components/Message";
+import { Link } from "react-router-dom";
+
+// Hooks
+import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+
+// Redux
+import { getUserDetails } from "../../slices/userSlice";
+import {
+  publishProduct,
+  resetMessage,
+  getUserProducts,
+} from "../../slices/photoSlice";
 
 const AddProduct = () => {
-  return (
-    <div>
-        <h1>Adionar produtos</h1>
+  const { id } = useParams();
 
-        {/* Verifica a loja e exibe o formulario de cadastro de produtos */}
+  const dispatch = useDispatch();
+
+  const { user, loading } = useSelector((state) => state.user);
+  // Usuário autenticado // Renomenado pois colidem
+  const { user: userAuth } = useSelector((state) => state.auth);
+
+  const {
+    products,
+    loading: loadingProduct,
+    message: messageProduct,
+    error: errorProduct,
+  } = useSelector((state) => state.product);
+
+  const [name, setName] = useState("");
+  const [images, setImages] = useState([]);
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState();
+  const [size, setSize] = useState([]);
+  const [onSale, setOnSale] = useState(false);
+  const [salePrice, setSalePrice] = useState(0);
+  const [available, setAvailable] = useState(true);
+
+  // Novo formulario e editar a nivel de dom
+  const newProductForm = useRef();
+
+  // Carregando usuário // Por causa desse tem o preenchimento do user acima
+  useEffect(() => {
+    dispatch(getUserDetails(id));
+    dispatch(getUserProducts(id));
+  }, [dispatch, id]);
+
+  const handleFile = (e) => {
+    const selectedImages = Array.from(e.target.files);
+    if (selectedImages.length > 3) {
+      alert("Adicione no maxímo três fotos!");
+      return;
+    }
+    setImages(selectedImages);
+  };
+
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
+  const submitHandle = async (e) => {
+    e.preventDefault();
+
+    const productData = {
+      name,
+      images,
+      price,
+      description,
+      size,
+      onSale,
+      salePrice,
+      available,
+    };
+
+    // Construindo form data
+    const productFormData = new FormData();
+    Object.keys(productData).forEach((key) => {
+      if (key === "images") {
+        productData.images.forEach((image) => {
+          productFormData.append("images", image);
+        });
+      } else {
+        productFormData.append(key, productData[key]);
+      }
+    });
+
+    await dispatch(publishProduct(productFormData));
+
+    // setName("");
+    // setImages("");
+    // setDescription("");
+    // setSize("");
+    // setOnSale("");
+    // setSalePrice("");
+
+    resetComponentMessage();
+  };
+
+  // Colocando/retirando tamanhos do array
+  const handleCheckboxClick = (value) => {
+    setSize((prevSize) => {
+      if (prevSize.includes(value)) {
+        return prevSize.filter((size) => size !== value);
+      } else {
+        return [...prevSize, value];
+      }
+    });
+  };
+
+  const handleAvailableChange = (e) => {
+    setAvailable(e.target.value === "true");
+  };
+
+  if (loading) {
+    return <p>Carregando...</p>;
+  }
+
+  return (
+    <div id="profile">
+      {/* Verifica a loja e exibe o formulario de cadastro de produtos */}
       {id === userAuth._id && (
         <>
           <div className="new-photo" ref={newProductForm}>
-            <h3>Adicionar produto</h3>
+            <h3>Adicionando produto</h3>
             <form onSubmit={submitHandle}>
               <label>
                 <span>Nome:</span>
@@ -162,8 +284,12 @@ const AddProduct = () => {
               )}
             </form>
           </div>
+          {errorProduct && <Message msg={errorProduct} type="error" />}
+          {messageProduct && <Message msg={messageProduct} type="success" />}
+        </>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default AddProduct
+export default AddProduct;

@@ -7,6 +7,7 @@ import {
   BsHouseDoorFill,
   BsFillPersonFill,
   BsFillCameraFill,
+  BsPlus,
 } from "react-icons/bs";
 
 // Hooks
@@ -59,6 +60,11 @@ const Navbar = () => {
             <li>
               <NavLink to="/profile">
                 <BsFillPersonFill /> {/*Modificar dados do perfil*/}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={`/users/${user._id}/add`}>
+                <BsPlus />
               </NavLink>
             </li>
             <li>
