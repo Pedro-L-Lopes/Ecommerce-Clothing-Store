@@ -14,7 +14,11 @@ import { useParams } from "react-router-dom";
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice";
-import { publishProduct, resetMessage } from "../../slices/photoSlice";
+import {
+  publishProduct,
+  resetMessage,
+  getUserProducts,
+} from "../../slices/photoSlice";
 
 const Profile = () => {
   const { id } = useParams();
@@ -27,7 +31,7 @@ const Profile = () => {
   // Usuário autenticado // Renomenado pois colidem
   const { user: userAuth } = useSelector((state) => state.auth);
   const {
-    product,
+    products,
     loading: loadingProduct,
     message: messageProduct,
     error: errorProduct,
@@ -39,7 +43,7 @@ const Profile = () => {
   const [description, setDescription] = useState();
   const [size, setSize] = useState([]);
   const [onSale, setOnSale] = useState(false);
-  const [salePrice, setSalePrice] = useState();
+  const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
 
   // Novo formulario e editar a nivel de dom
@@ -49,6 +53,7 @@ const Profile = () => {
   // Carregando usuário // Por causa desse tem o preenchimento do user acima
   useEffect(() => {
     dispatch(getUserDetails(id));
+    dispatch(getUserProducts(id));
   }, [dispatch, id]);
 
   // const handleFile = (e) => {
@@ -93,12 +98,12 @@ const Profile = () => {
 
     await dispatch(publishProduct(productFormData));
 
-    setName("");
-    setImages("");
-    setDescription("");
-    setSize("");
-    setOnSale("");
-    setSalePrice("");
+    // setName("");
+    // setImages("");
+    // setDescription("");
+    // setSize("");
+    // setOnSale("");
+    // setSalePrice("");
 
     setTimeout(() => {
       dispatch(resetMessage());
@@ -118,10 +123,6 @@ const Profile = () => {
   const handleAvailableChange = (e) => {
     setAvailable(e.target.value === "true");
   };
-
-  console.log("Tamanhos" + size);
-  console.log("Disponível" + available);
-  console.log("Promoção" + onSale);
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -285,6 +286,45 @@ const Profile = () => {
                 <input type="submit" value="Aguarde..." disabled />
               )}
             </form>
+          </div>
+          <div className="user-photos">
+            <h2>Produtos publicados</h2>
+            <div className="photos-container">
+              {products &&
+                products.map((product) => (
+                  <div className="photo" key={product._id}>
+                    {product.images && (
+                      <img
+                        // src={`${uploads}/users/${user.profileImage}`}
+                        src={`${uploads}/products/${product.images[0].filename}`}
+                        alt={product.name}
+                      />
+                    )}
+                    <p>{product.name}</p>
+                    {onSale || onSale != 0 ? (
+                      <>
+                        <p>{product.salePrice}</p> 
+                        <p>{product.price}</p> 
+                      </>
+                    ) : (
+                      <p>{product.price}</p>
+                    )}
+                    {id === userAuth._id ? (
+                      <div className="actions">
+                        <Link to={`/products/${product._id}`}>
+                          <BsFillEyeFill />
+                        </Link>
+                        <BsPencilFill />
+                        <BsXLg />
+                      </div>
+                    ) : (
+                      <Link className="btn" to={`/products/${product._id}`}>
+                        Ver
+                      </Link>
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
           {errorProduct && <Message msg={errorProduct} type="error" />}
           {messageProduct && <Message msg={messageProduct} type="success" />}

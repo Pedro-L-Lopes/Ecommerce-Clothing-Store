@@ -27,6 +27,18 @@ export const publishProduct = createAsyncThunk(
   }
 );
 
+// Pegando produtos do usuário
+export const getUserProducts = createAsyncThunk(
+  "product/userproduct",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await productService.getUserProducts(id, token);
+
+    return data;
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -59,6 +71,19 @@ export const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.product = {};
+      })
+      .addCase(getUserProducts.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getUserProducts.fulfilled, (state, action) => {
+        // Action: dados recebidos do getUserProducts la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.products = action.payload;
       });
   },
 });
