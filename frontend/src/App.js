@@ -15,6 +15,7 @@ import Register from "./pages/Auth/Register";
 // Componentes
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AddProduct from "./pages/AddProducts/AddProduct";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -37,6 +38,10 @@ function App() {
             <Route
               path="/users/:id"
               element={auth ? <Profile /> : <Navigate to="/" />}
+            />
+            <Route 
+              path="/addproducts"
+              element={auth ? <AddProduct /> : <Navigate to="/" />}
             />
             <Route
               path="/login"

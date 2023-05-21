@@ -48,10 +48,26 @@ const deleteProduct = async (id, token) => {
   }
 };
 
+// Atualizando produto
+const updateProduct = async (data, id, token) => {
+  const config = requestConfig("PUT", data, token);
+
+  try {
+    const res = await fetch(api + `/products/` + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const productService = {
   publishProduct,
   getUserProducts,
   deleteProduct,
+  updateProduct,
 };
 
 export default productService;

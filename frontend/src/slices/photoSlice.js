@@ -56,6 +56,26 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+// Atualizando produto
+export const updateProduct = createAsyncThunk(
+  "product/update",
+  async (productData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await productService.updateProduct(
+      { name: productData.name },
+      productData.id,
+      token
+    );
+
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -117,10 +137,37 @@ export const productSlice = createSlice({
           return product._id !== action.payload.id; // Se for diferente retorna a foto, senão exclui ela
         });
 
-        state.message = action.payload.message; // Message que vem da api 
+        state.message = action.payload.message; // Message que vem da api
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         // Action: dados recebidos do deleteProduct la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.error = action.payload;
+        state.product = {};
+      })
+      .addCase(updateProduct.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        // Action: dados recebidos do updateProduct la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.products.map((product) => {
+          if(product._id === action.payload.product._id){
+            return product.name = action.payload.product.name
+          }
+          return product
+        })
+
+        state.message = action.payload.message; // Message que vem da api
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        // Action: dados recebidos do updateProduct la em cima (data)
         // fullfield estado e ação // req bem sucedida
         state.loading = false;
         state.error = action.payload;

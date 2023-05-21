@@ -19,6 +19,7 @@ import {
   resetMessage,
   getUserProducts,
   deleteProduct,
+  updateProduct,
 } from "../../slices/photoSlice";
 
 const Profile = () => {
@@ -46,6 +47,10 @@ const Profile = () => {
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
+
+  const [editId, setEditId] = useState("");
+  const [editImages, setEditImages] = useState("");
+  const [editName, setEditName] = useState("");
 
   // Novo formulario e editar a nivel de dom
   const newProductForm = useRef();
@@ -122,6 +127,43 @@ const Profile = () => {
     resetComponentMessage();
   };
 
+  // Mostrando ou escondendo formulario de edição
+  const hideOrShowForm = () => {
+    newProductForm.current.classList.toggle("hide");
+    editProductForm.current.classList.toggle("hide");
+  };
+
+  // Atualizando produto
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const productData = {
+      name: editName,
+      id: editId,
+    };
+
+    dispatch(updateProduct(productData));
+
+    resetComponentMessage();
+  };
+
+  // Abrindo formulario de edição
+  const handleEdit = (product) => {
+    if (editProductForm.current.classList.contains("hide")) {
+      hideOrShowForm();
+    }
+
+    setEditId(product._id);
+    setEditName(product.name);
+    setEditImages(product.images[0].filename);
+  };
+
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
+    hideOrShowForm();
+  };
+
+  // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (value) => {
     setSize((prevSize) => {
       if (prevSize.includes(value)) {
@@ -142,6 +184,7 @@ const Profile = () => {
 
   return (
     <div id="profile">
+      {/* Exibição de nome e logo da loja  */}
       <div className="profile-header">
         {user.profileImage && (
           <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} />
@@ -150,6 +193,8 @@ const Profile = () => {
           <h2>{user.name}</h2>
         </div>
       </div>
+
+      {/* Verifica a loja e exibe o formulario de cadastro de produtos */}
       {id === userAuth._id && (
         <>
           <div className="new-photo" ref={newProductForm}>
@@ -165,10 +210,12 @@ const Profile = () => {
                   required
                 />
               </label>
+
               <label>
                 <span>Fotos:</span>
                 <input type="file" onChange={handleFile} multiple />
               </label>
+
               <label>
                 <span>Preço:</span>
                 <input
@@ -178,6 +225,7 @@ const Profile = () => {
                   value={price || ""}
                 />
               </label>
+
               <label>
                 <span>Descrição:</span>
                 <textarea
@@ -189,6 +237,7 @@ const Profile = () => {
                   value={description || ""}
                 ></textarea>
               </label>
+
               <label>
                 <span>Tamanhos:</span>
                 <label>
@@ -246,6 +295,7 @@ const Profile = () => {
                   EXG
                 </label>
               </label>
+
               <label>
                 <span>Status: </span>
                 <input
@@ -256,6 +306,7 @@ const Profile = () => {
                 />
                 Disponível
               </label>
+
               <label>
                 <input
                   type="radio"
@@ -276,6 +327,7 @@ const Profile = () => {
                 Em promoção
               </label>
 
+              {/* Verifica se o produto está em promoção e exibe o preço promocional */}
               {onSale === true ? (
                 <label>
                   <span>Preço promocional:</span>
@@ -299,34 +351,52 @@ const Profile = () => {
               )}
             </form>
           </div>
+          <div className="edit-photo hide" ref={editProductForm}>
+            <p>Editando</p>
+            {editImages && (
+              <img src={`${uploads}/products/${editImages}`} alt={editName} />
+            )}
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                placeholder="Nome"
+                onChange={(e) => setEditName(e.target.value)}
+                value={editName || ""}
+              />
+
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>
+                Cancelar
+              </button>
+            </form>
+          </div>
           <div className="user-photos">
             <h2>Produtos publicados</h2>
             <div className="photos-container">
               {products &&
                 products.map((product) => (
                   <div className="photo" key={product._id}>
-                    {product.images && (
-                      <img
-                        // src={`${uploads}/users/${user.profileImage}`}
-                        src={`${uploads}/products/${product.images[0].filename}`}
-                        alt={product.name}
-                      />
-                    )}
-                    <p>{product.name}</p>
-                    {onSale || onSale != 0 ? (
-                      <>
-                        <p>{product.salePrice}</p>
-                        <p>{product.price}</p>
-                      </>
-                    ) : (
-                      <p>{product.price}</p>
-                    )}
+                    <Link to={`/products/${product._id}`}>
+                      {product.images && (
+                        <img
+                          src={`${uploads}/products/${product.images[0].filename}`}
+                          alt={product.name}
+                        />
+                      )}
+                      <p>{product.name}</p>
+                      {onSale || onSale != 0 ? (
+                        <>
+                          <p>{product.salePrice}</p>
+                          <p>{product.price}</p>
+                        </>
+                      ) : (
+                        <p>R$ {product.price}</p>
+                      )}
+                    </Link>
+
                     {id === userAuth._id ? (
                       <div className="actions">
-                        <Link to={`/products/${product._id}`}>
-                          <BsFillEyeFill />
-                        </Link>
-                        <BsPencilFill />
+                        <BsPencilFill onClick={() => handleEdit(product)} />
                         <BsXLg onClick={() => handleDelete(product._id)} />
                       </div>
                     ) : (
