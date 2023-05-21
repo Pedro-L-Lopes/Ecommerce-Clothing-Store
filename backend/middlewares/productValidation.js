@@ -8,7 +8,7 @@ const productInsertValidation = () => {
       .withMessage("Insira o nome do produto!")
       .isString()
       .withMessage("Insira o nome do produto!")
-      .isLength({ min: 3 })
+      .isLength({ min: 1 })
       .withMessage("O nome precisa ter no mínimo 3 carcteres!"),
     body("images").custom((value, { req }) => {
       if (!req.files || Object.keys(req.files).length === 0) {
@@ -20,15 +20,16 @@ const productInsertValidation = () => {
       return true;
     }),
     // Validação para o campo "price"
-    body("price").isNumeric().withMessage("Insira um valor valido."),
+    body("price")
+      .isNumeric()
+      .withMessage("Insira um valor valido.")
+      .isLength({ min: 1 })
+      .withMessage("Insira o preço do produto!"),
 
     // Validação para o campo "size"
-    body("size")
-      .optional()
-      // .isArray({ min: 1 })
-      // .withMessage("Insira pelo menos um tamanho.")
-      ,
-
+    body("size").optional(),
+    // .isArray({ min: 1 })
+    // .withMessage("Insira pelo menos um tamanho.")
     // Validação para o campo "description"
     body("description")
       .optional()

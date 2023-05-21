@@ -100,7 +100,7 @@ const getAllProducts = async (req, res) => {
   return res.status(200).json(products);
 };
 
-// Pegando fotos do usuário (loja)
+// Pegando produtos do usuário (loja)
 const getUserProducts = async (req, res) => {
   const { id } = req.params; // Id da url pois qualquer um pode ver qualquer produto
 

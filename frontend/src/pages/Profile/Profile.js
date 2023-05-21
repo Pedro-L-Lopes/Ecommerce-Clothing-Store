@@ -39,7 +39,7 @@ const Profile = () => {
   const [description, setDescription] = useState();
   const [size, setSize] = useState([]);
   const [onSale, setOnSale] = useState(false);
-  const [salePrice, setSalePrice] = useState(0);
+  const [salePrice, setSalePrice] = useState();
   const [available, setAvailable] = useState(true);
 
   // Novo formulario e editar a nivel de dom
@@ -94,11 +94,34 @@ const Profile = () => {
     await dispatch(publishProduct(productFormData));
 
     setName("");
+    setImages("");
+    setDescription("");
+    setSize("");
+    setOnSale("");
+    setSalePrice("");
 
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);
   };
+
+  const handleCheckboxClick = (value) => {
+    setSize((prevSize) => {
+      if (prevSize.includes(value)) {
+        return prevSize.filter((size) => size !== value);
+      } else {
+        return [...prevSize, value];
+      }
+    });
+  };
+
+  const handleAvailableChange = (e) => {
+    setAvailable(e.target.value === "true");
+  };
+
+  console.log("Tamanhos" + size);
+  console.log("Disponível" + available);
+  console.log("Promoção" + onSale);
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -126,6 +149,7 @@ const Profile = () => {
                   placeholder="Nome"
                   onChange={(e) => setName(e.target.value)}
                   value={name || ""}
+                  required
                 />
               </label>
               <label>
@@ -134,52 +158,128 @@ const Profile = () => {
               </label>
               <label>
                 <span>Preço:</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  step="0.01"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price || ""}
+                />
               </label>
-              {/* <label>
+              <label>
                 <span>Descrição:</span>
                 <textarea
                   id="description"
                   name="description"
                   rows="4"
                   cols="50"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description || ""}
                 ></textarea>
-              </label> */}
-              {/* <label>
+              </label>
+              <label>
                 <span>Tamanhos:</span>
                 <label>
-                  <input type="checkbox" value="P Baby Look" /> P Baby Look
+                  <input
+                    type="checkbox"
+                    value="PP"
+                    checked={size.includes("PP")}
+                    onChange={() => handleCheckboxClick("PP")}
+                  />
+                  PP
                 </label>
                 <label>
-                  <input type="checkbox" value="P" />P
+                  <input
+                    type="checkbox"
+                    value="P"
+                    checked={size.includes("P")}
+                    onChange={() => handleCheckboxClick("P")}
+                  />
+                  P
                 </label>
                 <label>
-                  <input type="checkbox" value="M" />M
+                  <input
+                    type="checkbox"
+                    value="M"
+                    checked={size.includes("M")}
+                    onChange={() => handleCheckboxClick("M")}
+                  />
+                  M
                 </label>
                 <label>
-                  <input type="checkbox" value="G" />G
+                  <input
+                    type="checkbox"
+                    value="G"
+                    checked={size.includes("G")}
+                    onChange={() => handleCheckboxClick("G")}
+                  />
+                  G
                 </label>
                 <label>
-                  <input type="checkbox" value="GG" />
+                  <input
+                    type="checkbox"
+                    value="GG"
+                    checked={size.includes("GG")}
+                    onChange={() => handleCheckboxClick("GG")}
+                  />
                   GG
                 </label>
                 <label>
-                  <input type="checkbox" value="EGG" />
-                  EGG
+                  <input
+                    type="checkbox"
+                    value="EXG"
+                    checked={size.includes("EXG")}
+                    onChange={() => handleCheckboxClick("EXG")}
+                  />
+                  EXG
                 </label>
               </label>
               <label>
+                <span>Status: </span>
+                <input
+                  type="radio"
+                  value="true"
+                  checked={available === true}
+                  onChange={handleAvailableChange}
+                />
+                Disponível
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="false"
+                  checked={available === false}
+                  onChange={handleAvailableChange}
+                />
+                Indisponível
+              </label>
+
+              <label>
                 <span>Em promoção: </span>
-                <input type="button" value="mudar depois" />
-              </label> */}
-              {/* <label>
-                <span>Preço promocional:</span>
-                <input type="number" />
-              </label> */}
-              {/* <label>
-                <span>Diponível:</span>
-                <input type="button" value="Mudar depois" />
-              </label> */}
+                <input
+                  type="checkbox"
+                  checked={onSale}
+                  onChange={(e) => setOnSale(e.target.checked)}
+                />
+                Em promoção
+              </label>
+
+              {onSale === true ? (
+                <label>
+                  <span>Preço promocional:</span>
+                  <input
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setSalePrice(e.target.value)}
+                    value={salePrice || ""}
+                  />
+                </label>
+              ) : (
+                <label>
+                  <span>Preço promocional:</span>
+                  <input type="number" disabled />
+                </label>
+              )}
+
               {!loadingProduct && <input type="submit" value="Adicionar" />}
               {loadingProduct && (
                 <input type="submit" value="Aguarde..." disabled />
