@@ -16,6 +16,7 @@ import Register from "./pages/Auth/Register";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AddProduct from "./pages/AddProduct/AddProduct";
+import EditProduct from "./pages/EditProduct/EditProduct";
 
 function App() {
   const { auth, loading } = useAuth();

@@ -5,7 +5,8 @@ import { uploads } from "../../utils/config";
 // Components
 import Message from "../../components/Message";
 import { Link } from "react-router-dom";
-import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
+import { BsPencilFill, BsXLg } from "react-icons/bs";
+import EditModal from "../../components/EditModal";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -15,7 +16,6 @@ import { useParams } from "react-router-dom";
 // Redux
 import { getUserDetails } from "../../slices/userSlice";
 import {
-  publishProduct,
   resetMessage,
   getUserProducts,
   deleteProduct,
@@ -52,8 +52,10 @@ const Profile = () => {
   const [editImages, setEditImages] = useState("");
   const [editName, setEditName] = useState("");
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   // Novo formulario e editar a nivel de dom
-  const newProductForm = useRef();
   const editProductForm = useRef();
 
   // Carregando usuário // Por causa desse tem o preenchimento do user acima
@@ -62,62 +64,10 @@ const Profile = () => {
     dispatch(getUserProducts(id));
   }, [dispatch, id]);
 
-  // const handleFile = (e) => {
-  //   const image = e.target.files[0];
-
-  //   setImages(image);
-  // };
-  const handleFile = (e) => {
-    const selectedImages = Array.from(e.target.files);
-    if (selectedImages.length > 3) {
-      alert("Adicione no maxímo três fotos!");
-      return;
-    }
-    setImages(selectedImages);
-  };
-
   const resetComponentMessage = () => {
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);
-  };
-
-  const submitHandle = async (e) => {
-    e.preventDefault();
-
-    const productData = {
-      name,
-      images,
-      price,
-      description,
-      size,
-      onSale,
-      salePrice,
-      available,
-    };
-
-    // Construindo form data
-    const productFormData = new FormData();
-    Object.keys(productData).forEach((key) => {
-      if (key === "images") {
-        productData.images.forEach((image) => {
-          productFormData.append("images", image);
-        });
-      } else {
-        productFormData.append(key, productData[key]);
-      }
-    });
-
-    await dispatch(publishProduct(productFormData));
-
-    // setName("");
-    // setImages("");
-    // setDescription("");
-    // setSize("");
-    // setOnSale("");
-    // setSalePrice("");
-
-    resetComponentMessage();
   };
 
   // Deletando produto
@@ -125,12 +75,6 @@ const Profile = () => {
     dispatch(deleteProduct(id));
 
     resetComponentMessage();
-  };
-
-  // Mostrando ou escondendo formulario de edição
-  const hideOrShowForm = () => {
-    newProductForm.current.classList.toggle("hide");
-    editProductForm.current.classList.toggle("hide");
   };
 
   // Atualizando produto
@@ -149,19 +93,13 @@ const Profile = () => {
 
   // Abrindo formulario de edição
   const handleEdit = (product) => {
-    if (editProductForm.current.classList.contains("hide")) {
-      hideOrShowForm();
-    }
-
-    setEditId(product._id);
-    setEditName(product.name);
-    setEditImages(product.images[0].filename);
+    setSelectedProduct(product);
+    setShowEditModal(true);
   };
 
-  const handleCancelEdit = (e) => {
-    e.preventDefault();
-    hideOrShowForm();
-  };
+  const handleUpdateModal = () => {
+    setShowEditModal(false);
+  }
 
   // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (value) => {
@@ -193,11 +131,8 @@ const Profile = () => {
           <h2>{user.name}</h2>
         </div>
       </div>
-
-      {/* Verifica a loja e exibe o formulario de cadastro de produtos */}
       {id === userAuth._id && (
         <>
-          
           <div className="edit-photo hide" ref={editProductForm}>
             <p>Editando</p>
             {editImages && (
@@ -210,11 +145,6 @@ const Profile = () => {
                 onChange={(e) => setEditName(e.target.value)}
                 value={editName || ""}
               />
-
-              <input type="submit" value="Atualizar" />
-              <button className="cancel-btn" onClick={handleCancelEdit}>
-                Cancelar
-              </button>
             </form>
           </div>
           <div className="user-photos">
@@ -240,6 +170,14 @@ const Profile = () => {
                         <p>R$ {product.price}</p>
                       )}
                     </Link>
+
+                    {showEditModal && (
+                      <EditModal
+                        product={selectedProduct}
+                        onClose={() => setShowEditModal(false)}
+                        onUpdate={handleUpdateModal}
+                      />
+                    )}
 
                     {id === userAuth._id ? (
                       <div className="actions">
