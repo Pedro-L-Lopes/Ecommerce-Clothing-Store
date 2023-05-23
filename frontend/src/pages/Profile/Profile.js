@@ -77,6 +77,26 @@ const Profile = () => {
     resetComponentMessage();
   };
 
+  function hideOrShowForms() {
+    editProductForm.current.classList.toggle("hide");
+  }
+
+  // Show edit form
+  const handleEdit = (product) => {
+    if (editProductForm.current.classList.contains("hide")) {
+      hideOrShowForms();
+    }
+
+    setEditId(product._id);
+    setEditImages(product.images);
+    setEditName(product.name);
+  };
+
+  // Cancel editing
+  const handleCancelEdit = () => {
+    hideOrShowForms();
+  };
+
   // Atualizando produto
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -91,15 +111,15 @@ const Profile = () => {
     resetComponentMessage();
   };
 
-  // Abrindo formulario de edição
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setShowEditModal(true);
-  };
+  // // Abrindo formulario de edição
+  // const handleEdit = (product) => {
+  //   setSelectedProduct(product);
+  //   setShowEditModal(true);
+  // };
 
-  const handleUpdateModal = () => {
-    setShowEditModal(false);
-  }
+  // const handleUpdateModal = () => {
+  //   setShowEditModal(false);
+  // }
 
   // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (value) => {
@@ -136,7 +156,10 @@ const Profile = () => {
           <div className="edit-photo hide" ref={editProductForm}>
             <p>Editando</p>
             {editImages && (
-              <img src={`${uploads}/products/${editImages}`} alt={editName} />
+              <img
+                src={`${uploads}/products/${editImages[0].filename}`}
+                alt={editName}
+              />
             )}
             <form onSubmit={handleUpdate}>
               <input
@@ -145,6 +168,10 @@ const Profile = () => {
                 onChange={(e) => setEditName(e.target.value)}
                 value={editName || ""}
               />
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>
+                Fechar
+              </button>
             </form>
           </div>
           <div className="user-photos">
@@ -171,13 +198,13 @@ const Profile = () => {
                       )}
                     </Link>
 
-                    {showEditModal && (
+                    {/* {showEditModal && (
                       <EditModal
                         product={selectedProduct}
                         onClose={() => setShowEditModal(false)}
                         onUpdate={handleUpdateModal}
                       />
-                    )}
+                    )} */}
 
                     {id === userAuth._id ? (
                       <div className="actions">
@@ -197,8 +224,11 @@ const Profile = () => {
           {messageProduct && <Message msg={messageProduct} type="success" />}
         </>
       )}
+      {products.length === 0 && <p>Ainda não há produtos publicados...</p>}
     </div>
   );
 };
 
 export default Profile;
+
+// onClick={() => handleEdit(product)}

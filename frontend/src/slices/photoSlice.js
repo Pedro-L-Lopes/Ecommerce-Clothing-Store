@@ -27,7 +27,7 @@ export const publishProduct = createAsyncThunk(
   }
 );
 
-// Pegando produtos do usuário
+// Pegando produtos do usuário 
 export const getUserProducts = createAsyncThunk(
   "product/userproduct",
   async (id, thunkAPI) => {
@@ -60,7 +60,7 @@ export const deleteProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/update",
   async (productData, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;
+    const token = thunkAPI.getState().auth.user.token;  
 
     const data = await productService.updateProduct(
       { name: productData.name },
