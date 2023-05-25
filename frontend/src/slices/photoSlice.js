@@ -77,16 +77,11 @@ export const updateProduct = createAsyncThunk(
 );
 
 // Pegando o produto pelo id
-export const getProduct = createAsyncThunk(
-  "product/getproduct",
-  async (id, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;
+export const getProduct = createAsyncThunk("product/getproduct", async (id) => {
+  const data = await productService.getProduct(id);
 
-    const data = await productService.getProduct(id, token);
-
-    return data;
-  }
-);
+  return data;
+});
 
 // Pegando todos os produtos
 export const getAllProducts = createAsyncThunk("product/getail", async () => {
@@ -94,6 +89,16 @@ export const getAllProducts = createAsyncThunk("product/getail", async () => {
 
   return data;
 });
+
+// Buscando produtos pelo nome
+export const searchProducts = createAsyncThunk(
+  "product/search",
+  async (query) => {
+    const data = await productService.searchProducts(query);
+
+    return data;
+  }
+);
 
 export const productSlice = createSlice({
   name: "product",
@@ -211,6 +216,19 @@ export const productSlice = createSlice({
         state.error = false;
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
+        // Action: dados recebidos do getUserProducts la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.products = action.payload;
+      })
+      .addCase(searchProducts.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
         // Action: dados recebidos do getUserProducts la em cima (data)
         // fullfield estado e ação // req bem sucedida
         state.loading = false;

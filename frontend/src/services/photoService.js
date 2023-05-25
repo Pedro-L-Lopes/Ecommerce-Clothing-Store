@@ -2,6 +2,7 @@
 
 import { json } from "react-router-dom";
 import { api, requestConfig } from "../utils/config";
+import Search from "../pages/Search/Search";
 
 // Publicando produto
 const publishProduct = async (data, token) => {
@@ -64,8 +65,8 @@ const updateProduct = async (data, id, token) => {
 };
 
 // Pegando o produto pelo id
-const getProduct = async (id, token) => {
-  const config = requestConfig("GET", null, token);
+const getProduct = async (id) => {
+  const config = requestConfig("GET");
 
   try {
     const res = await fetch(api + "/products/" + id, config)
@@ -83,7 +84,22 @@ const getAllProducts = async () => {
   const config = requestConfig("GET");
 
   try {
-    const res = await fetch(api + "/products", config)  
+    const res = await fetch(api + "/products", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Buscando produtos pelo nome
+const searchProducts = async (query) => {
+  const config = requestConfig("GET");
+
+  try {
+    const res = await fetch(api + "/products/search?q=" + query, config)
       .then((res) => res.json())
       .catch((err) => err);
 
@@ -100,6 +116,7 @@ const productService = {
   updateProduct,
   getProduct,
   getAllProducts,
+  searchProducts,
 };
 
 export default productService;

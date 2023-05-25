@@ -32,7 +32,7 @@ const Product = () => {
   }, [dispatch, id]);
 
   if (loading) {
-    return <p>Carregando</p>;
+    return <p>Carregando infinito</p>;
   }
 
   return (

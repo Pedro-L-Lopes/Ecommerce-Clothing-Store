@@ -12,6 +12,7 @@ import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Product from "./pages/Product/Product";
+import Search from "./pages/Search/Search";
 
 // Componentes
 import Navbar from "./components/Navbar";
@@ -50,6 +51,7 @@ function App() {
               path="/register"
               element={!auth ? <Register /> : <Navigate to="/" />}
             />
+            <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
           </Routes>
         </div>

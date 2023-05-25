@@ -1,6 +1,7 @@
 import "./Home.css";
 
 // Components
+import ProductItemBox from "../../components/ProductItemBox";
 import ProductItem from "../../components/ProductItem";
 import { Link } from "react-router-dom";
 
@@ -27,18 +28,18 @@ const Home = () => {
   }
 
   return (
-    <div id="home">
-
-      <products className="products-container">
+    <div>
+      <h2>Ultimas novidades</h2>
+      <div id="products-container-box">
         {products &&
           products.map((product) => (
-            <div key={product._id} className="product">
+            <div key={product._id}>
               <Link to={`/products/${product._id}`}>
-                <ProductItem product={product} />
+                <ProductItemBox product={product} />
               </Link>
             </div>
           ))}
-      </products>
+      </div>
     </div>
   );
 };
