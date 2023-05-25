@@ -62,11 +62,13 @@ const Navbar = () => {
                 <BsFillPersonFill /> {/*Modificar dados do perfil*/}
               </NavLink>
             </li>
-            <li>
-              <NavLink to={`/users/${user._id}/add`}>
-                <BsPlus />
-              </NavLink>
-            </li>
+            {user && (
+              <li>
+                <NavLink to={`/users/${user._id}/add`}>
+                  <BsPlus />
+                </NavLink>
+              </li>
+            )}
             <li>
               <span onClick={handleLogout}>Sair</span>
             </li>

@@ -51,6 +51,7 @@ const Profile = () => {
   const [editId, setEditId] = useState("");
   const [editImages, setEditImages] = useState("");
   const [editName, setEditName] = useState("");
+  const [editPrice, setEditPrice] = useState("");
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -90,6 +91,7 @@ const Profile = () => {
     setEditId(product._id);
     setEditImages(product.images);
     setEditName(product.name);
+    setEditPrice(product.price);
   };
 
   // Cancel editing
@@ -168,6 +170,12 @@ const Profile = () => {
                 onChange={(e) => setEditName(e.target.value)}
                 value={editName || ""}
               />
+              <input
+                type="number"
+                placeholder="Preço"
+                onChange={(e) => setEditPrice(e.target.value)}
+                value={editPrice || ""}
+              />
               <input type="submit" value="Atualizar" />
               <button className="cancel-btn" onClick={handleCancelEdit}>
                 Fechar
@@ -181,7 +189,7 @@ const Profile = () => {
                 products.map((product) => (
                   <div className="photo" key={product._id}>
                     <Link to={`/products/${product._id}`}>
-                      {product.images && (
+                      {product.images && product.images.length > 0 && (
                         <img
                           src={`${uploads}/products/${product.images[0].filename}`}
                           alt={product.name}

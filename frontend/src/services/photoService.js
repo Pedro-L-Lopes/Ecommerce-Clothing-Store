@@ -63,11 +63,43 @@ const updateProduct = async (data, id, token) => {
   }
 };
 
+// Pegando o produto pelo id
+const getProduct = async (id, token) => {
+  const config = requestConfig("GET", null, token);
+
+  try {
+    const res = await fetch(api + "/products/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Pegando todos os produtos
+const getAllProducts = async () => {
+  const config = requestConfig("GET");
+
+  try {
+    const res = await fetch(api + "/products", config)  
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const productService = {
   publishProduct,
   getUserProducts,
   deleteProduct,
   updateProduct,
+  getProduct,
+  getAllProducts,
 };
 
 export default productService;

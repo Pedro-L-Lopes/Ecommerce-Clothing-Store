@@ -27,7 +27,7 @@ export const publishProduct = createAsyncThunk(
   }
 );
 
-// Pegando produtos do usuário 
+// Pegando produtos do usuário
 export const getUserProducts = createAsyncThunk(
   "product/userproduct",
   async (id, thunkAPI) => {
@@ -60,10 +60,10 @@ export const deleteProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/update",
   async (productData, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;  
+    const token = thunkAPI.getState().auth.user.token;
 
     const data = await productService.updateProduct(
-      { name: productData.name },
+      { name: productData.name, price: productData.price },
       productData.id,
       token
     );
@@ -75,6 +75,25 @@ export const updateProduct = createAsyncThunk(
     return data;
   }
 );
+
+// Pegando o produto pelo id
+export const getProduct = createAsyncThunk(
+  "product/getproduct",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await productService.getProduct(id, token);
+
+    return data;
+  }
+);
+
+// Pegando todos os produtos
+export const getAllProducts = createAsyncThunk("product/getail", async () => {
+  const data = await productService.getAllProducts();
+
+  return data;
+});
 
 export const productSlice = createSlice({
   name: "product",
@@ -158,11 +177,11 @@ export const productSlice = createSlice({
         state.success = true;
         state.error = null;
         state.products.map((product) => {
-          if(product._id === action.payload.product._id){
-            return product.name = action.payload.product.name
+          if (product._id === action.payload.product._id) {
+            return (product.name = action.payload.product.name);
           }
-          return product
-        })
+          return product;
+        });
 
         state.message = action.payload.message; // Message que vem da api
       })
@@ -172,6 +191,32 @@ export const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.product = {};
+      })
+      .addCase(getProduct.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getProduct.fulfilled, (state, action) => {
+        // Action: dados recebidos do getUserProducts la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.product = action.payload;
+      })
+      .addCase(getAllProducts.pending, (state) => {
+        // pending = req foi enviada mas não retornou resposta ainda
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        // Action: dados recebidos do getUserProducts la em cima (data)
+        // fullfield estado e ação // req bem sucedida
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.products = action.payload;
       });
   },
 });
