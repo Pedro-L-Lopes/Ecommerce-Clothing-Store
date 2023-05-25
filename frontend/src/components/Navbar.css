@@ -2,9 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000;
-  border-bottom: 1px solid #363636;
+  background-image: linear-gradient(to left, #fdbd5b, #ffaebf);
+  box-shadow: 2px 2px 5px #f5b6d1;
   padding: 0.1em 1em;
+}
+
+.nav-logo{
+  width: 50px;  
 }
 
 #search-form {
@@ -16,6 +20,7 @@
   position: absolute;
   top: 10px;
   left: 9px;
+  color: #fdbd5b;
 }
 
 #search-form input {
@@ -29,6 +34,7 @@
 #nav-links {
   display: flex;
   align-items: center;
+  font-weight: bolder;
 }
 
 #nav-links li {

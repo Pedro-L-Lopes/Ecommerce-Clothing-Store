@@ -1,20 +1,11 @@
-/* .photo-item img {
-  width: 100%;
-}
-
-#home .photo-item h2 {
-  margin-bottom: 0.2em;
-} */
-
 .Container-product {
   width: 100%;
+  max-width: 450px;
   margin: 0 auto;
-  max-width: 900px;
-}
-
-.Container-product img {
-  width: 500px;
-  height: 500px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .inner {
@@ -22,16 +13,15 @@
 }
 
 .item {
-  min-width: 400px;
-  min-height: 200px;
+  height: 350px;
+  width: 350px;
   padding: 14px;
 }
 
 .item img {
-  width: 100%;
-  height: 90%;
-  border-radius: 12px;
-  pointer-events: none;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
 }
 
 .carousel {

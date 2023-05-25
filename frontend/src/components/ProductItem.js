@@ -6,24 +6,26 @@ import { uploads } from "../utils/config";
 
 import { Link } from "react-router-dom";
 
+import { useEffect, useRef, useState } from "react";
+
 const ProductItem = ({ product }) => {
   return (
-    <div className="photo-item">
+    <div id="product-item">
       <div className="Container-product">
-        <motion.div className="carousel" whileTap={{ cursor: "grabbing" }}>
-          <motion.div className="inner" >
+        <div>
+          <div className="inner">
             {product.images &&
               product.images.map((image, index) => (
-                <motion.div className="item" drag="x">
+                <div className="item">
                   <img
                     key={index}
                     src={`${uploads}/products/${image.filename}`}
                     alt={product.name}
                   />
-                </motion.div>
+                </div>
               ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
       <h2>{product.name}</h2>
       <h2>{product.price}</h2>

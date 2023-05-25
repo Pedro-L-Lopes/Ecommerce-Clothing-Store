@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 // Rdeux
 import { logout, reset } from "../slices/authSlice";
 
+import logo from "../images/logo.png"
+
 const Navbar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
@@ -47,7 +49,9 @@ const Navbar = () => {
 
   return (
     <nav id="nav">
-      <Link to="/">Shop Naw</Link>
+      <Link to="/">
+        <img className="nav-logo" src={logo} />
+      </Link>
       <form id="search-form" onSubmit={handleSubmit}>
         <BsSearch />
         <input type="text" onChange={(e) => setQuery(e.target.value)} />
@@ -86,10 +90,10 @@ const Navbar = () => {
         ) : (
           <>
             <li>
-              <NavLink to="/login">Entrar</NavLink>
+              <NavLink to="/login">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/Register">Cadastrar</NavLink>
+              <NavLink to="/Register">Sobre</NavLink>
             </li>
           </>
         )}

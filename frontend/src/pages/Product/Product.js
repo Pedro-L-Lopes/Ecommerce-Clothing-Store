@@ -32,11 +32,11 @@ const Product = () => {
   }, [dispatch, id]);
 
   if (loading) {
-    return <p>Carregando infinito</p>;
+    return <p>Carregando...</p>;
   }
 
   return (
-    <div id="photo">
+    <div>
       <ProductItem product={product} />
     </div>
   );
