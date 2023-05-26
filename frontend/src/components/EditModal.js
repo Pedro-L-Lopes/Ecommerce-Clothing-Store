@@ -1,11 +1,14 @@
-import React from "react";
-import { BsXLg } from "react-icons/bs";
 import "./EditModal.css";
-import { useState } from "react";
-import { updateProduct, resetMessage } from "../slices/photoSlice";
-import { Dispatch } from "react";
-import { useDispatch } from "react-redux";
+
 import { uploads } from "../utils/config";
+
+// Hooks
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+// Redux
+import { updateProduct, resetMessage } from "../slices/photoSlice";
+
 
 const EditModal = ({ product, onClose, onUpdate }) => {
   const [name, setName] = useState(product.name || "");

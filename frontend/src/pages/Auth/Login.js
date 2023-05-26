@@ -1,4 +1,4 @@
-import "./Auth.css";
+import styles from "./Auth.module.css";
 
 // Components
 import { Link } from "react-router-dom";

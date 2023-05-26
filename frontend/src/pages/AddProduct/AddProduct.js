@@ -43,6 +43,16 @@ const AddProduct = () => {
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
 
+  const [previewImages, setPreviewImages] = useState([]);
+  const fileInputRef = useRef(null);
+
+  // Limpar os previews qunado o componente é desmontado
+  useEffect(() => {
+    return () => {
+      URL.revokeObjectURL(previewImages);
+    };
+  }, [previewImages]);
+
   // Novo formulario e editar a nivel de dom
   const newProductForm = useRef();
 
@@ -58,7 +68,30 @@ const AddProduct = () => {
       alert("Adicione no maxímo três fotos!");
       return;
     }
+    const previewImageUrls = selectedImages.map((file) =>
+      URL.createObjectURL(file)
+    );
+    setPreviewImages(previewImageUrls);
     setImages(selectedImages);
+  };
+
+  const removeImage = (index) => {
+    const updatedPreviewImages = [...previewImages];
+    updatedPreviewImages.splice(index, 1);
+    setPreviewImages(updatedPreviewImages);
+
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+  };
+
+  const removeAllImages = () => {
+    setPreviewImages([]);
+    setImages([]);
+  };
+
+  const handleFileInputClick = () => {
+    fileInputRef.current.click();
   };
 
   const resetComponentMessage = () => {
@@ -131,6 +164,17 @@ const AddProduct = () => {
         <>
           <div className="new-photo" ref={newProductForm}>
             <h3>Adicionando produto</h3>
+            <div className="preview-container">
+              {previewImages.length === 0 && (
+                <p>Clique para adicionar imagens</p>
+              )}
+              {previewImages.map((preview, index) => (
+                <div key={index} className="image-preview">
+                  <img src={preview} alt={`Preview ${index + 1}`} />
+                  <button onClick={() => removeImage(index)}>Remover</button>
+                </div>
+              ))}
+            </div>
             <form onSubmit={submitHandle}>
               <label>
                 <span>Nome:</span>
@@ -145,7 +189,14 @@ const AddProduct = () => {
 
               <label>
                 <span>Fotos:</span>
-                <input type="file" onChange={handleFile} multiple />
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFile}
+                  multiple
+                  // style={{ display: "none" }}
+                />
               </label>
 
               <label>

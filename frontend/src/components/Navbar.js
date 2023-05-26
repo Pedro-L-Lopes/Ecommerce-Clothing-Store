@@ -1,4 +1,4 @@
-import "./Navbar.css";
+import styles from "./Navbar.module.css";
 
 // Components
 import { NavLink, Link } from "react-router-dom";
@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 // Rdeux
 import { logout, reset } from "../slices/authSlice";
 
-import logo from "../images/logo.png"
+import logo from "../images/logo.png";
 
 const Navbar = () => {
   const { auth } = useAuth();
@@ -48,15 +48,23 @@ const Navbar = () => {
   };
 
   return (
-    <nav id="nav">
+    <nav className={styles.nav}>
       <Link to="/">
-        <img className="nav-logo" src={logo} />
+        <img className={styles.navLogo} src={logo} />
       </Link>
-      <form id="search-form" onSubmit={handleSubmit}>
+
+      <div className={styles.search}>
         <BsSearch />
-        <input type="text" onChange={(e) => setQuery(e.target.value)} />
-      </form>
-      <ul id="nav-links">
+        <form className={styles.searchForm} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Busque por T-shirts e croppeds"
+          />
+        </form>
+      </div>
+
+      <ul className={styles.navLinks}>
         {auth ? (
           <>
             <li>

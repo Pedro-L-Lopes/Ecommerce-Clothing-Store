@@ -3,10 +3,11 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #f4f4f4;
+  background-image: #f4f4f4;
+  object-fit: cover;
   color: #0c0c0c;
 }
-
+/*
 a {
   color: #f4f4f49c;
   text-decoration: none;
@@ -100,4 +101,4 @@ input[type="submit"]:hover {
 
 .hide {
   display: none;
-}
+} */
