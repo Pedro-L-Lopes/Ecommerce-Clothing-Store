@@ -6,26 +6,22 @@ import { uploads } from "../../utils/config";
 import Message from "../../components/Message";
 import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
-import EditModal from "../../components/EditModal";
 
 // Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { resetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // Redux
-import { getUserDetails } from "../../slices/userSlice";
-import {
-  resetMessage,
-  getUserProducts,
-  deleteProduct,
-  updateProduct,
-} from "../../slices/photoSlice";
+import { deleteProduct } from "../../slices/photoSlice";
 
 const Profile = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
+
+  const resetMessage = resetComponentMessage(dispatch)
 
   // Pegando usuário atenticado e usuário que entrou no perfil dele
   // Usuário que entrou no perfil dele
@@ -39,103 +35,11 @@ const Profile = () => {
     error: errorProduct,
   } = useSelector((state) => state.product);
 
-  const [name, setName] = useState("");
-  const [images, setImages] = useState([]);
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState();
-  const [size, setSize] = useState([]);
-  const [onSale, setOnSale] = useState(false);
-  const [salePrice, setSalePrice] = useState(0);
-  const [available, setAvailable] = useState(true);
-
-  const [editId, setEditId] = useState("");
-  const [editImages, setEditImages] = useState("");
-  const [editName, setEditName] = useState("");
-  const [editPrice, setEditPrice] = useState("");
-
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // Novo formulario e editar a nivel de dom
-  const editProductForm = useRef();
-
-  // Carregando usuário // Por causa desse tem o preenchimento do user acima
-  useEffect(() => {
-    dispatch(getUserDetails(id));
-    dispatch(getUserProducts(id));
-  }, [dispatch, id]);
-
-  const resetComponentMessage = () => {
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
-  };
-
   // Deletando produto
   const handleDelete = async (id) => {
     dispatch(deleteProduct(id));
 
-    resetComponentMessage();
-  };
-
-  function hideOrShowForms() {
-    editProductForm.current.classList.toggle("hide");
-  }
-
-  // Show edit form
-  const handleEdit = (product) => {
-    if (editProductForm.current.classList.contains("hide")) {
-      hideOrShowForms();
-    }
-
-    setEditId(product._id);
-    setEditImages(product.images);
-    setEditName(product.name);
-    setEditPrice(product.price);
-  };
-
-  // Cancel editing
-  const handleCancelEdit = () => {
-    hideOrShowForms();
-  };
-
-  // Atualizando produto
-  const handleUpdate = (e) => {
-    e.preventDefault();
-
-    const productData = {
-      name: editName,
-      id: editId,
-    };
-
-    dispatch(updateProduct(productData));
-
-    resetComponentMessage();
-  };
-
-  // // Abrindo formulario de edição
-  // const handleEdit = (product) => {
-  //   setSelectedProduct(product);
-  //   setShowEditModal(true);
-  // };
-
-  // const handleUpdateModal = () => {
-  //   setShowEditModal(false);
-  // }
-
-  // Colocando/retirando tamanhos do array
-  const handleCheckboxClick = (value) => {
-    setSize((prevSize) => {
-      if (prevSize.includes(value)) {
-        return prevSize.filter((size) => size !== value);
-      } else {
-        return [...prevSize, value];
-      }
-    });
-  };
-
-  const handleAvailableChange = (e) => {
-    setAvailable(e.target.value === "true");
+    resetMessage()
   };
 
   if (loading) {
@@ -155,33 +59,6 @@ const Profile = () => {
       </div>
       {id === userAuth._id && (
         <>
-          <div className="edit-photo hide" ref={editProductForm}>
-            <p>Editando</p>
-            {editImages && (
-              <img
-                src={`${uploads}/products/${editImages[0].filename}`}
-                alt={editName}
-              />
-            )}
-            <form onSubmit={handleUpdate}>
-              <input
-                type="text"
-                placeholder="Nome"
-                onChange={(e) => setEditName(e.target.value)}
-                value={editName || ""}
-              />
-              <input
-                type="number"
-                placeholder="Preço"
-                onChange={(e) => setEditPrice(e.target.value)}
-                value={editPrice || ""}
-              />
-              <input type="submit" value="Atualizar" />
-              <button className="cancel-btn" onClick={handleCancelEdit}>
-                Fechar
-              </button>
-            </form>
-          </div>
           <div className="user-photos">
             <h2>Produtos publicados</h2>
             <div className="photos-container">
@@ -196,24 +73,8 @@ const Profile = () => {
                         />
                       )}
                       <p>{product.name}</p>
-                      {onSale || onSale != 0 ? (
-                        <>
-                          <p>{product.salePrice}</p>
-                          <p>{product.price}</p>
-                        </>
-                      ) : (
-                        <p>R$ {product.price}</p>
-                      )}
+                      <p>R$ {product.price}</p>
                     </Link>
-
-                    {/* {showEditModal && (
-                      <EditModal
-                        product={selectedProduct}
-                        onClose={() => setShowEditModal(false)}
-                        onUpdate={handleUpdateModal}
-                      />
-                    )} */}
-
                     {id === userAuth._id ? (
                       <div className="actions">
                         <Link to={`/products/${product._id}/edit`}>
@@ -240,5 +101,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-// onClick={() => handleEdit(product)}
