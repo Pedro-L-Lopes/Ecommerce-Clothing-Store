@@ -8,20 +8,22 @@ import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { resetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // Redux
-import { deleteProduct } from "../../slices/photoSlice";
+import { getUserDetails } from "../../slices/userSlice";
+import {
+  resetMessage,
+  getUserProducts,
+  deleteProduct,
+} from "../../slices/photoSlice";
 
 const Profile = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-
-  const resetMessage = resetComponentMessage(dispatch)
 
   // Pegando usuário atenticado e usuário que entrou no perfil dele
   // Usuário que entrou no perfil dele
@@ -35,11 +37,23 @@ const Profile = () => {
     error: errorProduct,
   } = useSelector((state) => state.product);
 
+  // Carregando usuário // Por causa desse tem o preenchimento do user acima
+  useEffect(() => {
+    dispatch(getUserDetails(id));
+    dispatch(getUserProducts(id));
+  }, [dispatch, id]);
+
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
   // Deletando produto
   const handleDelete = async (id) => {
     dispatch(deleteProduct(id));
 
-    resetMessage()
+    resetComponentMessage();
   };
 
   if (loading) {
