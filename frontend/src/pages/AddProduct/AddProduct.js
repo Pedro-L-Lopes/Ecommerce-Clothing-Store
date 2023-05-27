@@ -281,33 +281,21 @@ const AddProduct = () => {
 
               <label>
                 <span>Status: </span>
-                <input
-                  type="radio"
-                  value="true"
-                  checked={available === true}
-                  onChange={handleAvailableChange}
-                />
-                Disponível
+                <select value={available} onChange={handleAvailableChange}>
+                  <option value={true}>Disponível</option>
+                  <option value={false}>Indisponível</option>
+                </select>
               </label>
 
               <label>
-                <input
-                  type="radio"
-                  value="false"
-                  checked={available === false}
-                  onChange={handleAvailableChange}
-                />
-                Indisponível
-              </label>
-
-              <label>
-                <span>Em promoção: </span>
-                <input
-                  type="checkbox"
-                  checked={onSale}
-                  onChange={(e) => setOnSale(e.target.checked)}
-                />
-                Em promoção
+                <span>Em promoção:</span>
+                <select
+                  value={onSale}
+                  onChange={(e) => setOnSale(e.target.value === "true")}
+                >
+                  <option value={true}>Sim</option>
+                  <option value={false}>Não</option>
+                </select>
               </label>
 
               {/* Verifica se o produto está em promoção e exibe o preço promocional */}
