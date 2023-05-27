@@ -1,4 +1,4 @@
-import "./ProductItemBox.css";
+import styles from "./ProductItemBox.module.css";
 
 import { uploads } from "../utils/config";
 
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const ProductItemBox = ({ product }) => {
   return (
-    <div className="product-box">
+    <div className={styles.productBox}>
       {product.images &&
         product.images.map((image, index) => (
           <img
@@ -15,8 +15,8 @@ const ProductItemBox = ({ product }) => {
             alt={product.name}
           />
         ))}
-      <p className="product-price-box">R$ {product.price}</p>
-      <p className="product-name-box">{product.name}</p>
+      <p className={styles.productPriceBox}>R$ {product.price}</p>
+      <p className={styles.productNameBox}>{product.name}</p>
     </div>
   );
 };

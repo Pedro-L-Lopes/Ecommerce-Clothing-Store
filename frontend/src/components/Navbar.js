@@ -98,10 +98,10 @@ const Navbar = () => {
         ) : (
           <>
             <li>
-              <NavLink to="/login">Home</NavLink>
+              <NavLink to="/login">Inicio</NavLink>
             </li>
             <li>
-              <NavLink to="/Register">Sobre</NavLink>
+              <NavLink to="/Register">Contatos</NavLink>
             </li>
           </>
         )}

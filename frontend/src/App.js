@@ -44,6 +44,10 @@ function App() {
               element={auth ? <AddProduct /> : <Navigate to="/" />}
             />
             <Route
+              path="/products/:id/edit"
+              element={auth ? <EditProduct /> : <Navigate to="/" />}
+            />
+            <Route
               path="/login"
               element={!auth ? <Login /> : <Navigate to="/" />}
             />

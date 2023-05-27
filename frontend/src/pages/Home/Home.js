@@ -48,18 +48,6 @@ const Home = () => {
             </div>
           ))}
       </div>
-
-      <h2>Promo</h2>
-      <div className={styles.productsContainerBox}>
-        {products &&
-          products.map((product) => (
-            <div key={product._id}>
-              <Link to={`/products/${product._id}`}>
-                <ProductItemBoxOnSale product={product} />
-              </Link>
-            </div>
-          ))}
-      </div>
     </div>
   );
 };

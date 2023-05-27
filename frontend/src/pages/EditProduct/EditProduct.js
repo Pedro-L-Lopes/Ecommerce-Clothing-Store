@@ -1,3 +1,77 @@
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+
+import { updateProduct } from "../../slices/photoSlice";
+
+const EditProduct = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { product, loading, error } = useSelector((state) => state.product);
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+
+  useEffect(() => {
+    if (product && product._id === id) {
+      setName(product.name);
+      setPrice(product.price);
+    }
+  }, [product, id]);
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const updatedProduct = {
+      id: id,
+      name: name,
+      price: price,
+    };
+
+    dispatch(updateProduct(updatedProduct));
+  };
+
+  if (loading) {
+    return <p>Carregando...</p>;
+  }
+
+  return (
+    <div>
+      <h1>Editar Produto</h1>
+
+      {error && <p>{error}</p>}
+
+      <form onSubmit={handleUpdate}>
+        <label>
+          Nome:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <br />
+
+        <label>
+          Preço:
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </label>
+        <br />
+
+        <button type="submit">Atualizar</button>
+      </form>
+    </div>
+  );
+};
+
+export default EditProduct;
+
 // import { uploads } from "../../utils/config";
 
 // // Components

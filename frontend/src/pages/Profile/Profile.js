@@ -216,7 +216,9 @@ const Profile = () => {
 
                     {id === userAuth._id ? (
                       <div className="actions">
-                        <BsPencilFill onClick={() => handleEdit(product)} />
+                        <Link to={`/products/${product._id}/edit`}>
+                          <BsPencilFill />
+                        </Link>
                         <BsXLg onClick={() => handleDelete(product._id)} />
                       </div>
                     ) : (

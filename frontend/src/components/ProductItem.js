@@ -1,7 +1,5 @@
 import "./ProductItem.css";
 
-import { motion } from "framer-motion";
-
 import { uploads } from "../utils/config";
 
 import { Link } from "react-router-dom";
