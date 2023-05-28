@@ -1,4 +1,4 @@
-import "./Profile.css";
+import "../Profile/Profile.css";
 
 import { uploads } from "../../utils/config";
 
@@ -20,7 +20,7 @@ import {
   deleteProduct,
 } from "../../slices/photoSlice";
 
-const Profile = () => {
+const UnavailableProducts = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ const Profile = () => {
             <div className="photos-container">
               {products &&
                 products
-                  .filter((product) => product.available)
+                  .filter((product) => !product.available)
                   .map((product) => (
                     <div className="photo" key={product._id}>
                       <Link to={`/products/${product._id}`}>
@@ -116,4 +116,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UnavailableProducts;

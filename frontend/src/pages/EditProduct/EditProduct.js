@@ -87,7 +87,7 @@ const EditProduct = () => {
   };
 
   const handleAvailableChange = (e) => {
-    setAvailable(e.target.value === "true");
+    setAvailable(e.target.value);
   };
 
   if (loading) {

@@ -13,6 +13,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Product from "./pages/Product/Product";
 import Search from "./pages/Search/Search";
+import UnavailableProducts from "./pages/UnavailableProducts/UnavailableProducts";
 
 // Componentes
 import Navbar from "./components/Navbar";
@@ -39,6 +40,10 @@ function App() {
               element={auth ? <EditProfile /> : <Navigate to="/" />}
             />
             <Route path="/users/:id" element={<Profile />} />
+            <Route
+              path="/users/:id/unavailable"
+              element={auth ? <UnavailableProducts /> : (Navigate = "/")}
+            />
             <Route
               path="/users/:id/add"
               element={auth ? <AddProduct /> : <Navigate to="/" />}

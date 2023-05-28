@@ -80,6 +80,11 @@ const Navbar = () => {
               </li>
             )}
             <li>
+              <NavLink to={`/users/${user._id}/unavailable`}>
+                unavailable
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/profile">
                 <BsFillPersonFill /> {/*Modificar dados do perfil*/}
               </NavLink>
