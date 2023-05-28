@@ -33,8 +33,6 @@ const Register = () => {
       confirmPassword,
     };
 
-    console.log(user);
-
     dispatch(register(user)); // Usando a função register para pssar os dados do usuário para a api e receber uma resposta
   };
 

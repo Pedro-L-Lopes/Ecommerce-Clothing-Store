@@ -22,8 +22,6 @@ const Search = () => {
 
   const { products, loading } = useSelector((state) => state.product);
 
-  console.log(products);
-
   // Carregando produtos
   useEffect(() => {
     dispatch(searchProducts(search));

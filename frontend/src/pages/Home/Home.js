@@ -37,16 +37,34 @@ const Home = () => {
         <img src={destaque} alt="" />
       </div>
 
+      
+
+      <h2>Em promoção</h2>
+      <div className={styles.productsContainerBox}>
+        {products &&
+          products
+            .filter((product) => product.available && product.onSale)
+            .map((product) => (
+              <div key={product._id}>
+                <Link to={`/products/${product._id}`}>
+                  <ProductItemBox product={product} />
+                </Link>
+              </div>
+            ))}
+      </div>
+
       <h2>Ultimas novidades</h2>
       <div className={styles.productsContainerBox}>
         {products &&
-          products.map((product) => (
-            <div key={product._id}>
-              <Link to={`/products/${product._id}`}>
-                <ProductItemBox product={product} />
-              </Link>
-            </div>
-          ))}
+          products
+            .filter((product) => product.available && !product.onSale)
+            .map((product) => (
+              <div key={product._id}>
+                <Link to={`/products/${product._id}`}>
+                  <ProductItemBox product={product} />
+                </Link>
+              </div>
+            ))}
       </div>
     </div>
   );

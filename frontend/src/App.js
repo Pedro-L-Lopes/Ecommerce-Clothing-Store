@@ -42,7 +42,7 @@ function App() {
             <Route path="/users/:id" element={<Profile />} />
             <Route
               path="/users/:id/unavailable"
-              element={auth ? <UnavailableProducts /> : (Navigate = "/")}
+              element={auth ? <UnavailableProducts /> : <Navigate to="/" />}
             />
             <Route
               path="/users/:id/add"

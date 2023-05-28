@@ -74,7 +74,7 @@ const Profile = () => {
       {id === userAuth._id && (
         <>
           <div className="user-photos">
-            <h2>Produtos publicados</h2>
+            <h2>Produtos disponíveis</h2>
             <div className="photos-container">
               {products &&
                 products

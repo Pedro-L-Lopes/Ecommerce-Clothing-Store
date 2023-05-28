@@ -94,8 +94,6 @@ const EditProduct = () => {
     return <p>Carregando...</p>;
   }
 
-  console.log(available);
-
   return (
     <div>
       <h1>Editar Produto</h1>
