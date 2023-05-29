@@ -1,0 +1,5 @@
+.unvailableProducts {
+  flex: 1;
+  width: 1000px;
+  border: 1px solid red;
+}

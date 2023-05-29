@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "bootstrap/dist/css/bootstrap.css";
+import './index.css'
 import App from "./App";
 
 // Redux
@@ -12,8 +13,10 @@ import { store } from "./store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* Envolve a aplicação em um provider  */} 
-    <Provider store={store}> {/* Compartilha o que quer que seja entregue aos componentes */}
+    {/* Envolve a aplicação em um provider  */}
+    <Provider store={store}>
+      {" "}
+      {/* Compartilha o que quer que seja entregue aos componentes */}
       <App />
     </Provider>
   </React.StrictMode>

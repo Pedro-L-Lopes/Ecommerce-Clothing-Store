@@ -1,6 +1,7 @@
 #profile {
   width: 50%;
   margin: 0 auto;
+  border: 1px solid red;
 }
 
 .profile-header {

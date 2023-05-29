@@ -37,8 +37,6 @@ const Home = () => {
         <img src={destaque} alt="" />
       </div>
 
-      
-
       <h2>Em promoção</h2>
       <div className={styles.productsContainerBox}>
         {products &&

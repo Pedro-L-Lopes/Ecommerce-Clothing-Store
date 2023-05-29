@@ -43,7 +43,7 @@
   transition: 0.5s;
 }
 
-input::placeholder{
+input::placeholder {
   color: #a1a1a1;
 }
 
@@ -65,11 +65,13 @@ input::placeholder{
   font-size: 1.5em;
 }
 
-.navLinks li{
+.navLinks li {
   list-style-type: none;
 }
 
-.navLinks li span, a{
+.navLinks li span,
+a {
   color: #f4f4f4;
   text-decoration: none;
 }
+

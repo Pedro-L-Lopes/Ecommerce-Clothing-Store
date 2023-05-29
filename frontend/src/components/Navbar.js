@@ -47,23 +47,15 @@ const Navbar = () => {
     }
   };
 
-  const NavbarAdmin = () => {
-    const handleSubmit = (e) => {
-      e.preventDefault();
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
 
-      if (query) {
-        return navigate(`/search?q=${query}`);
-      }
-    };
-
-    useEffect(() => {
-      if (!user) {
-        navigate("/");
-      }
-    }, [user]);
-
-    return (
-      <>
+  return (
+    <>
+      {auth && user ? (
         <nav className={styles.nav}>
           <Link to="/">
             <img className={styles.navLogo} src={logo} />
@@ -93,7 +85,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink to={`/users/${user._id}/unavailable`}>
-                Indisponíveis
+                <BsHouseDoorFill />
               </NavLink>
             </li>
             <li>
@@ -111,41 +103,35 @@ const Navbar = () => {
             </li>
           </ul>
         </nav>
-      </>
-    );
-  };
+      ) : (
+        <nav className={styles.nav}>
+          <Link to="/">
+            <img className={styles.navLogo} src={logo} />
+          </Link>
 
-  const NavbarStore = () => (
-    <>
-      <nav className={styles.nav}>
-        <Link to="/">
-          <img className={styles.navLogo} src={logo} />
-        </Link>
+          <div className={styles.search}>
+            <BsSearch />
+            <form className={styles.searchForm} onSubmit={handleSubmit}>
+              <input
+                type="text"
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Busque por T-shirts e croppeds"
+              />
+            </form>
+          </div>
 
-        <div className={styles.search}>
-          <BsSearch />
-          <form className={styles.searchForm} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Busque por T-shirts e croppeds"
-            />
-          </form>
-        </div>
-
-        <ul className={styles.navLinks}>
-          <li>
-            <NavLink to="/login">Inicio</NavLink>
-          </li>
-          <li>
-            <NavLink to="/Register">Contatos</NavLink>
-          </li>
-        </ul>
-      </nav>
+          <ul className={styles.navLinks}>
+            <li>
+              <NavLink to="/login">Inicio</NavLink>
+            </li>
+            <li>
+              <NavLink to="/Register">Contatos</NavLink>
+            </li>
+          </ul>
+        </nav>
+      )}
     </>
   );
-
-  return <>{auth ? <NavbarAdmin /> : <NavbarStore />}</>;
 };
 
 export default Navbar;
