@@ -2,7 +2,6 @@
 
 import { json } from "react-router-dom";
 import { api, requestConfig } from "../utils/config";
-import Search from "../pages/Search/Search";
 
 // Publicando produto
 const publishProduct = async (data, token) => {

@@ -1,9 +1,9 @@
-import "../Profile/Profile.css";
+import "./Profile.css";
 
-import { uploads } from "../../utils/config";
+import { uploads } from "../../../utils/config";
 
 // Components
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
 
@@ -13,14 +13,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // Redux
-import { getUserDetails } from "../../slices/userSlice";
+import { getUserDetails } from "../../../slices/userSlice";
 import {
   resetMessage,
   getUserProducts,
   deleteProduct,
-} from "../../slices/photoSlice";
+} from "../../../slices/productSlice";
 
-const UnavailableProducts = () => {
+const Profile = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -74,11 +74,11 @@ const UnavailableProducts = () => {
       {id === userAuth._id && (
         <>
           <div className="user-photos">
-            <h2>Produtos Indisponíveis</h2>
+            <h2>Produtos disponíveis</h2>
             <div className="photos-container">
               {products &&
                 products
-                  .filter((product) => !product.available)
+                  .filter((product) => product.available)
                   .map((product) => (
                     <div className="photo" key={product._id}>
                       <Link to={`/products/${product._id}`}>
@@ -116,4 +116,4 @@ const UnavailableProducts = () => {
   );
 };
 
-export default UnavailableProducts;
+export default Profile;

@@ -1,6 +1,6 @@
 import "./ProductItem.css";
 
-import { uploads } from "../utils/config";
+import { uploads } from "../../utils/config";
 
 import { Link } from "react-router-dom";
 

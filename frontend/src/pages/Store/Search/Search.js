@@ -3,15 +3,15 @@ import "./Search.css";
 // hooks
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useQuery } from "../../hooks/useQuery";
+import { useQuery } from "../../../hooks/useQuery";
 
 // Components
-import ProductItemBox from "../../components/ProductItemBox";
-import ProductItem from "../../components/ProductItem";
+import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
+import ProductItem from "../../../components/ProductItem/ProductItem";
 import { Link } from "react-router-dom";
 
 // Redux
-import { searchProducts } from "../../slices/photoSlice";
+import { searchProducts } from "../../../slices/productSlice";
 
 const Search = () => {
   const query = useQuery();

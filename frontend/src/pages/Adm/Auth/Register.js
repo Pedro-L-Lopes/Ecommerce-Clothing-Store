@@ -2,45 +2,58 @@ import styles from "./Auth.module.css";
 
 // Components
 import { Link } from "react-router-dom";
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 
 // Hooks
 import { useState, useEffect } from "react";
 
 // Redux
-import { login, reset } from "../../slices/authSlice";
+import { register, reset } from "../../../slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmpassword] = useState("");
 
+  // Permite usar as funções do redux
   const dispatch = useDispatch();
+
+  // Extraindo estados do slice
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const user = {
+      name,
       email,
       password,
+      confirmPassword,
     };
 
-    dispatch(login(user));
+    dispatch(register(user)); // Usando a função register para pssar os dados do usuário para a api e receber uma resposta
   };
 
-  // Limpando states
+  // Ativado sempre que acontecer um dispatch para resetar os estados
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
 
   return (
-    <div id="login">
+    <div id="register">
       <h2>Shopnaw</h2>
-      <p className="subtitle">Entre na sua conta</p>
+      <p className="subtitle">Cadastre-se</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="Nome"
+          onChange={(e) => setName(e.target.value)}
+          value={name || ""}
+        />
+        <input
+          type="email"
           placeholder="E-mail"
           onChange={(e) => setEmail(e.target.value)}
           value={email || ""}
@@ -51,15 +64,21 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           value={password || ""}
         />
-        {!loading && <input type="submit" value="Entrar" />}
+        <input
+          type="password"
+          placeholder="Confirme a senha"
+          onChange={(e) => setConfirmpassword(e.target.value)}
+          value={confirmPassword || ""}
+        />
+        {!loading && <input type="submit" value="Cadastar" />}
         {loading && <input type="submit" value="Aguarde..." disabled />}
         {error && <Message msg={error} type="error" />}
       </form>
       <p>
-        Não tem uma conta? <Link to="/register">Criar</Link>
+        Já tem conta? <Link to="/login">Entrar</Link>
       </p>
     </div>
   );
 };
 
-export default Login;
+export default Register;

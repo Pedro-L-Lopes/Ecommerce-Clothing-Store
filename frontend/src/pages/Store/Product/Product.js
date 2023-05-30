@@ -1,11 +1,11 @@
 import "./Product.css";
 
-import { uploads } from "../../utils/config";
+import { uploads } from "../../../utils/config";
 
 // Components
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
-import ProductItem from "../../components/ProductItem";
+import ProductItem from "../../../components/ProductItem/ProductItem";
 
 // Hooks
 import { useState, useEffect } from "react";
@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // Redux
-import { getProduct } from "../../slices/photoSlice";
+import { getProduct } from "../../../slices/productSlice";
 
 const Product = () => {
   const { id } = useParams(); // Id do produto pela url

@@ -1,16 +1,16 @@
 import "./EditProfile.css";
 
-import { uploads } from "../../utils/config";
+import { uploads } from "../../../utils/config";
 
 // Hooks
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Redux
-import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
+import { profile, resetMessage, updateProfile } from "../../../slices/userSlice";
 
 // Components
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 
 const EditProfile = () => {
   const dispatch = useDispatch();

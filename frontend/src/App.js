@@ -6,20 +6,20 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 
 // Paginas
-import Home from "./pages/Home/Home";
-import EditProfile from "./pages/EditProfile/EditProfile";
-import Profile from "./pages/Profile/Profile";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
-import Product from "./pages/Product/Product";
-import Search from "./pages/Search/Search";
-import UnavailableProducts from "./pages/UnavailableProducts/UnavailableProducts";
+import Home from "../src/pages/Store/Home/Home";
+import EditProfile from "../src/pages/Adm/EditProfile/EditProfile";
+import Profile from "../src/pages/Adm/Profile/Profile";
+import Login from "../src/pages/Adm/Auth/Login";
+import Register from "../src/pages/Adm/Auth/Register";
+import Product from "../src/pages/Store/Product/Product";
+import Search from "../src/pages/Store/Search/Search";
+import UnavailableProducts from "../src/pages/Adm/UnavailableProducts/UnavailableProducts";
+import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
+import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 
 // Componentes
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import AddProduct from "./pages/AddProduct/AddProduct";
-import EditProduct from "./pages/EditProduct/EditProduct";
+import Navbar from "../src/components/Navbar/Navbar";
+import Footer from "../src/components/Footer/Footer";
 
 function App() {
   const { auth, loading } = useAuth();

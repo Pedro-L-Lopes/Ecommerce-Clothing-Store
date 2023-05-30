@@ -1,4 +1,4 @@
-import styles from "../components/Navbar.module.css";
+import styles from "./Navbar.module.css";
 
 // Components
 import { NavLink, Link } from "react-router-dom";
@@ -12,14 +12,14 @@ import {
 
 // Hooks
 import { useState, useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // Rdeux
-import { logout, reset } from "../slices/authSlice";
+import { logout, reset } from "../../slices/authSlice";
 
-import logo from "../images/logo.png";
+import logo from "../../images/logo.png";
 
 const Navbar = () => {
   const { auth } = useAuth();

@@ -1,7 +1,7 @@
-import styles from "../EditProduct/EditProduct.module.css";
+import styles from "./EditProduct.module.css";
 
 // Uploads
-import { uploads } from "../../utils/config";
+import { uploads } from "../../../utils/config";
 
 // Hooks
 import React, { useState, useEffect } from "react";
@@ -9,14 +9,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // Components
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 
 /// Redux
 import {
   updateProduct,
   resetMessage,
   getProduct,
-} from "../../slices/photoSlice";
+} from "../../../slices/productSlice";
 
 const EditProduct = () => {
   const { id } = useParams();

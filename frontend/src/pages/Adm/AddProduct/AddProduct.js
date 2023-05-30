@@ -1,9 +1,9 @@
 import "../Profile/Profile.css";
 
-import { uploads } from "../../utils/config";
+import { uploads } from "../../../utils/config";
 
 // Components
-import Message from "../../components/Message";
+import Message from "../../../components/Message/Message";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -11,12 +11,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // Redux
-import { getUserDetails } from "../../slices/userSlice";
+import { getUserDetails } from "../../../slices/userSlice";
 import {
   publishProduct,
   resetMessage,
   getUserProducts,
-} from "../../slices/photoSlice";
+} from "../../../slices/productSlice";
 
 const AddProduct = () => {
   const { id } = useParams();

@@ -1,9 +1,7 @@
 import styles from "./Home.module.css";
 
 // Components
-import ProductItemBox from "../../components/ProductItemBox";
-import ProductItemBoxOnSale from "../../components/ProductItemBox";
-import ProductItem from "../../components/ProductItem";
+import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import { Link } from "react-router-dom";
 
 // Hooks
@@ -11,10 +9,10 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Redux
-import { getAllProducts } from "../../slices/photoSlice";
+import { getAllProducts } from "../../../slices/productSlice";
 
 // Imagens
-import destaque from "../../images/destaque.jpg";
+import destaque from "../../../images/destaque.jpg";
 
 const Home = () => {
   const dispatch = useDispatch();
