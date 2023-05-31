@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 
 // Components
 import Message from "../../../components/Message/Message";
+import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
 
 /// Redux
 import {
@@ -29,7 +30,7 @@ const EditProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [size, setSize] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState();
@@ -49,7 +50,7 @@ const EditProduct = () => {
       setName(product.name);
       setPrice(product.price);
       setDescription(product.description);
-      setSize(product.size);
+      setSelectedSizes(product.size);
       setOnSale(product.onSale);
       setSalePrice(product.salePrice);
       setAvailable(product.available);
@@ -64,7 +65,7 @@ const EditProduct = () => {
       name: name,
       price: price,
       description: description,
-      size: size,
+      size: selectedSizes,
       onSale: onSale,
       salePrice: salePrice,
       available: available,
@@ -75,17 +76,6 @@ const EditProduct = () => {
     resetComponentMessage();
   };
 
-  // Colocando/retirando tamanhos do array
-  const handleCheckboxClick = (value) => {
-    setSize((prevSize) => {
-      if (prevSize.includes(value)) {
-        return prevSize.filter((size) => size !== value);
-      } else {
-        return [...prevSize, value];
-      }
-    });
-  };
-
   const handleAvailableChange = (e) => {
     setAvailable(e.target.value);
   };
@@ -93,6 +83,22 @@ const EditProduct = () => {
   if (loading) {
     return <p>Carregando...</p>;
   }
+
+  const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
+
+  const handleCheckboxClick = (size) => {
+    setSelectedSizes((prevSelectedSizes) => {
+      if (prevSelectedSizes.includes(size)) {
+        // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
+        return prevSelectedSizes.filter(
+          (selectedSize) => selectedSize !== size
+        );
+      } else {
+        // Caso contrário, adicione-o à lista de selecionados
+        return [...prevSelectedSizes, size];
+      }
+    });
+  };
 
   return (
     <div>
@@ -135,6 +141,20 @@ const EditProduct = () => {
           />
         </label>
 
+        <label className="flex items-center mb-2">
+          <span className="mr-2">Tamanhos:</span>
+          <div className="flex items-center">
+            {sizes.map((size, i) => (
+              <SizeCheckbox
+                key={i}
+                size={size}
+                checked={selectedSizes.includes(size)}
+                onChange={() => handleCheckboxClick(size)}
+              />
+            ))}
+          </div>
+        </label>
+
         <label>
           <span>Descrição</span>
           <textarea
@@ -145,72 +165,6 @@ const EditProduct = () => {
             onChange={(e) => setDescription(e.target.value)}
             value={description || ""}
           ></textarea>
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="PP"
-            checked={size.includes("PP")}
-            onChange={() => handleCheckboxClick("PP")}
-            className={styles.noneCheck}
-          />
-          PP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="P"
-            checked={size.includes("P")}
-            onChange={() => handleCheckboxClick("P")}
-            className={styles.noneCheck}
-          />
-          P
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="M"
-            checked={size.includes("M")}
-            onChange={() => handleCheckboxClick("M")}
-            className={styles.noneCheck}
-          />
-          M
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="G"
-            checked={size.includes("G")}
-            onChange={() => handleCheckboxClick("G")}
-            className={styles.noneCheck}
-          />
-          G
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="GG"
-            checked={size.includes("GG")}
-            onChange={() => handleCheckboxClick("GG")}
-            className={styles.noneCheck}
-          />
-          GG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EXG"
-            checked={size.includes("EXG")}
-            onChange={() => handleCheckboxClick("EXG")}
-            className={styles.noneCheck}
-          />
-          EXG
         </label>
 
         <label>

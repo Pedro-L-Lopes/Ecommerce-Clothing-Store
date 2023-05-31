@@ -4,6 +4,7 @@ import { uploads } from "../../../utils/config";
 
 // Components
 import Message from "../../../components/Message/Message";
+import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -38,10 +39,10 @@ const AddProduct = () => {
   const [images, setImages] = useState([]);
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState();
-  const [size, setSize] = useState([]);
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
+  const [selectedSizes, setSelectedSizes] = useState([]);
 
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
@@ -108,7 +109,7 @@ const AddProduct = () => {
       images,
       price,
       description,
-      size,
+      size: selectedSizes,
       onSale,
       salePrice,
       available,
@@ -138,17 +139,6 @@ const AddProduct = () => {
     resetComponentMessage();
   };
 
-  // Colocando/retirando tamanhos do array
-  const handleCheckboxClick = (value) => {
-    setSize((prevSize) => {
-      if (prevSize.includes(value)) {
-        return prevSize.filter((size) => size !== value);
-      } else {
-        return [...prevSize, value];
-      }
-    });
-  };
-
   const handleAvailableChange = (e) => {
     setAvailable(e.target.value === "true");
   };
@@ -159,7 +149,17 @@ const AddProduct = () => {
 
   const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
 
-  console.log(size)
+  const handleCheckboxClick = (size) => {
+    if (selectedSizes.includes(size)) {
+      // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
+      setSelectedSizes(
+        selectedSizes.filter((selectedSize) => selectedSize !== size)
+      );
+    } else {
+      // Caso contrário, adicione-o à lista de selecionados
+      setSelectedSizes([...selectedSizes, size]);
+    }
+  };
 
   return (
     <div id="profile">
@@ -244,29 +244,14 @@ const AddProduct = () => {
               <label className="flex items-center mb-2">
                 <span className="mr-2">Tamanhos:</span>
                 <div className="flex items-center">
-                  <label className="flex items-center mr-2">
-                    {sizes?.map((size, i) => (
-                      <input 
-                      key={i}
-                        type="checkbox"
-                        value={size[i]}
-                        checked={size.includes(size[i])}
-                        onChange={() => handleCheckboxClick(size[i])}
-                        className="form-checkbox mr-1"
-                      />
-                      
-                    ))}
-                    <span
-                      className={`rounded-full h-6 w-6 flex items-center justify-center border border-gray-300 ${
-                        size.includes("PP")
-                          ? "bg-blue-500 text-white"
-                          : "text-gray-400"
-                      } cursor-pointer hover:opacity-75 transition-opacity`}
-                    >
-                      PP
-                    </span>
-
-                  </label>
+                  {sizes.map((size, i) => (
+                    <SizeCheckbox
+                    key={i}
+                    size={size}
+                    checked={selectedSizes.includes(size)}
+                    onChange={() => handleCheckboxClick(size)}
+                  />
+                  ))} 
                 </div>
               </label>
 
