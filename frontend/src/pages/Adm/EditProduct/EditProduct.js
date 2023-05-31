@@ -222,10 +222,7 @@ const EditProduct = () => {
 
         <label>
           <span>Em promoção:</span>
-          <select
-            value={onSale}
-            onChange={(e) => setOnSale(e.target.value === "true")}
-          >
+          <select value={onSale} onChange={(e) => setOnSale(e.target.value)}>
             <option value={true}>Sim</option>
             <option value={false}>Não</option>
           </select>
