@@ -30,7 +30,7 @@ const EditProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [size, setSize] = useState([]);
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState();
@@ -50,12 +50,14 @@ const EditProduct = () => {
       setName(product.name);
       setPrice(product.price);
       setDescription(product.description);
-      setSelectedSizes(product.size);
+      setSize(product.size);
       setOnSale(product.onSale);
       setSalePrice(product.salePrice);
       setAvailable(product.available);
     }
   }, [product, id]);
+
+  console.log(product.size);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const EditProduct = () => {
       name: name,
       price: price,
       description: description,
-      size: selectedSizes,
+      size: size,
       onSale: onSale,
       salePrice: salePrice,
       available: available,
@@ -86,19 +88,30 @@ const EditProduct = () => {
 
   const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
 
-  const handleCheckboxClick = (size) => {
-    setSelectedSizes((prevSelectedSizes) => {
-      if (prevSelectedSizes.includes(size)) {
-        // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
-        return prevSelectedSizes.filter(
-          (selectedSize) => selectedSize !== size
-        );
+  // Colocando/retirando tamanhos do array
+  const handleCheckboxClick = (value) => {
+    setSize((prevSize) => {
+      if (prevSize.includes(value)) {
+        return prevSize.filter((size) => size !== value);
       } else {
-        // Caso contrário, adicione-o à lista de selecionados
-        return [...prevSelectedSizes, size];
+        return [...prevSize, value];
       }
     });
   };
+
+  // const handleCheckboxClick = (size) => {
+  //   setSelectedSizes((prevSelectedSizes) => {
+  //     if (prevSelectedSizes.includes(size)) {
+  //       // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
+  //       return prevSelectedSizes.filter(
+  //         (selectedSize) => selectedSize !== size
+  //       );
+  //     } else {
+  //       // Caso contrário, adicione-o à lista de selecionados
+  //       return [...prevSelectedSizes, size];
+  //     }
+  //   });
+  // };
 
   return (
     <div>
@@ -136,6 +149,7 @@ const EditProduct = () => {
           Preço:
           <input
             type="number"
+            step="0.01"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
@@ -144,12 +158,12 @@ const EditProduct = () => {
         <label className="flex items-center mb-2">
           <span className="mr-2">Tamanhos:</span>
           <div className="flex items-center">
-            {sizes.map((size, i) => (
+            {sizes.map((sizeValue, i) => (
               <SizeCheckbox
                 key={i}
-                size={size}
-                checked={selectedSizes.includes(size)}
-                onChange={() => handleCheckboxClick(size)}
+                size={sizeValue}
+                checked={size.includes(sizeValue)}
+                onChange={() => handleCheckboxClick(sizeValue)}
               />
             ))}
           </div>

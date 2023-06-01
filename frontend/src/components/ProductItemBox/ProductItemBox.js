@@ -5,6 +5,14 @@ import { uploads } from "../../utils/config";
 import { Link } from "react-router-dom";
 
 const ProductItemBox = ({ product }) => {
+  const formatPrice = (price) => {
+    return price.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    });
+  };
+
   return (
     <div className={styles.productBox}>
       {product.images &&
@@ -15,8 +23,8 @@ const ProductItemBox = ({ product }) => {
             alt={product.name}
           />
         ))}
-      <p className={styles.productPriceBox}>R$ {product.price}</p>
-      <p className={styles.productNameBox}>{product.name}</p>
+      <p className={styles.productPriceBox}>{formatPrice(product.price)}</p>
+      <p className="co">{product.name}</p>
     </div>
   );
 };

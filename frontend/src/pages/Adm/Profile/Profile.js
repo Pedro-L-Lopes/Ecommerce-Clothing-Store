@@ -60,6 +60,14 @@ const Profile = () => {
     return <p>Carregando...</p>;
   }
 
+  const formatPrice = (price) => {
+    return price.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    });
+  };
+
   return (
     <div id="profile">
       {/* Exibição de nome e logo da loja  */}
@@ -89,7 +97,7 @@ const Profile = () => {
                           />
                         )}
                         <p>{product.name}</p>
-                        <p>R$ {product.price}</p>
+                        <p>{formatPrice(product.price)}</p>
                       </Link>
                       {id === userAuth._id ? (
                         <div className="actions">
