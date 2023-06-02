@@ -25,7 +25,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.user);
-  // Usuário autenticado // Renomenado pois colidem
+
   const { user: userAuth } = useSelector((state) => state.auth);
 
   const {
@@ -42,12 +42,12 @@ const AddProduct = () => {
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
-  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [size, setSize] = useState([]);
 
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
 
-  // Limpar os previews qunado o componente é desmontado
+  // Limpar os previews quando o componente é desmontado
   useEffect(() => {
     return () => {
       URL.revokeObjectURL(previewImages);
@@ -101,6 +101,18 @@ const AddProduct = () => {
     }, 2000);
   };
 
+  const clearForm = () => {
+    setName("");
+    setPrice("");
+    setDescription("");
+    setSize([]);
+    setAvailable(true);
+    setOnSale(false);
+    setSalePrice("");
+    setPreviewImages([]);
+    setImages([]);
+  };
+
   const submitHandle = async (e) => {
     e.preventDefault();
 
@@ -109,7 +121,7 @@ const AddProduct = () => {
       images,
       price,
       description,
-      size: selectedSizes,
+      size,
       onSale,
       salePrice,
       available,
@@ -129,12 +141,7 @@ const AddProduct = () => {
 
     await dispatch(publishProduct(productFormData));
 
-    // setName("");
-    // setImages("");
-    // setDescription("");
-    // setSize("");
-    // setOnSale("");
-    // setSalePrice("");
+    clearForm();
 
     resetComponentMessage();
   };
@@ -149,34 +156,170 @@ const AddProduct = () => {
 
   const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
 
-  const handleCheckboxClick = (size) => {
-    if (selectedSizes.includes(size)) {
-      // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
-      setSelectedSizes(
-        selectedSizes.filter((selectedSize) => selectedSize !== size)
-      );
+  const handleCheckboxClick = (CheckSize) => {
+    if (size.includes(CheckSize)) {
+      setSize(size.filter((size) => size !== CheckSize));
     } else {
-      // Caso contrário, adicione-o à lista de selecionados
-      setSelectedSizes([...selectedSizes, size]);
+      setSize([...size, CheckSize]);
     }
   };
 
   return (
-    <div id="profile">
+    <div>
       {/* Verifica a loja e exibe o formulário de cadastro de produtos */}
       {id === userAuth._id && (
         <>
-          <div className="new-photo" ref={newProductForm}>
-            <h3 className="text-xl font-bold">Adicionando produto</h3>
-            <div className="preview-container">
-              {previewImages.length === 0 && (
-                <p className="cursor-pointer hover:opacity-75 transition-opacity">
-                  Clique para adicionar imagens
-                </p>
+          <div className=" ">
+            <div className="">
+              <form onSubmit={submitHandle}>
+                <label>
+                  <input
+                    type="text"
+                    placeholder="Nome"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name || ""}
+                    required
+                  />
+                </label>
+
+                <label>
+                  <input
+                    placeholder="Preço"
+                    className=""
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price || ""}
+                  />
+                </label>
+
+                <label className="">
+                  <textarea
+                    placeholder="Descrição"
+                    className=""
+                    id="description"
+                    name="description"
+                    rows="4"
+                    cols="50"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description || ""}
+                  ></textarea>
+                </label>
+                <div>
+                  <button
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                    type="submit"
+                  >
+                    Adicionar
+                  </button>
+                  {loadingProduct && (
+                    <button
+                      className="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed"
+                      disabled
+                    >
+                      Aguarde...
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            <div className="">
+              <div>
+                <span className="">Tamanhos:</span>
+                <div className="">
+                  {sizes.map((AllSizes, i) => (
+                    <SizeCheckbox
+                      key={i}
+                      size={AllSizes}
+                      checked={size.includes(AllSizes)}
+                      onChange={() => handleCheckboxClick(AllSizes)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="">
+                <span className="">Categoria</span>
+                <select className="">
+                  <option>T-shirt</option>
+                  <option>Cropped</option>
+                </select>
+              </div>
+
+              <div className="">
+                <span className="">Status: </span>
+                <select
+                  className=""
+                  value={available}
+                  onChange={handleAvailableChange}
+                >
+                  <option value={true}>Disponível</option>
+                  <option value={false}>Indisponível</option>
+                </select>
+              </div>
+
+              <div className="">
+                <span className="">Em promoção:</span>
+                <select
+                  className=""
+                  value={onSale}
+                  onChange={(e) => setOnSale(e.target.value === "true")}
+                >
+                  <option value={true}>Sim</option>
+                  <option value={false}>Não</option>
+                </select>
+              </div>
+
+              {onSale === true ? (
+                <div className="">
+                  <input
+                    placeholder="Preço promocional"
+                    className=""
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setSalePrice(e.target.value)}
+                    value={salePrice || ""}
+                  />
+                </div>
+              ) : (
+                <div className="">
+                  <input
+                    placeholder="Preço promocional"
+                    className="border border-gray-300 rounded py-1 px-2"
+                    type="number"
+                    disabled
+                  />
+                </div>
               )}
+            </div>
+
+            <div className="">
+              <label>
+                <span className="">Fotos:</span>
+                <input
+                  className="hidden"
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFile}
+                  multiple
+                  required
+                />
+                <span
+                  className=""
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  Adicione fotos
+                </span>
+              </label>
               {previewImages.map((preview, index) => (
-                <div key={index} className="image-preview">
-                  <img src={preview} alt={`Preview ${index + 1}`} />
+                <div key={index}>
+                  <img
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className=""
+                  />
                   <button
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => removeImage(index)}
@@ -186,138 +329,6 @@ const AddProduct = () => {
                 </div>
               ))}
             </div>
-            <form onSubmit={submitHandle}>
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Nome:</span>
-                <input
-                  className="border border-gray-300 rounded py-1 px-2"
-                  type="text"
-                  placeholder="Nome"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name || ""}
-                  required
-                />
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Fotos:</span>
-                <input
-                  className="hidden"
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  onChange={handleFile}
-                  multiple
-                />
-                <span
-                  className="border border-gray-300 rounded py-1 px-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Selecione as fotos
-                </span>
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Preço:</span>
-                <input
-                  className="border border-gray-300 rounded py-1 px-2"
-                  type="number"
-                  step="0.01"
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price || ""}
-                />
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Descrição:</span>
-                <textarea
-                  className="border border-gray-300 rounded py-1 px-2 resize-none"
-                  id="description"
-                  name="description"
-                  rows="4"
-                  cols="50"
-                  onChange={(e) => setDescription(e.target.value)}
-                  value={description || ""}
-                ></textarea>
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Tamanhos:</span>
-                <div className="flex items-center">
-                  {sizes.map((size, i) => (
-                    <SizeCheckbox
-                    key={i}
-                    size={size}
-                    checked={selectedSizes.includes(size)}
-                    onChange={() => handleCheckboxClick(size)}
-                  />
-                  ))} 
-                </div>
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Status: </span>
-                <select
-                  className="border border-gray-300 rounded py-1 px-2"
-                  value={available}
-                  onChange={handleAvailableChange}
-                >
-                  <option value={true}>Disponível</option>
-                  <option value={false}>Indisponível</option>
-                </select>
-              </label>
-
-              <label className="flex items-center mb-2">
-                <span className="mr-2">Em promoção:</span>
-                <select
-                  className="border border-gray-300 rounded py-1 px-2"
-                  value={onSale}
-                  onChange={(e) => setOnSale(e.target.value === "true")}
-                >
-                  <option value={true}>Sim</option>
-                  <option value={false}>Não</option>
-                </select>
-              </label>
-
-              {/* Verifica se o produto está em promoção e exibe o preço promocional */}
-              {onSale === true ? (
-                <label className="flex items-center mb-2">
-                  <span className="mr-2">Preço promocional:</span>
-                  <input
-                    className="border border-gray-300 rounded py-1 px-2"
-                    type="number"
-                    step="0.01"
-                    onChange={(e) => setSalePrice(e.target.value)}
-                    value={salePrice || ""}
-                  />
-                </label>
-              ) : (
-                <label className="flex items-center mb-2">
-                  <span className="mr-2">Preço promocional:</span>
-                  <input
-                    className="border border-gray-300 rounded py-1 px-2"
-                    type="number"
-                    disabled
-                  />
-                </label>
-              )}
-
-              {!loadingProduct && (
-                <input
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
-                  type="submit"
-                  value="Adicionar"
-                />
-              )}
-              {loadingProduct && (
-                <input
-                  className="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed"
-                  type="submit"
-                  value="Aguarde..."
-                  disabled
-                />
-              )}
-            </form>
           </div>
           {errorProduct && <Message msg={errorProduct} type="error" />}
           {messageProduct && <Message msg={messageProduct} type="success" />}

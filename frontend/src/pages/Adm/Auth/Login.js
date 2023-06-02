@@ -1,15 +1,10 @@
 import styles from "./Auth.module.css";
 
-// Components
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Message from "../../../components/Message/Message";
-
-// Hooks
-import { useState, useEffect } from "react";
-
-// Redux
+import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "../../../slices/authSlice";
-import { useSelector, useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,36 +24,68 @@ const Login = () => {
     dispatch(login(user));
   };
 
-  // Limpando states
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
 
   return (
-    <div id="login">
-      <h2>Shopnaw</h2>
-      <p className="subtitle">Entre na sua conta</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="E-mail"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email || ""}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password || ""}
-        />
-        {!loading && <input type="submit" value="Entrar" />}
-        {loading && <input type="submit" value="Aguarde..." disabled />}
+    <>
+      <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20 border-2 border-gray-600">
+        <h1 className="text-xl text-center font-bold text-white capitalize dark:text-white m-auto">
+          Login
+        </h1>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col items-center">
+            <div>
+              <label
+                className="text-white dark:text-gray-200"
+                htmlFor="emailAddress"
+              >
+                Email
+              </label>
+              <input
+                id="emailAddress"
+                type="email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email || ""}
+                className="block w-full px-8 py-2 mt-2 mb-3 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+
+            <div>
+              <label
+                className="text-white dark:text-gray-200"
+                htmlFor="password"
+              >
+                Senha
+              </label>
+              <input
+                id="password"
+                type="password"
+                  placeholder="Senha"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password || ""}
+                className="block w-full px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+            <p className="text-gray-700 hover:text-white transition-all cursor-pointer">
+              Esqueceu a senha?
+            </p>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className="px-24 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:bg-indigo-700 focus:outline-none"
+            >
+              Entrar
+            </button>
+          </div>
+        </form>
         {error && <Message msg={error} type="error" />}
-      </form>
-      <p>
-        Não tem uma conta? <Link to="/register">Criar</Link>
-      </p>
-    </div>
+      </section>
+    </>
   );
 };
 

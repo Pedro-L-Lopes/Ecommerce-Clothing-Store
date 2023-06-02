@@ -133,7 +133,6 @@ const Sidebar = ({ user }) => {
             </Link>
           </div>
         </div>
-        <div className="m-3 text-xl text-gray-900 font-semibold">teste</div>
       </section>
     </div>
   );

@@ -1,17 +1,4 @@
-from{
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: antiquewhite;
-  padding: 20px;
-}
-
-label{
-  display: block;
-  font-weight: bold;
-  color: #000;
-}
-
-form {
+.authForm form {
   max-width: 400px;
   margin: 0 auto;
   background-color: #f4f4f4;
@@ -22,7 +9,7 @@ form {
   margin-bottom: 20px;
 }
 
-label {
+.authForm label {
   display: block;
   font-weight: bold;
   color: #000;

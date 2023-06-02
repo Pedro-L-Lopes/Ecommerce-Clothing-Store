@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="p-16">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -64,7 +64,7 @@ function App() {
             <Route path="/products/:id" element={<Product />} />
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </div>
   );
