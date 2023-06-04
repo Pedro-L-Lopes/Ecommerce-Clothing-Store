@@ -145,9 +145,7 @@ const EditProfile = () => {
                 <label
                   className="text-white dark:text-gray-200"
                   htmlFor={field.id}
-                >
-                  {field.placeholder}
-                </label>
+                ></label>
                 <input
                   id={field.id}
                   placeholder={field.placeholder}

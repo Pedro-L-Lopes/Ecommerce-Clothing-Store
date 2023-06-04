@@ -1,3 +1,5 @@
+import React from "react";
+
 import styles from "./ProductItemBox.module.css";
 
 import { uploads } from "../../utils/config";
@@ -29,4 +31,4 @@ const ProductItemBox = ({ product }) => {
   );
 };
 
-export default ProductItemBox;
+export default React.memo(ProductItemBox);

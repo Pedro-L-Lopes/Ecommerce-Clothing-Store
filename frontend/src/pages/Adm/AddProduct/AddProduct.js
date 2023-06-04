@@ -1,5 +1,3 @@
-import { uploads } from "../../../utils/config";
-
 // Components
 import Message from "../../../components/Message/Message";
 import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
@@ -51,9 +49,6 @@ const AddProduct = () => {
       URL.revokeObjectURL(previewImages);
     };
   }, [previewImages]);
-
-  // Novo formulario e editar a nivel de dom
-  const newProductForm = useRef();
 
   // Carregando usuário // Por causa desse tem o preenchimento do user acima
   useEffect(() => {
@@ -166,7 +161,7 @@ const AddProduct = () => {
     <div className="">
       {id === userAuth._id && (
         <>
-          <label className="text-white dark:text-gray-200">
+          <label className="text-white dark:text-gray-200 absolute top-1/4 left-1/2 transform -translate-x-1/2">
             <input
               className="hidden"
               type="file"
@@ -176,14 +171,19 @@ const AddProduct = () => {
               multiple
               required
             />
-            <span
-              onClick={() => fileInputRef.current.click()}
-              className="cursor-pointer border rounded-md mt-0"
-            >
-              Adicione fotos
-            </span>
-          </label>  
-          <div className="flex justify-center bg-slate-700 rounded-md w-2/4 h-52 p-2">
+            {images.length === 0 && (
+              <span
+                onClick={(e) => {
+                  e.preventDefault(); // Evita o comportamento padrão do evento click
+                  fileInputRef.current.click();
+                }}
+                className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md p-10 shadow-md"
+              >
+                Adicionar fotos
+              </span>
+            )}
+          </label>
+          <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
             {previewImages.map((preview, index) => (
               <div key={index} className="w-52 h-52 flex justify-end">
                 <img
@@ -347,33 +347,20 @@ const AddProduct = () => {
                       <option value={false}>Não</option>
                     </select>
                   </div>
-                  {onSale === true ? (
-                    <div className="mb-4">
-                      <span className="text-white dark:text-gray-200">
-                        Preço promocional
-                      </span>
-                      <input
-                        placeholder="Preço promocional"
-                        type="number"
-                        step="0.01"
-                        onChange={(e) => setSalePrice(e.target.value)}
-                        value={salePrice || ""}
-                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                      />
-                    </div>
-                  ) : (
-                    <div className="mb-4">
-                      <span className="text-white dark:text-gray-200">
-                        Preço promocional
-                      </span>
-                      <input
-                        placeholder="Preço promocional"
-                        type="number"
-                        disabled
-                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-300 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                      />
-                    </div>
-                  )}
+
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Preço promocional
+                    </span>
+                    <input
+                      placeholder="Preço promocional"
+                      type="number"
+                      step="0.01"
+                      onChange={(e) => setSalePrice(e.target.value)}
+                      value={salePrice || ""}
+                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
