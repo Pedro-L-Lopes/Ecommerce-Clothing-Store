@@ -57,7 +57,7 @@ const Sidebar = ({ user }) => {
     <div>
       <section className="flex gap-6 fixed">
         <div
-          className={`bg-[#0e0e0e] min-h-screen ${
+          className={`bg-slate-700 min-h-screen ${
             open ? `w-72` : `w-16`
           } duration-500 text-gray-100 px-4`}
         >

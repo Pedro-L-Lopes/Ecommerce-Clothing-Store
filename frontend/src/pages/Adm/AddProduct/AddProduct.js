@@ -1,5 +1,3 @@
-import "../Profile/Profile.css";
-
 import { uploads } from "../../../utils/config";
 
 // Components
@@ -102,15 +100,15 @@ const AddProduct = () => {
   };
 
   const clearForm = () => {
-    setName("");
-    setPrice("");
-    setDescription("");
-    setSize([]);
-    setAvailable(true);
-    setOnSale(false);
-    setSalePrice("");
-    setPreviewImages([]);
-    setImages([]);
+    // setName("");
+    // setPrice("");
+    // setDescription("");
+    // setSize([]);
+    // setAvailable(true);
+    // setOnSale(false);
+    // setSalePrice("");
+    // setPreviewImages([]);
+    // setImages([]);
   };
 
   const submitHandle = async (e) => {
@@ -165,171 +163,222 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
-      {/* Verifica a loja e exibe o formulário de cadastro de produtos */}
+    <div className="border mt-0 p-0">
       {id === userAuth._id && (
         <>
-          <div className=" ">
-            <div className="">
+          <div className="">
+            <label className="text-white dark:text-gray-200">
+              <input
+                className="hidden"
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleFile}
+                multiple
+                required
+              />
+              <span
+                onClick={() => fileInputRef.current.click()}
+                className="cursor-pointer border rounded-md p-10 center"
+              >
+                Adicione fotos
+              </span>
+            </label>
+            {previewImages.map((preview, index) => (
+              <div key={index} className="mt-4">
+                <img
+                  src={preview}
+                  alt={`Preview ${index + 1}`}
+                  className="w-44 h-44"
+                />
+                <button
+                  className="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+                  onClick={() => removeImage(index)}
+                >
+                  Remover
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
+            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <form onSubmit={submitHandle}>
-                <label>
+                <div className="mb-4">
+                  <label
+                    className="text-white dark:text-gray-200"
+                    htmlFor="name"
+                  >
+                    Nome
+                  </label>
                   <input
-                    type="text"
+                    id="name"
                     placeholder="Nome"
                     onChange={(e) => setName(e.target.value)}
                     value={name || ""}
                     required
+                    type="text"
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   />
-                </label>
+                </div>
 
-                <label>
+                <div className="mb-4">
+                  <label
+                    className="text-white dark:text-gray-200"
+                    htmlFor="price"
+                  >
+                    Preço
+                  </label>
                   <input
+                    id="price"
                     placeholder="Preço"
-                    className=""
                     type="number"
                     step="0.01"
                     onChange={(e) => setPrice(e.target.value)}
                     value={price || ""}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   />
-                </label>
+                </div>
 
-                <label className="">
+                <div className="mb-4">
+                  <label
+                    className="text-white dark:text-gray-200"
+                    htmlFor="description"
+                  >
+                    Descrição
+                  </label>
                   <textarea
-                    placeholder="Descrição"
-                    className=""
                     id="description"
                     name="description"
+                    placeholder="Descrição"
                     rows="4"
                     cols="50"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description || ""}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   ></textarea>
-                </label>
-                <div>
+                </div>
+
+                <div className="flex justify-between">
                   <button
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                    className="px-8 py-2 text-white bg-green-500 rounded-md hover:bg-green-700 focus:bg-green-700 focus:outline-none"
                     type="submit"
                   >
                     Adicionar
                   </button>
-                  {loadingProduct && (
+                  {loadingProduct ? (
                     <button
-                      className="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed"
+                      className="px-8 py-2 text-gray-600 bg-gray-300 rounded-md cursor-not-allowed"
                       disabled
                     >
                       Aguarde...
                     </button>
-                  )}
+                  ) : null}
                 </div>
               </form>
-            </div>
-
-            <div className="">
-              <div>
-                <span className="">Tamanhos:</span>
-                <div className="">
-                  {sizes.map((AllSizes, i) => (
-                    <SizeCheckbox
-                      key={i}
-                      size={AllSizes}
-                      checked={size.includes(AllSizes)}
-                      onChange={() => handleCheckboxClick(AllSizes)}
-                    />
-                  ))}
-                </div>
-              </div>
 
               <div className="">
-                <span className="">Categoria</span>
-                <select className="">
-                  <option>T-shirt</option>
-                  <option>Cropped</option>
-                </select>
-              </div>
-
-              <div className="">
-                <span className="">Status: </span>
-                <select
-                  className=""
-                  value={available}
-                  onChange={handleAvailableChange}
-                >
-                  <option value={true}>Disponível</option>
-                  <option value={false}>Indisponível</option>
-                </select>
-              </div>
-
-              <div className="">
-                <span className="">Em promoção:</span>
-                <select
-                  className=""
-                  value={onSale}
-                  onChange={(e) => setOnSale(e.target.value === "true")}
-                >
-                  <option value={true}>Sim</option>
-                  <option value={false}>Não</option>
-                </select>
-              </div>
-
-              {onSale === true ? (
-                <div className="">
-                  <input
-                    placeholder="Preço promocional"
-                    className=""
-                    type="number"
-                    step="0.01"
-                    onChange={(e) => setSalePrice(e.target.value)}
-                    value={salePrice || ""}
-                  />
+                <div className="mb-4">
+                  <span className="text-white dark:text-gray-200">
+                    Tamanhos:
+                  </span>
+                  <div className="mt-2 flex">
+                    {sizes.map((AllSizes, i) => (
+                      <SizeCheckbox
+                        key={i}
+                        size={AllSizes}
+                        checked={size.includes(AllSizes)}
+                        onChange={() => handleCheckboxClick(AllSizes)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              ) : (
-                <div className="">
-                  <input
-                    placeholder="Preço promocional"
-                    className="border border-gray-300 rounded py-1 px-2"
-                    type="number"
-                    disabled
-                  />
-                </div>
-              )}
-            </div>
 
-            <div className="">
-              <label>
-                <span className="">Fotos:</span>
-                <input
-                  className="hidden"
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  onChange={handleFile}
-                  multiple
-                  required
-                />
-                <span
-                  className=""
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Adicione fotos
-                </span>
-              </label>
-              {previewImages.map((preview, index) => (
-                <div key={index}>
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className=""
-                  />
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => removeImage(index)}
-                  >
-                    Remover
-                  </button>
+                <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Categoria
+                    </span>
+                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
+                      <option>T-shirt</option>
+                      <option>Cropped</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Categoria
+                    </span>
+                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
+                      <option>T-shirt</option>
+                      <option>Cropped</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Categoria
+                    </span>
+                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
+                      <option>T-shirt</option>
+                      <option>Cropped</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Status:
+                    </span>
+                    <select
+                      className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                      value={available}
+                      onChange={handleAvailableChange}
+                    >
+                      <option value={true}>Disponível</option>
+                      <option value={false}>Indisponível</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-white dark:text-gray-200">
+                      Em promoção:
+                    </span>
+                    <select
+                      className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                      value={onSale}
+                      onChange={(e) => setOnSale(e.target.value === "true")}
+                    >
+                      <option value={true}>Sim</option>
+                      <option value={false}>Não</option>
+                    </select>
+                  </div>
+                  {onSale === true ? (
+                    <div className="mb-4">
+                      <span className="text-white dark:text-gray-200">
+                        Preço promocional
+                      </span>
+                      <input
+                        placeholder="Preço promocional"
+                        type="number"
+                        step="0.01"
+                        onChange={(e) => setSalePrice(e.target.value)}
+                        value={salePrice || ""}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      />
+                    </div>
+                  ) : (
+                    <div className="mb-4">
+                      <span className="text-white dark:text-gray-200">
+                        Preço promocional
+                      </span>
+                      <input
+                        placeholder="Preço promocional"
+                        type="number"
+                        disabled
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-300 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      />
+                    </div>
+                  )}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
+
           {errorProduct && <Message msg={errorProduct} type="error" />}
           {messageProduct && <Message msg={messageProduct} type="success" />}
         </>

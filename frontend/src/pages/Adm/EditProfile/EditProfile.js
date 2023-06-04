@@ -1,4 +1,3 @@
-import "./EditProfile.css";
 import { uploads } from "../../../utils/config";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,8 +14,13 @@ const EditProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [street, setStreet] = useState("");
+  const [number, setNumber] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [Instagram, setInstagram] = useState("");
 
   useEffect(() => {
     dispatch(profile());
@@ -36,10 +40,6 @@ const EditProfile = () => {
       name,
     };
 
-    if (profileImage) {
-      userData.profileImage = profileImage;
-    }
-
     if (password) {
       userData.password = password;
     }
@@ -56,78 +56,118 @@ const EditProfile = () => {
     }, 2000);
   };
 
-  const handleFile = (e) => {
-    const image = e.target.files[0];
+  const fields = [
+    {
+      id: 1,
+      placeholder: "Nome da loja",
+      type: "text",
+      updateFunction: setName,
+      value: name,
+    },
+    {
+      id: 2,
+      placeholder: "Email",
+      type: "email",
+      updateFunction: setEmail,
+      value: email,
+    },
+    {
+      id: 3,
+      placeholder: "Rua/Avenida",
+      type: "text",
+      updateFunction: setStreet,
+      value: street,
+    },
+    {
+      id: 4,
+      placeholder: "Número",
+      type: "text",
+      updateFunction: setNumber,
+      value: number,
+    },
+    {
+      id: 5,
+      placeholder: "Bairro",
+      type: "text",
+      updateFunction: setNeighborhood,
+      value: neighborhood,
+    },
+    {
+      id: 6,
+      placeholder: "Cidade",
+      type: "text",
+      updateFunction: setCity,
+      value: city,
+    },
+    {
+      id: 7,
+      placeholder: "Estado",
+      type: "text",
+      updateFunction: setState,
+      value: state,
+    },
+    {
+      id: 7,
+      placeholder: "Instagram (link)",
+      type: "url",
+      updateFunction: setInstagram,
+      value: Instagram,
+    },
+    {
+      id: 9,
+      placeholder: "Senha atual",
+      type: "password",
+      updateFunction: setPassword,
+      value: password,
+    },
+    {
+      id: 10,
+      placeholder: "Nova senha",
+      type: "password",
+      updateFunction: setConfirmPassword,
+      value: confirmPassword,
+    },
+  ];
 
-    setPreviewImage(image);
-    setProfileImage(image);
+  const handleInputChange = (value, updateFunction) => {
+    updateFunction(value);
   };
 
   return (
     <div className="flex justify-center">
       <div className="text-center">
-        {/* {(user.profileImage || previewImage) && (
-          <img
-            className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-            src={
-              previewImage
-                ? URL.createObjectURL(previewImage)
-                : `${uploads}/users/${user.profileImage}`
-            }
-            alt={user.name}
-          />
-        )} */}
+        <h1 className="text-white text-5xl text">Store</h1>
+
         <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold mb-4">Edite seus dados</h2>
-          <input
-            type="text"
-            placeholder="Nome"
-            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded"
-            onChange={(e) => setName(e.target.value)}
-            value={name || ""}
-          />
+          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+            {fields.map((field, index) => (
+              <div key={index}>
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor={field.id}
+                >
+                  {field.placeholder}
+                </label>
+                <input
+                  id={field.id}
+                  placeholder={field.placeholder}
+                  onChange={(e) =>
+                    handleInputChange(e.target.value, field.updateFunction)
+                  }
+                  value={field.value || ""}
+                  type={field.type}
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                />
+              </div>
+            ))}
+          </div>
 
-          <input
-            type="email"
-            placeholder="E-mail"
-            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded"
-            disabled
-            value={email || ""}
-          />
-
-          {/* <label className="block mb-4">
-            <span className="mb-1 inline-block">Foto de perfil</span>
-            <input type="file" onChange={handleFile} className="hidden" />
-            <div className="flex items-center justify-between px-4 py-2 border border-gray-300 rounded bg-white cursor-pointer">
-              <span className="text-gray-500 flex items-center ">Escolher arquivo</span>
-            </div>
-          </label> */}
-
-          <label className="block mb-4">
-            <span className="mb-1 inline-block">Alterar a senha</span>
-            <input
-              type="password"
-              placeholder="Digite sua nova senha"
-              className="w-full px-4 py-2 border border-gray-300 rounded"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password || ""}
-            />
-          </label>
-
-          {!loading ? (
-            <input
-              type="submit"
-              value="Atualizar"
-              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
-            />
-          ) : (
-            <input
-              type="submit"
-              value="Aguarde..."
-              disabled
-              className="px-6 py-2 bg-gray-300 text-white rounded cursor-not-allowed"
-            />
-          )}
+          <button
+            type="submit"
+            className="px-8 py-2 mt-5 text-white bg-slate-700 rounded-md hover:bg-slate-600 focus:bg-slate-600focus:outline-none transition-all"
+          >
+            Atualizar
+          </button>
 
           {error && <Message msg={error} type="error" />}
           {message && <Message msg={message} type="success" />}

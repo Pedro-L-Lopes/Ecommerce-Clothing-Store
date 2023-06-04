@@ -1,13 +1,6 @@
-import styles from "./Auth.module.css";
-
-// Components
 import { Link } from "react-router-dom";
 import Message from "../../../components/Message/Message";
-
-// Hooks
 import { useState, useEffect } from "react";
-
-// Redux
 import { register, reset } from "../../../slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,12 +8,15 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmpassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [street, setStreet] = useState("");
+  const [number, setNumber] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [Instagram, setInstagram] = useState("");
 
-  // Permite usar as funções do redux
   const dispatch = useDispatch();
-
-  // Extraindo estados do slice
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -31,15 +27,96 @@ const Register = () => {
       email,
       password,
       confirmPassword,
+      street,
+      number,
+      neighborhood,
+      city,
+      state,
     };
 
-    dispatch(register(user)); // Usando a função register para pssar os dados do usuário para a api e receber uma resposta
+    dispatch(register(user));
   };
 
-  // Ativado sempre que acontecer um dispatch para resetar os estados
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
+
+  const fields = [
+    {
+      id: 1,
+      placeholder: "Nome da loja",
+      type: "text",
+      updateFunction: setName,
+      value: name,
+    },
+    {
+      id: 2,
+      placeholder: "Email",
+      type: "email",
+      updateFunction: setEmail,
+      value: email,
+    },
+    {
+      id: 3,
+      placeholder: "Rua/Avenida",
+      type: "text",
+      updateFunction: setStreet,
+      value: street,
+    },
+    {
+      id: 4,
+      placeholder: "Número",
+      type: "text",
+      updateFunction: setNumber,
+      value: number,
+    },
+    {
+      id: 5,
+      placeholder: "Bairro",
+      type: "text",
+      updateFunction: setNeighborhood,
+      value: neighborhood,
+    },
+    {
+      id: 6,
+      placeholder: "Cidade",
+      type: "text",
+      updateFunction: setCity,
+      value: city,
+    },
+    {
+      id: 7,
+      placeholder: "Estado",
+      type: "text",
+      updateFunction: setState,
+      value: state,
+    },
+    {
+      id: 7,
+      placeholder: "Instagram (link)",
+      type: "url",
+      updateFunction: setInstagram,
+      value: Instagram,
+    },
+    {
+      id: 9,
+      placeholder: "Senha",
+      type: "password",
+      updateFunction: setPassword,
+      value: password,
+    },
+    {
+      id: 10,
+      placeholder: "Confirme a sua senha",
+      type: "password",
+      updateFunction: setConfirmPassword,
+      value: confirmPassword,
+    },
+  ];
+
+  const handleInputChange = (value, updateFunction) => {
+    updateFunction(value);
+  };
 
   return (
     <>
@@ -47,143 +124,41 @@ const Register = () => {
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">
           Criar conta
         </h1>
+
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-              <label
-                className="text-white dark:text-gray-200"
-                htmlFor="username"
-              >
-                Nome
-              </label>
-              <input
-                id="username"
-                placeholder="Nome da loja"
-                onChange={(e) => setName(e.target.value)}
-                value={name || ""}
-                type="text"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label
-                className="text-white dark:text-gray-200"
-                htmlFor="emailAddress"
-              >
-                Email
-              </label>
-              <input
-                id="emailAddress"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email || ""}
-                type="email"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-            {/* Endereço */}
-            <div>
-              <label className="text-white dark:text-gray-200" htmlFor="street">
-                Endereço
-              </label>
-              <input
-                id="street"
-                placeholder="Rua ou Avenida"
-                // onChange={(e) => setName(e.target.value)}
-                // value={name || ""}
-                type="text"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label className="text-white dark:text-gray-200" htmlFor="city">
-                Cidade
-              </label>
-              <input
-                id="city"
-                placeholder="Cidade"
-                // onChange={(e) => setName(e.target.value)}
-                // value={name || ""}
-                type="text"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label className="text-white dark:text-gray-200" htmlFor="cep">
-                CEP
-              </label>
-              <input
-                id="cep"
-                placeholder="CEP"
-                // onChange={(e) => setName(e.target.value)}
-                // value={name || ""}
-                type="number"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label className="text-white dark:text-gray-200" htmlFor="state">
-                Estado
-              </label>
-              <input
-                id="state"
-                placeholder="Estado"
-                // onChange={(e) => setName(e.target.value)}
-                // value={name || ""}
-                type="text"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label
-                className="text-white dark:text-gray-200"
-                htmlFor="password"
-              >
-                Senha
-              </label>
-              <input
-                id="password"
-                placeholder="Senha"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password || ""}
-                type="password"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label
-                className="text-white dark:text-gray-200"
-                htmlFor="passwordConfirmation"
-              >
-                Confirmação de senha
-              </label>
-              <input
-                id="passwordConfirmation"
-                placeholder="Confirme a sua senha"
-                onChange={(e) => setConfirmpassword(e.target.value)}
-                value={confirmPassword || ""}
-                type="password"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            </div>
+            {fields.map((field, index) => (
+              <div key={index}>
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor={field.id}
+                >
+                  {field.placeholder}
+                </label>
+                <input
+                  id={field.id}
+                  placeholder={field.placeholder}
+                  onChange={(e) =>
+                    handleInputChange(e.target.value, field.updateFunction)
+                  }
+                  value={field.value || ""}
+                  type={field.type}
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                />
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-between mt-6">
             <Link
               to="/login"
-              className="text-gray-700 hover:text-white transition-all cursor-pointer"
+              className="text-gray-400 hover:text-white transition-all cursor-pointer"
             >
               Já tem conta? Entrar
             </Link>
             <button
               type="submit"
-              className="px-8 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:bg-indigo-700 focus:outline-none"
+              className="px-8 py-2 text-white bg-slate-700 rounded-md hover:bg-slate-600 focus:bg-slate-600focus:outline-none"
             >
               Criar conta
             </button>
@@ -196,42 +171,3 @@ const Register = () => {
 };
 
 export default Register;
-
-{
-  /* <div id="register">
-      <h2>Shopnaw</h2>
-      <p className="subtitle">Cadastre-se</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nome"
-          onChange={(e) => setName(e.target.value)}
-          value={name || ""}
-        />
-        <input
-          type="email"
-          placeholder="E-mail"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email || ""}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password || ""}
-        />
-        <input
-          type="password"
-          placeholder="Confirme a senha"
-          onChange={(e) => setConfirmpassword(e.target.value)}
-          value={confirmPassword || ""}
-        />
-        {!loading && <input type="submit" value="Cadastar" />}
-        {loading && <input type="submit" value="Aguarde..." disabled />}
-        {error && <Message msg={error} type="error" />}
-      </form>
-      <p>
-        Já tem conta? <Link to="/login">Entrar</Link>
-      </p>
-    </div> */
-}

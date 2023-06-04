@@ -13,7 +13,7 @@ const SizeCheckbox = ({ size, checked, onChange }) => {
       />
       <span
         className={`rounded-md h-8 w-8 flex items-center justify-center border border-gray-300 ${
-          checked ? "bg-[#0e0e0e] text-white" : "text-gray-400"
+          checked ? "bg-green-500 text-white" : "text-gray-400"
         } cursor-pointer hover:opacity-75 transition-opacity`}
       >
         {size}
@@ -23,9 +23,3 @@ const SizeCheckbox = ({ size, checked, onChange }) => {
 };
 
 export default SizeCheckbox;
-
-// {previewImages.length === 0 && (
-//   <p className="cursor-pointer hover:opacity-75 transition-opacity">
-//     Clique para adicionar imagens
-//   </p>
-// )}
