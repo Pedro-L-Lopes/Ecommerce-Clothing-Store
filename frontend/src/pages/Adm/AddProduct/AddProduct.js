@@ -163,36 +163,36 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="border mt-0 p-0">
+    <div className="">
       {id === userAuth._id && (
         <>
-          <div className="">
-            <label className="text-white dark:text-gray-200">
-              <input
-                className="hidden"
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFile}
-                multiple
-                required
-              />
-              <span
-                onClick={() => fileInputRef.current.click()}
-                className="cursor-pointer border rounded-md p-10 center"
-              >
-                Adicione fotos
-              </span>
-            </label>
+          <label className="text-white dark:text-gray-200">
+            <input
+              className="hidden"
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFile}
+              multiple
+              required
+            />
+            <span
+              onClick={() => fileInputRef.current.click()}
+              className="cursor-pointer border rounded-md mt-0"
+            >
+              Adicione fotos
+            </span>
+          </label>  
+          <div className="flex justify-center bg-slate-700 rounded-md w-2/4 h-52 p-2">
             {previewImages.map((preview, index) => (
-              <div key={index} className="mt-4">
+              <div key={index} className="w-52 h-52 flex justify-end">
                 <img
                   src={preview}
                   alt={`Preview ${index + 1}`}
-                  className="w-44 h-44"
+                  className="w-52 h-52 object-cover object-top rounded-md mr-1"
                 />
                 <button
-                  className="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+                  className=" text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none absolute"
                   onClick={() => removeImage(index)}
                 >
                   Remover
@@ -200,7 +200,7 @@ const AddProduct = () => {
               </div>
             ))}
           </div>
-          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
+          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <form onSubmit={submitHandle}>
                 <div className="mb-4">
