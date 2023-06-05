@@ -39,6 +39,7 @@ const AddProduct = () => {
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState(true);
   const [size, setSize] = useState([]);
+  const [category, setCategory] = useState("");
 
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
@@ -141,6 +142,10 @@ const AddProduct = () => {
 
   const handleAvailableChange = (e) => {
     setAvailable(e.target.value === "true");
+  };
+
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   if (loading) {
@@ -298,29 +303,16 @@ const AddProduct = () => {
                     <span className="text-white dark:text-gray-200">
                       Categoria
                     </span>
-                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
-                      <option>T-shirt</option>
-                      <option>Cropped</option>
+                    <select
+                      className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                      value={category}
+                      onChange={handleCategory}
+                    >
+                      <option value="T-shirt">T-shirt</option>
+                      <option value="Cropped">Cropped</option>
                     </select>
                   </div>
-                  <div className="mb-4">
-                    <span className="text-white dark:text-gray-200">
-                      Categoria
-                    </span>
-                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
-                      <option>T-shirt</option>
-                      <option>Cropped</option>
-                    </select>
-                  </div>
-                  <div className="mb-4">
-                    <span className="text-white dark:text-gray-200">
-                      Categoria
-                    </span>
-                    <select className="block w-full mt-2 p-2 rounded-md bg-slate-200">
-                      <option>T-shirt</option>
-                      <option>Cropped</option>
-                    </select>
-                  </div>
+
                   <div className="mb-4">
                     <span className="text-white dark:text-gray-200">
                       Status:

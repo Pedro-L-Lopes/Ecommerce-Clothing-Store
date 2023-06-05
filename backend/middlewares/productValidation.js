@@ -49,7 +49,7 @@ const productInsertValidation = () => {
       .withMessage("Insira um valor valido."),
     body("available")
       .isBoolean()
-      .withMessage("Indique a disponibilidade do produto."),
+      .withMessage("Indique a disponibilidade do produto.")
   ];
 };
 
