@@ -255,7 +255,7 @@ const AddProduct = () => {
                     id="description"
                     name="description"
                     placeholder="Descrição"
-                    rows="4"
+                    rows="2"
                     cols="50"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description || ""}

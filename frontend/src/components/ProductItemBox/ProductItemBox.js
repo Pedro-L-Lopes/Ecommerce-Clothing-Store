@@ -15,8 +15,6 @@ const ProductItemBox = ({ product }) => {
     });
   };
 
-  console.log(product.category);
-
   return (
     <div className={styles.productBox}>
       {product.images &&

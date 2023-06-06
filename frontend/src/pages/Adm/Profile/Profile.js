@@ -1,18 +1,10 @@
-import "./Profile.css";
-
 import { uploads } from "../../../utils/config";
-
-// Components
 import Message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
-
-// Hooks
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-
-// Redux
 import { getUserDetails } from "../../../slices/userSlice";
 import {
   resetMessage,
@@ -22,13 +14,8 @@ import {
 
 const Profile = () => {
   const { id } = useParams();
-
   const dispatch = useDispatch();
-
-  // Pegando usuário atenticado e usuário que entrou no perfil dele
-  // Usuário que entrou no perfil dele
   const { user, loading } = useSelector((state) => state.user);
-  // Usuário autenticado // Renomenado pois colidem
   const { user: userAuth } = useSelector((state) => state.auth);
   const {
     products,
@@ -37,7 +24,6 @@ const Profile = () => {
     error: errorProduct,
   } = useSelector((state) => state.product);
 
-  // Carregando usuário // Por causa desse tem o preenchimento do user acima
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserProducts(id));
@@ -49,10 +35,8 @@ const Profile = () => {
     }, 2000);
   };
 
-  // Deletando produto
   const handleDelete = async (id) => {
     dispatch(deleteProduct(id));
-
     resetComponentMessage();
   };
 
@@ -69,45 +53,58 @@ const Profile = () => {
   };
 
   return (
-    <div id="profile">
-      {/* Exibição de nome e logo da loja  */}
-      <div className="profile-header">
-        {user.profileImage && (
-          <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} />
-        )}
-        <div className="profile-description">
-          <h2>{user.name}</h2>
-        </div>
-      </div>
+    <div className="p-4">
       {id === userAuth._id && (
         <>
-          <div className="user-photos">
-            <h2>Produtos disponíveis</h2>
-            <div className="photos-container">
+          <div className="mb-4">
+            <h2 className="text-xl font-bold mb-2">Produtos disponíveis</h2>
+            <div className="grid grid-cols-2 gap-2">
               {products &&
                 products
                   .filter((product) => product.available)
                   .map((product) => (
-                    <div className="photo" key={product._id}>
-                      <Link to={`/products/${product._id}`}>
-                        {product.images && product.images.length > 0 && (
-                          <img
-                            src={`${uploads}/products/${product.images[0].filename}`}
-                            alt={product.name}
-                          />
-                        )}
-                        <p>{product.name}</p>
-                        <p>{formatPrice(product.price)}</p>
-                      </Link>
+                    <div
+                      key={product._id}
+                      className="bg-slate-700 p-2 rounded shadow flex items-center justify-between"
+                    >
+                      <div>
+                        <Link
+                          to={`/products/${product._id}`}
+                          className="flex items-center"
+                        >
+                          {product.images && product.images.length > 0 && (
+                            <img
+                              src={`${uploads}/products/${product.images[0].filename}`}
+                              alt={product.name}
+                              className="w-16 h-16 rounded"
+                            />
+                          )}
+                          <div>
+                            <p className="font-semibold ml-2">
+                              {formatPrice(product.price)}
+                            </p>
+                            <p className="ml-2">{product.name}</p>
+                          </div>
+                        </Link>
+                      </div>
                       {id === userAuth._id ? (
-                        <div className="actions">
-                          <Link to={`/products/${product._id}/edit`}>
+                        <div>
+                          <Link
+                            to={`/products/${product._id}/edit`}
+                            className="text-blue-500 mr-2"
+                          >
                             <BsPencilFill />
                           </Link>
-                          <BsXLg onClick={() => handleDelete(product._id)} />
+                          <BsXLg
+                            onClick={() => handleDelete(product._id)}
+                            className="text-red-500 cursor-pointer"
+                          />
                         </div>
                       ) : (
-                        <Link className="btn" to={`/products/${product._id}`}>
+                        <Link
+                          className="bg-blue-500 text-white px-4 py-2 rounded"
+                          to={`/products/${product._id}`}
+                        >
                           Ver
                         </Link>
                       )}
@@ -119,7 +116,9 @@ const Profile = () => {
           {messageProduct && <Message msg={messageProduct} type="success" />}
         </>
       )}
-      {products.length === 0 && <p>Ainda não há produtos publicados...</p>}
+      {products.length === 0 && (
+        <p className="text-gray-500">Ainda não há produtos publicados...</p>
+      )}
     </div>
   );
 };
