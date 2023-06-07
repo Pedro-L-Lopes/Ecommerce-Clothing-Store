@@ -56,39 +56,20 @@ const EditProfile = () => {
     }, 2000);
   };
 
-  const fields = [
-    {
-      id: 1,
-      placeholder: "Nome da loja",
-      type: "text",
-      updateFunction: setName,
-      value: name,
-    },
-    {
-      id: 2,
-      placeholder: "Email",
-      type: "email",
-      updateFunction: setEmail,
-      value: email,
-    },
-    {
-      id: 3,
-      placeholder: "Senha atual",
-      type: "password",
-      updateFunction: setPassword,
-      value: password,
-    },
-    {
-      id: 4,
-      placeholder: "Nova senha",
-      type: "password",
-      updateFunction: setConfirmPassword,
-      value: confirmPassword,
-    },
-  ];
+  const handleNameChange = (value) => {
+    setName(value);
+  };
 
-  const handleInputChange = (value, updateFunction) => {
-    updateFunction(value);
+  const handleEmailChange = (value) => {
+    setEmail(value);
+  };
+
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+  };
+
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
   };
 
   return (
@@ -98,35 +79,74 @@ const EditProfile = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            {fields.map((field, index) => (
-              <div key={index}>
-                <label
-                  className="text-white dark:text-gray-200"
-                  htmlFor={field.id}
-                ></label>
-                <input
-                  id={field.id}
-                  placeholder={field.placeholder}
-                  onChange={(e) =>
-                    handleInputChange(e.target.value, field.updateFunction)
-                  }
-                  value={field.value || ""}
-                  type={field.type}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                />
-              </div>
-            ))}
-          </div>
+            <div>
+              <label htmlFor="name" className="text-white dark:text-gray-200">
+                Nome da loja
+              </label>
+              <input
+                id="name"
+                placeholder="Nome da loja"
+                onChange={(e) => handleNameChange(e.target.value)}
+                value={name}
+                type="text"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
 
+            <div>
+              <label htmlFor="email" className="text-white dark:text-gray-200">
+                Email
+              </label>
+              <input
+                id="email"
+                placeholder="Email"
+                onChange={(e) => handleEmailChange(e.target.value)}
+                value={email}
+                type="email"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="text-white dark:text-gray-200"
+              >
+                Senha atual
+              </label>
+              <input
+                id="password"
+                placeholder="Senha atual"
+                onChange={(e) => handlePasswordChange(e.target.value)}
+                value={password}
+                type="password"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="text-white dark:text-gray-200"
+              >
+                Nova senha
+              </label>
+              <input
+                id="confirmPassword"
+                placeholder="Nova senha"
+                onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+                value={confirmPassword}
+                type="password"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+          </div>
           <button
             type="submit"
             className="px-8 py-2 mt-5 text-white bg-slate-700 rounded-md hover:bg-slate-600 focus:bg-slate-600focus:outline-none transition-all"
           >
             Atualizar
           </button>
-
-          {error && <Message msg={error} type="error" />}
-          {message && <Message msg={message} type="success" />}
         </form>
       </div>
     </div>

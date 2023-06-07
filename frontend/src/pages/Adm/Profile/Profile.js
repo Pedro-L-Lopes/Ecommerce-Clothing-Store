@@ -57,8 +57,10 @@ const Profile = () => {
       {id === userAuth._id && (
         <>
           <div className="mb-4">
-            <h2 className="text-xl font-bold mb-2">Produtos disponíveis</h2>
-            <div className="grid grid-cols-2 gap-2">
+            <h2 className="text-white text-xl font-bold -mt-12 mb-2">
+              Produtos disponíveis
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               {products &&
                 products
                   .filter((product) => product.available)
@@ -79,10 +81,21 @@ const Profile = () => {
                               className="w-16 h-16 rounded"
                             />
                           )}
-                          <div>
-                            <p className="font-semibold ml-2">
-                              {formatPrice(product.price)}
-                            </p>
+                          <div className="line-clamp-2">
+                            {product.onSale === true ? (
+                              <>
+                                <div className="flex">
+                                  <del className="text-gray-300 mr-2 ml-2">
+                                    {formatPrice(product.price)}
+                                  </del>
+                                  <p>{formatPrice(product.salePrice)}</p>
+                                </div>
+                              </>
+                            ) : (
+                              <p className="font-semibold ml-2">
+                                {formatPrice(product.price)}
+                              </p>
+                            )}
                             <p className="ml-2">{product.name}</p>
                           </div>
                         </Link>
