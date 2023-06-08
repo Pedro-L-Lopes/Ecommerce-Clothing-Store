@@ -1,5 +1,4 @@
 // Verificar os estados (Loading, erro, sucesso e etc) // Estará no store para ser compartilhado com o projeto
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 

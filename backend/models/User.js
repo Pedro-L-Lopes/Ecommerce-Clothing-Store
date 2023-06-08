@@ -8,6 +8,7 @@ const userSchema = new Schema(
     password: String,
     profileImage: String,
     bio: String,
+    currentPassword: String,
   },
   {
     timestamps: true,

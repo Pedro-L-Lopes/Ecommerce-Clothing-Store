@@ -92,42 +92,38 @@ const getCurrentUser = async (req, res) => {
 
 // Atualização de usuário
 const update = async (req, res) => {
-  const { name, password } = req.body;
+  const { name, currentPassword, password } = req.body;
+  const reqUser = req.user;
 
-  let profileImage = null;
+  const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id));
 
-  if (req.file) {
-    // Pegando imagem e modificando nome do arquivo
-    profileImage = req.file.filename;
+  if (!user) {
+    res.status(404).json({ errors: ["Usuário não encontrado!"] });
+    return;
   }
 
-  const reqUser = req.user; // Usuário da requisição (pegando o token)
-
-  // Convertendo para object id
-  const user = await User.findById(
-    new mongoose.Types.ObjectId(reqUser._id)
-  ).select("-password");
+  // Verificar se a senha atual está correta
+  if (!bcrypt.compareSync(currentPassword, user.password)) {
+    res.status(422).json({ errors: ["Senha atual incorreta!"] });
+    return;
+  }
 
   if (name) {
-    user.name = name; // Se o nome veio pela requisição o nome é atualizado
+    user.name = name;
   }
 
   if (password) {
-    // O salt vai dar uma "poluida" na string
-    const salt = await bcrypt.genSalt(); // genSalt() gera a string aleatória
-    const passwordHash = await bcrypt.hash(password, salt); // Gera uma senha aleatória muito loka
-
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
     user.password = passwordHash;
   }
 
-  if (profileImage) {
-    user.profileImage = profileImage;
+  try {
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ errors: ["Erro ao atualizar usuário!"] });
   }
-
-  // Salvando no banco
-  await user.save();
-
-  res.status(200).json(user);
 };
 
 // Pegando usuário pelo Id
