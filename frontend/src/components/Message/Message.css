@@ -1,19 +1,16 @@
 .message {
   border-radius: 5px;
-  padding: 5px 10px;
-  position: fixed;
-  top: 10px;
-  right: 10px;
+  padding: 1% 1.5%;
+  position: absolute;
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 9999;
+  align-items: baseline;
 }
 
 .error {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
+  color: #ffffff;
+  background-color: #ff0015;
+  border-color: #ff0019;
 }
 
 .success {

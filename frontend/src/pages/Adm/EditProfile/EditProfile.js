@@ -14,7 +14,7 @@ const EditProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
 
   useEffect(() => {
     dispatch(profile());
@@ -32,6 +32,7 @@ const EditProfile = () => {
 
     const userData = {
       name,
+      currentPassword,
     };
 
     if (password) {
@@ -54,12 +55,11 @@ const EditProfile = () => {
     <div className="flex justify-center">
       <div className="text-center">
         <h1 className="text-white text-5xl text">Store</h1>
-
+        <h2 className="text-white">Insira a senha atual para alterar os dados</h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
               <input
-                id="name"
                 placeholder="Nome da loja"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
@@ -81,8 +81,8 @@ const EditProfile = () => {
             <div>
               <input
                 placeholder="Senha atual"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                value={confirmPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                value={currentPassword}
                 type="password"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
@@ -104,10 +104,10 @@ const EditProfile = () => {
           >
             Atualizar
           </button>
-          {error && <Message msg={error} type="error" />}
-          {message && <Message msg={message} type="success" />}
         </form>
       </div>
+      {error && <Message msg={error} type="error" />}
+      {message && <Message msg={message} type="success" />}
     </div>
   );
 };

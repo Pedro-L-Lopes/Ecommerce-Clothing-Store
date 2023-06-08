@@ -30,7 +30,7 @@ export const updateProfile = createAsyncThunk(
 
     const data = await userService.updateProfile(user, token); // User da req + token pego em cima
 
-    // Chhecando erros
+    // Checando erros
     if (data.errors) {
       return thunkAPI.rejectWithValue(data.errors[0]);
     }

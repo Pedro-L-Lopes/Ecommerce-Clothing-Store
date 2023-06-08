@@ -92,7 +92,7 @@ const getCurrentUser = async (req, res) => {
 
 // Atualização de usuário
 const update = async (req, res) => {
-  const { name, currentPassword, password } = req.body;
+  const { name, email, currentPassword, password } = req.body;
   const reqUser = req.user;
 
   const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id));
@@ -110,6 +110,10 @@ const update = async (req, res) => {
 
   if (name) {
     user.name = name;
+  }
+
+  if (email) {
+    user.email = email;
   }
 
   if (password) {
