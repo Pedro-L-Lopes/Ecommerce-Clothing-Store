@@ -29,6 +29,7 @@ const ProductItem = ({ product }) => {
       <h2>{product.price}</h2>
       <h2>{product.description === "undefined" ? "" : product.description}</h2>
       <h2>{product.size}</h2>
+      <h2>{product.category}</h2>
     </div>
   );
 };

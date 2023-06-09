@@ -119,7 +119,10 @@ const AddProduct = () => {
       onSale,
       salePrice,
       available,
+      category,
     };
+
+    console.log(productData);
 
     // Construindo form data
     const productFormData = new FormData();
@@ -144,10 +147,6 @@ const AddProduct = () => {
     setAvailable(e.target.value === "true");
   };
 
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
-  };
-
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -161,6 +160,22 @@ const AddProduct = () => {
       setSize([...size, CheckSize]);
     }
   };
+
+  const handleCategory = (e) => {
+    if (e.target.value !== "") {
+      setCategory(e.target.value);
+    }
+  };
+
+  const allCategories = [
+    "T-shirt",
+    "Cropped",
+    "Calça",
+    "Camiseta",
+    "Short",
+    "Moleton",
+    "Acessório"
+  ];
 
   return (
     <div className="">
@@ -179,10 +194,10 @@ const AddProduct = () => {
             {images.length === 0 && (
               <span
                 onClick={(e) => {
-                  e.preventDefault(); // Evita o comportamento padrão do evento click
+                  e.preventDefault();
                   fileInputRef.current.click();
                 }}
-                className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md p-10 shadow-md"
+                className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md w-full h-full p-10 shadow-md"
               >
                 Adicionar fotos
               </span>
@@ -238,6 +253,7 @@ const AddProduct = () => {
                     placeholder="Preço"
                     type="number"
                     step="0.01"
+                    required
                     onChange={(e) => setPrice(e.target.value)}
                     value={price || ""}
                     className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
@@ -255,6 +271,7 @@ const AddProduct = () => {
                     id="description"
                     name="description"
                     placeholder="Descrição"
+                    required
                     rows="2"
                     cols="50"
                     onChange={(e) => setDescription(e.target.value)}
@@ -305,11 +322,13 @@ const AddProduct = () => {
                     </span>
                     <select
                       className="block w-full mt-2 p-2 rounded-md bg-slate-200"
-                      value={category}
                       onChange={handleCategory}
+                      required
                     >
-                      <option value="T-shirt">T-shirt</option>
-                      <option value="Cropped">Cropped</option>
+                      <option value="">Selecione uma Categoria</option>
+                      {allCategories.map((category, index) => {
+                        return <option value={category} key={index}>{category}</option>
+                      })}
                     </select>
                   </div>
 
@@ -326,6 +345,7 @@ const AddProduct = () => {
                       <option value={false}>Indisponível</option>
                     </select>
                   </div>
+
                   <div className="mb-4">
                     <span className="text-white dark:text-gray-200">
                       Em promoção:
@@ -340,19 +360,37 @@ const AddProduct = () => {
                     </select>
                   </div>
 
-                  <div className="mb-4">
-                    <span className="text-white dark:text-gray-200">
-                      Preço promocional
-                    </span>
-                    <input
-                      placeholder="Preço promocional"
-                      type="number"
-                      step="0.01"
-                      onChange={(e) => setSalePrice(e.target.value)}
-                      value={salePrice || ""}
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                    />
-                  </div>
+                  {onSale ? (
+                    <div className="mb-4">
+                      <span className="text-white dark:text-gray-200">
+                        Preço promocional
+                      </span>
+                      <input
+                        required
+                        placeholder="Preço promocional"
+                        type="number"
+                        step="0.01"
+                        onChange={(e) => setSalePrice(e.target.value)}
+                        value={salePrice || ""}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      />
+                    </div>
+                  ) : (
+                    <div className="mb-4">
+                      <span className="text-white dark:text-gray-200">
+                        Preço promocional
+                      </span>
+                      <input
+                        disabled
+                        placeholder="Preço promocional"
+                        type="number"
+                        step="0.01"
+                        onChange={(e) => setSalePrice(e.target.value)}
+                        value={salePrice || ""}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

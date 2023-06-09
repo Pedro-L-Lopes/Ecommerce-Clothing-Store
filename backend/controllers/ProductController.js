@@ -8,8 +8,16 @@ const mongoose = require("mongoose");
 
 // Inserindo produto com um usuário relacionado a ele // Insert Photo
 const createProduct = async (req, res) => {
-  const { name, price, size, description, onSale, salePrice, available } =
-    req.body;
+  const {
+    name,
+    price,
+    size,
+    description,
+    onSale,
+    salePrice,
+    available,
+    category,
+  } = req.body;
 
   const images = req.files.map((file) => ({ filename: file.filename }));
 
@@ -27,6 +35,7 @@ const createProduct = async (req, res) => {
     onSale,
     salePrice,
     available,
+    category,
     userId: user._id,
     userName: user.name,
   });
