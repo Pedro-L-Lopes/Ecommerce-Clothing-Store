@@ -4,7 +4,7 @@ Catalogo de produtos sendo feito com Node.js + Express e MongoDB no backend, e R
 
 ## Funcionalidades
 
-- Register (cadastro)
+- Cadastro
 - Login/Logout
 - Atualização de usuário
 - Adição e atualização de produto
