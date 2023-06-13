@@ -1,6 +1,12 @@
 // Components
 import Message from "../../../components/Message/Message";
 import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
+import {
+  allCategories,
+  sizes,
+} from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import { ReactSortable } from "react-sortablejs";
+import { arrayMoveImmutable } from "array-move";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -40,7 +46,7 @@ const AddProduct = () => {
   const [available, setAvailable] = useState(true);
   const [size, setSize] = useState([]);
   const [category, setCategory] = useState("");
-
+  // const [sortedImages, setSortedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
 
@@ -66,6 +72,14 @@ const AddProduct = () => {
     const previewImageUrls = selectedImages.map((file) =>
       URL.createObjectURL(file)
     );
+
+    if (selectedImages.length === 0) {
+      const existingImageUrls = images.map((image) =>
+        URL.createObjectURL(image)
+      );
+      setPreviewImages(existingImageUrls);
+    }
+
     setPreviewImages(previewImageUrls);
     setImages(selectedImages);
   };
@@ -80,11 +94,6 @@ const AddProduct = () => {
     setImages(updatedImages);
   };
 
-  const removeAllImages = () => {
-    setPreviewImages([]);
-    setImages([]);
-  };
-
   const handleFileInputClick = () => {
     fileInputRef.current.click();
   };
@@ -93,18 +102,6 @@ const AddProduct = () => {
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);
-  };
-
-  const clearForm = () => {
-    // setName("");
-    // setPrice("");
-    // setDescription("");
-    // setSize([]);
-    // setAvailable(true);
-    // setOnSale(false);
-    // setSalePrice("");
-    // setPreviewImages([]);
-    // setImages([]);
   };
 
   const submitHandle = async (e) => {
@@ -122,8 +119,6 @@ const AddProduct = () => {
       category,
     };
 
-    console.log(productData);
-
     // Construindo form data
     const productFormData = new FormData();
     Object.keys(productData).forEach((key) => {
@@ -138,7 +133,15 @@ const AddProduct = () => {
 
     await dispatch(publishProduct(productFormData));
 
-    clearForm();
+    // setName("");
+    // setPrice("");
+    // setDescription("");
+    // setSize([]);
+    // setAvailable(true);
+    // setOnSale(false);
+    // setSalePrice("");
+    // setPreviewImages([]);
+    // setImages([]);
 
     resetComponentMessage();
   };
@@ -150,8 +153,6 @@ const AddProduct = () => {
   if (loading) {
     return <p>Carregando...</p>;
   }
-
-  const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
 
   const handleCheckboxClick = (CheckSize) => {
     if (size.includes(CheckSize)) {
@@ -167,15 +168,17 @@ const AddProduct = () => {
     }
   };
 
-  const allCategories = [
-    "T-shirt",
-    "Cropped",
-    "Calça",
-    "Camiseta",
-    "Short",
-    "Moleton",
-    "Acessório"
-  ];
+  const handleImageSortEnd = ({ newIndex, oldIndex }) => {
+    const updatedPreviewImages = arrayMoveImmutable(
+      previewImages,
+      oldIndex,
+      newIndex
+    );
+    const updatedImages = arrayMoveImmutable(images, oldIndex, newIndex);
+
+    setPreviewImages(updatedPreviewImages);
+    setImages(updatedImages);
+  };
 
   return (
     <div className="">
@@ -203,23 +206,35 @@ const AddProduct = () => {
               </span>
             )}
           </label>
+
           <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
-            {previewImages.map((preview, index) => (
-              <div key={index} className="w-52 h-52 flex justify-end">
-                <img
-                  src={preview}
-                  alt={`Preview ${index + 1}`}
-                  className="w-52 h-52 object-cover object-top rounded-md mr-1"
-                />
-                <button
-                  className=" text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none absolute"
-                  onClick={() => removeImage(index)}
+            <ReactSortable
+              list={previewImages}
+              setList={setPreviewImages}
+              onEnd={handleImageSortEnd}
+              className="flex"
+            >
+              {previewImages.map((preview, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-52 h-52 relative mr-1"
                 >
-                  Remover
-                </button>
-              </div>
-            ))}
+                  <img
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="w-52 h-52 object-cover object-top rounded-md cursor-move"
+                  />
+                  <button
+                    className="absolute top-0 right-0 text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+                    onClick={() => removeImage(index)}
+                  >
+                    Remover
+                  </button>
+                </div>
+              ))}
+            </ReactSortable>
           </div>
+
           <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <form onSubmit={submitHandle}>
@@ -327,7 +342,11 @@ const AddProduct = () => {
                     >
                       <option value="">Selecione uma Categoria</option>
                       {allCategories.map((category, index) => {
-                        return <option value={category} key={index}>{category}</option>
+                        return (
+                          <option value={category} key={index}>
+                            {category}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
