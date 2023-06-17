@@ -2,6 +2,7 @@ import { uploads } from "../../../utils/config";
 import Message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
+import { BiEditAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -28,6 +29,8 @@ const Profile = () => {
 
   const [theFilter, setTheFilter] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   useEffect(() => {
     dispatch(getUserDetails(id));
@@ -40,9 +43,15 @@ const Profile = () => {
     }, 2000);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    setProductIdToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = (id) => {
     dispatch(deleteProduct(id));
     resetComponentMessage();
+    setShowDeleteModal(false);
   };
 
   if (loading) {
@@ -66,35 +75,33 @@ const Profile = () => {
       {id === userAuth._id && (
         <>
           <div className="mb-4">
-            <div className="flex flex-col md:flex-row">
-              <select
-                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 focus:outline-none"
-                onChange={(e) => setTheFilter(e.target.value)}
-              >
-                <option value="all">Todos os produtos</option>
-                <option value="available">Produtos disponíveis</option>
-                <option value="unavailable">Produtos indisponíveis</option>
-                <option value="onSale">Produtos em promoção</option>
-                <option value="onSaleAvailable">
-                  Produtos disponíveis e em promoção
-                </option>
-                <option value="onSaleUnavailable">
-                  Produtos indisponíveis e em promoção
-                </option>
-              </select>
-              <select
-                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value="">Todas as categorias</option>
-                {allCategories &&
-                  allCategories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            <select
+              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 focus:outline-none"
+              onChange={(e) => setTheFilter(e.target.value)}
+            >
+              <option value="all">Todos os produtos</option>
+              <option value="available">Produtos disponíveis</option>
+              <option value="unavailable">Produtos indisponíveis</option>
+              <option value="onSale">Produtos em promoção</option>
+              <option value="onSaleAvailable">
+                Produtos disponíveis e em promoção
+              </option>
+              <option value="onSaleUnavailable">
+                Produtos indisponíveis e em promoção
+              </option>
+            </select>
+            <select
+              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">Todas as categorias</option>
+              {allCategories &&
+                allCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+            </select>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               {products &&
                 products
@@ -161,13 +168,13 @@ const Profile = () => {
                         <div>
                           <Link
                             to={`/products/${product._id}/edit`}
-                            className="text-blue-500 mr-2"
+                            className="text-white mr-2"
                           >
-                            <BsPencilFill />
+                            <BiEditAlt size="20" />
                           </Link>
                           <BsXLg
                             onClick={() => handleDelete(product._id)}
-                            className="text-red-500 cursor-pointer"
+                            className="text-red-600 cursor-pointer"
                           />
                         </div>
                       ) : (
@@ -180,6 +187,27 @@ const Profile = () => {
                       )}
                     </div>
                   ))}
+              {showDeleteModal && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                  <div className="bg-white p-4 rounded shadow">
+                    <p className="text-center">Excluir o produto?</p>
+                    <div className="flex justify-end mt-4">
+                      <button
+                        className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded mr-2"
+                        onClick={() => confirmDelete(productIdToDelete)}
+                      >
+                        Excluir
+                      </button>
+                      <button
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
+                        onClick={() => setShowDeleteModal(false)}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {errorProduct && <Message msg={errorProduct} type="error" />}

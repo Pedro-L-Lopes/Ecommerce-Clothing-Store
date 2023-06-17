@@ -9,12 +9,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [street, setStreet] = useState("");
-  const [number, setNumber] = useState("");
-  const [neighborhood, setNeighborhood] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [Instagram, setInstagram] = useState("");
 
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
@@ -27,11 +21,6 @@ const Register = () => {
       email,
       password,
       confirmPassword,
-      street,
-      number,
-      neighborhood,
-      city,
-      state,
     };
 
     dispatch(register(user));
@@ -58,55 +47,13 @@ const Register = () => {
     },
     {
       id: 3,
-      placeholder: "Rua/Avenida",
-      type: "text",
-      updateFunction: setStreet,
-      value: street,
-    },
-    {
-      id: 4,
-      placeholder: "Número",
-      type: "text",
-      updateFunction: setNumber,
-      value: number,
-    },
-    {
-      id: 5,
-      placeholder: "Bairro",
-      type: "text",
-      updateFunction: setNeighborhood,
-      value: neighborhood,
-    },
-    {
-      id: 6,
-      placeholder: "Cidade",
-      type: "text",
-      updateFunction: setCity,
-      value: city,
-    },
-    {
-      id: 7,
-      placeholder: "Estado",
-      type: "text",
-      updateFunction: setState,
-      value: state,
-    },
-    {
-      id: 7,
-      placeholder: "Instagram (link)",
-      type: "url",
-      updateFunction: setInstagram,
-      value: Instagram,
-    },
-    {
-      id: 9,
       placeholder: "Senha",
       type: "password",
       updateFunction: setPassword,
       value: password,
     },
     {
-      id: 10,
+      id: 4,
       placeholder: "Confirme a sua senha",
       type: "password",
       updateFunction: setConfirmPassword,
