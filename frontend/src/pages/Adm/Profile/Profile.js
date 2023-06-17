@@ -2,7 +2,7 @@ import { uploads } from "../../../utils/config";
 import Message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getUserDetails } from "../../../slices/userSlice";
@@ -12,6 +12,7 @@ import {
   deleteProduct,
 } from "../../../slices/productSlice";
 import Loading from "../../../components/Loading/Loading";
+import { allCategories } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Profile = () => {
   const { id } = useParams();
@@ -24,6 +25,9 @@ const Profile = () => {
     message: messageProduct,
     error: errorProduct,
   } = useSelector((state) => state.product);
+
+  const [theFilter, setTheFilter] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     dispatch(getUserDetails(id));
@@ -62,13 +66,61 @@ const Profile = () => {
       {id === userAuth._id && (
         <>
           <div className="mb-4">
-            <h2 className="text-white text-xl font-bold -mt-12 mb-2">
-              Produtos disponíveis
-            </h2>
+            <div className="flex flex-col md:flex-row">
+              <select
+                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 focus:outline-none"
+                onChange={(e) => setTheFilter(e.target.value)}
+              >
+                <option value="all">Todos os produtos</option>
+                <option value="available">Produtos disponíveis</option>
+                <option value="unavailable">Produtos indisponíveis</option>
+                <option value="onSale">Produtos em promoção</option>
+                <option value="onSaleAvailable">
+                  Produtos disponíveis e em promoção
+                </option>
+                <option value="onSaleUnavailable">
+                  Produtos indisponíveis e em promoção
+                </option>
+              </select>
+              <select
+                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="">Todas as categorias</option>
+                {allCategories &&
+                  allCategories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+              </select>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               {products &&
                 products
-                  .filter((product) => product.available)
+                  .filter((product) => {
+                    if (theFilter === "all") {
+                      return true;
+                    } else if (theFilter === "available") {
+                      return product.available;
+                    } else if (theFilter === "unavailable") {
+                      return !product.available;
+                    } else if (theFilter === "onSale") {
+                      return product.onSale;
+                    } else if (theFilter === "onSaleAvailable") {
+                      return product.available && product.onSale;
+                    } else if (theFilter === "onSaleUnavailable") {
+                      return !product.available && product.onSale;
+                    }
+                    return true;
+                  })
+                  .filter((product) => {
+                    if (selectedCategory === "") {
+                      return true;
+                    } else {
+                      return product.category === selectedCategory;
+                    }
+                  })
                   .map((product) => (
                     <div
                       key={product._id}
