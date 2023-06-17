@@ -7,6 +7,10 @@ import {
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import { ReactSortable } from "react-sortablejs";
 import { arrayMoveImmutable } from "array-move";
+import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
+import { BiTrash } from "react-icons/bi";
+import Loading from "../../../components/Loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -31,7 +35,7 @@ const AddProduct = () => {
   const { user: userAuth } = useSelector((state) => state.auth);
 
   const {
-    products,
+    product,
     loading: loadingProduct,
     message: messageProduct,
     error: errorProduct,
@@ -46,8 +50,10 @@ const AddProduct = () => {
   const [available, setAvailable] = useState(true);
   const [size, setSize] = useState([]);
   const [category, setCategory] = useState("");
-  // const [sortedImages, setSortedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+
+  const navigate = useNavigate();
+
   const fileInputRef = useRef(null);
 
   // Limpar os previews quando o componente é desmontado
@@ -94,10 +100,6 @@ const AddProduct = () => {
     setImages(updatedImages);
   };
 
-  const handleFileInputClick = () => {
-    fileInputRef.current.click();
-  };
-
   const resetComponentMessage = () => {
     setTimeout(() => {
       dispatch(resetMessage());
@@ -119,7 +121,6 @@ const AddProduct = () => {
       category,
     };
 
-    // Construindo form data
     const productFormData = new FormData();
     Object.keys(productData).forEach((key) => {
       if (key === "images") {
@@ -133,26 +134,18 @@ const AddProduct = () => {
 
     await dispatch(publishProduct(productFormData));
 
-    // setName("");
-    // setPrice("");
-    // setDescription("");
-    // setSize([]);
-    // setAvailable(true);
-    // setOnSale(false);
-    // setSalePrice("");
-    // setPreviewImages([]);
-    // setImages([]);
+    setName("");
+    setPrice("");
+    setDescription("");
+    setSize([]);
+    setAvailable(true);
+    setOnSale(false);
+    setSalePrice("");
+    setPreviewImages([]);
+    setImages([]);
 
     resetComponentMessage();
   };
-
-  const handleAvailableChange = (e) => {
-    setAvailable(e.target.value === "true");
-  };
-
-  if (loading) {
-    return <p>Carregando...</p>;
-  }
 
   const handleCheckboxClick = (CheckSize) => {
     if (size.includes(CheckSize)) {
@@ -180,34 +173,46 @@ const AddProduct = () => {
     setImages(updatedImages);
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="">
       {id === userAuth._id && (
         <>
-          <label className="text-white dark:text-gray-200 absolute top-1/4 left-1/2 transform -translate-x-1/2">
-            <input
-              className="hidden"
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleFile}
-              multiple
-              required
-            />
-            {images.length === 0 && (
-              <span
-                onClick={(e) => {
-                  e.preventDefault();
-                  fileInputRef.current.click();
-                }}
-                className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md w-full h-full p-10 shadow-md"
-              >
-                Adicionar fotos
-              </span>
-            )}
-          </label>
+          {images.length > 0 && (
+            <div className="flex items-center justify-center">
+              <h2 className="text-white text-center p-2 -mt-10">
+                Arraste para ordenar as imagens
+              </h2>
+            </div>
+          )}
 
           <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
+            <label className="text-white dark:text-gray-200 absolute">
+              <input
+                className="hidden"
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleFile}
+                multiple
+                required
+              />
+              {images.length === 0 && (
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    fileInputRef.current.click();
+                  }}
+                  className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md w-full h-full p-10 shadow-md"
+                >
+                  Adicionar fotos
+                </span>
+              )}
+            </label>
+            <BiLeftArrowAlt className="mr-2 fill-slate-400" size="25px" />
             <ReactSortable
               list={previewImages}
               setList={setPreviewImages}
@@ -225,14 +230,15 @@ const AddProduct = () => {
                     className="w-52 h-52 object-cover object-top rounded-md cursor-move"
                   />
                   <button
-                    className="absolute top-0 right-0 text-white bg-red-500 rounded hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+                    className="absolute top-0 right-0 text-slate-600 bg-white rounded hover:bg-red-700 hover:text-white transition-all focus:bg-red-700 focus:outline-none"
                     onClick={() => removeImage(index)}
                   >
-                    Remover
+                    <BiTrash size="26px" />
                   </button>
                 </div>
               ))}
             </ReactSortable>
+            <BiRightArrowAlt className="mr-2 fill-slate-400" size="25px" />
           </div>
 
           <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
@@ -296,20 +302,16 @@ const AddProduct = () => {
                 </div>
 
                 <div className="flex justify-between">
-                  <button
-                    className="px-8 py-2 text-white bg-green-500 rounded-md hover:bg-green-700 focus:bg-green-700 focus:outline-none"
-                    type="submit"
-                  >
-                    Adicionar
-                  </button>
                   {loadingProduct ? (
+                    <Loading />
+                  ) : (
                     <button
-                      className="px-8 py-2 text-gray-600 bg-gray-300 rounded-md cursor-not-allowed"
-                      disabled
+                      className="px-8 py-2 text-white bg-green-500 rounded-md hover:bg-green-700 focus:bg-green-700 focus:outline-none"
+                      type="submit"
                     >
-                      Aguarde...
+                      Adicionar
                     </button>
-                  ) : null}
+                  )}
                 </div>
               </form>
 
@@ -358,7 +360,7 @@ const AddProduct = () => {
                     <select
                       className="block w-full mt-2 p-2 rounded-md bg-slate-200"
                       value={available}
-                      onChange={handleAvailableChange}
+                      onChange={(e) => setAvailable(e.target.value === "true")}
                     >
                       <option value={true}>Disponível</option>
                       <option value={false}>Indisponível</option>
@@ -406,7 +408,7 @@ const AddProduct = () => {
                         step="0.01"
                         onChange={(e) => setSalePrice(e.target.value)}
                         value={salePrice || ""}
-                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                        className="cursor-not-allowed block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                       />
                     </div>
                   )}

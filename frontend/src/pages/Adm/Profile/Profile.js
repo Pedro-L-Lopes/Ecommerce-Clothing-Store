@@ -11,6 +11,7 @@ import {
   getUserProducts,
   deleteProduct,
 } from "../../../slices/productSlice";
+import Loading from "../../../components/Loading/Loading";
 
 const Profile = () => {
   const { id } = useParams();
@@ -41,7 +42,11 @@ const Profile = () => {
   };
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return (
+      <div className="flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   const formatPrice = (price) => {
