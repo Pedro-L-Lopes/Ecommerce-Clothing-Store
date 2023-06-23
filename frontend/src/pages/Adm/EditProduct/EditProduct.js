@@ -11,6 +11,11 @@ import { useParams } from "react-router-dom";
 // Components
 import Message from "../../../components/Message/Message";
 import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
+import {
+  allCategories,
+  sizes,
+} from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import Loading from "../../../components/Loading/Loading";
 
 /// Redux
 import {
@@ -34,6 +39,7 @@ const EditProduct = () => {
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState();
+  const [category, setCategory] = useState("");
 
   const resetComponentMessage = () => {
     setTimeout(() => {
@@ -83,10 +89,8 @@ const EditProduct = () => {
   };
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
-
-  const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
 
   // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (value) => {
@@ -97,6 +101,12 @@ const EditProduct = () => {
         return [...prevSize, value];
       }
     });
+  };
+
+  const handleCategory = (e) => {
+    if (e.target.value !== "") {
+      setCategory(e.target.value);
+    }
   };
 
   // const handleCheckboxClick = (size) => {
@@ -115,109 +125,185 @@ const EditProduct = () => {
 
   return (
     <div>
-      <h1>Editar Produto</h1>
-
-      {error && <p>{error}</p>}
-
-      {product.images && product.images.length > 0 ? (
-        <div className={styles.imageContainer}>
-          {product.images.map((image, index) => (
-            <div className="item" key={index}>
+      <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
+        {product.images &&
+          product.images.map((image, index) => (
+            <div key={index} className="flex-shrink-0 w-52 h-52 relative mr-1">
               <img
                 src={`${uploads}/products/${image.filename}`}
                 alt={product.name}
+                className="w-52 h-52 object-cover object-top rounded-md"
               />
             </div>
           ))}
-        </div>
-      ) : (
-        <p>Nenhuma imagem disponível</p>
-      )}
+      </div>
 
-      <form onSubmit={handleUpdate}>
-        <label>
-          Nome:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <br />
-
-        <label>
-          Preço:
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-
-        <label className="flex items-center mb-2">
-          <span className="mr-2">Tamanhos:</span>
-          <div className="flex items-center">
-            {sizes.map((sizeValue, i) => (
-              <SizeCheckbox
-                key={i}
-                size={sizeValue}
-                checked={size.includes(sizeValue)}
-                onChange={() => handleCheckboxClick(sizeValue)}
+      <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
+        <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+          <form onSubmit={handleUpdate}>
+            <div className="mb-4">
+              <label className="text-white dark:text-gray-200" htmlFor="name">
+                Nome
+              </label>
+              <input
+                id="name"
+                placeholder="Nome"
+                onChange={(e) => setName(e.target.value)}
+                value={name || ""}
+                required
+                type="text"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
-            ))}
+            </div>
+
+            <div className="mb-4">
+              <label className="text-white dark:text-gray-200" htmlFor="price">
+                Preço
+              </label>
+              <input
+                id="price"
+                placeholder="Preço"
+                type="number"
+                step="0.01"
+                required
+                onChange={(e) => setPrice(e.target.value)}
+                value={price || ""}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="text-white dark:text-gray-200"
+                htmlFor="description"
+              >
+                Descrição
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Descrição"
+                required
+                rows="2"
+                cols="50"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description || ""}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              ></textarea>
+            </div>
+
+            <div className="flex justify-between">
+              {loading ? (
+                <Loading />
+              ) : (
+                <button
+                  className="px-8 py-2 text-white bg-green-500 rounded-md hover:bg-green-700 focus:bg-green-700 focus:outline-none"
+                  type="submit"
+                >
+                  Atualizar
+                </button>
+              )}
+            </div>
+          </form>
+
+          <div className="">
+            <div className="mb-4">
+              <span className="text-white dark:text-gray-200">Tamanhos:</span>
+              <div className="mt-2 flex">
+                {sizes.map((AllSizes, i) => (
+                  <SizeCheckbox
+                    key={i}
+                    size={AllSizes}
+                    checked={size.includes(AllSizes)}
+                    onChange={() => handleCheckboxClick(AllSizes)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+              <div className="mb-4">
+                <span className="text-white dark:text-gray-200">Categoria</span>
+                <select
+                  className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                  onChange={handleCategory}
+                  required
+                >
+                  <option value="">Selecione uma Categoria</option>
+                  {allCategories.map((category, index) => {
+                    return (
+                      <option value={category} key={index}>
+                        {category}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <span className="text-white dark:text-gray-200">Status:</span>
+                <select
+                  className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                  value={available}
+                  onChange={(e) => setAvailable(e.target.value === "true")}
+                >
+                  <option value={true}>Disponível</option>
+                  <option value={false}>Indisponível</option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <span className="text-white dark:text-gray-200">
+                  Em promoção:
+                </span>
+                <select
+                  className="block w-full mt-2 p-2 rounded-md bg-slate-200"
+                  value={onSale}
+                  onChange={(e) => setOnSale(e.target.value === "true")}
+                >
+                  <option value={true}>Sim</option>
+                  <option value={false}>Não</option>
+                </select>
+              </div>
+
+              {onSale ? (
+                <div className="mb-4">
+                  <span className="text-white dark:text-gray-200">
+                    Preço promocional
+                  </span>
+                  <input
+                    required
+                    placeholder="Preço promocional"
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setSalePrice(e.target.value)}
+                    value={salePrice || ""}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  />
+                </div>
+              ) : (
+                <div className="mb-4">
+                  <span className="text-white dark:text-gray-200">
+                    Preço promocional
+                  </span>
+                  <input
+                    disabled
+                    placeholder="Preço promocional"
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setSalePrice(e.target.value)}
+                    value={salePrice || ""}
+                    className="cursor-not-allowed block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </label>
+        </div>
+      </div>
 
-        <label>
-          <span>Descrição</span>
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            cols="50"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description || ""}
-          ></textarea>
-        </label>
+      {error && <p>{error}</p>}
 
-        <label>
-          <select value={available} onChange={handleAvailableChange}>
-            <option value={true}>Disponível</option>
-            <option value={false}>Indisponível</option>
-          </select>
-        </label>
-
-        <label>
-          <span>Em promoção:</span>
-          <select value={onSale} onChange={(e) => setOnSale(e.target.value)}>
-            <option value={true}>Sim</option>
-            <option value={false}>Não</option>
-          </select>
-        </label>
-
-        {/* Verifica se o produto está em promoção e exibe o preço promocional */}
-        {onSale === true ? (
-          <label>
-            <span>Preço promocional:</span>
-            <input
-              type="number"
-              step="0.01"
-              onChange={(e) => setSalePrice(e.target.value)}
-              value={salePrice || ""}
-            />
-          </label>
-        ) : (
-          <label>
-            <span>Preço promocional:</span>
-            <input type="number" disabled />
-          </label>
-        )}
-
-        <br />
-
-        <button type="submit">Atualizar</button>
-      </form>
       {error && <Message msg={error} type="error" />}
       {message && <Message msg={message} type="success" />}
     </div>

@@ -13,7 +13,10 @@ import {
   deleteProduct,
 } from "../../../slices/productSlice";
 import Loading from "../../../components/Loading/Loading";
-import { allCategories } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import {
+  allCategories,
+  formatPrice,
+} from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Profile = () => {
   const { id } = useParams();
@@ -61,14 +64,6 @@ const Profile = () => {
       </div>
     );
   }
-
-  const formatPrice = (price) => {
-    return price.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      minimumFractionDigits: 2,
-    });
-  };
 
   return (
     <div className="p-4">

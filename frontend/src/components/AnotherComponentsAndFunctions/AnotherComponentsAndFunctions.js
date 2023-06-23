@@ -27,3 +27,11 @@ export const allCategories = [
 ];
 
 export const sizes = ["PP", "P", "M", "G", "GG", "EXG"];
+
+export const formatPrice = (price) => {
+  return price.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
+};

@@ -178,7 +178,7 @@ const AddProduct = () => {
   }
 
   return (
-    <div className="">
+    <div>
       {id === userAuth._id && (
         <>
           {images.length > 0 && (
