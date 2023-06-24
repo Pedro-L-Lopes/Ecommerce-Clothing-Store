@@ -139,8 +139,16 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params; // Id que vem da url
 
-  const { name, price, size, description, onSale, salePrice, available } =
-    req.body; // Nome do produto
+  const {
+    name,
+    price,
+    size,
+    description,
+    onSale,
+    salePrice,
+    available,
+    category,
+  } = req.body; // Nome do produto
 
   const reqUser = req.user; // Usuário da requisição
 
@@ -187,6 +195,10 @@ const updateProduct = async (req, res) => {
 
   if (available) {
     product.available = available;
+  }
+
+  if (category) {
+    product.category = category;
   }
 
   await product.save();

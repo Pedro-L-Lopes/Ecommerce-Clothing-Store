@@ -65,6 +65,15 @@ const Profile = () => {
     );
   }
 
+  const filterFunctions = {
+    all: () => true,
+    available: (product) => product.available,
+    unavailable: (product) => !product.available,
+    onSale: (product) => product.onSale,
+    onSaleAvailable: (product) => product.available && product.onSale,
+    onSaleUnavailable: (product) => !product.available && product.onSale,
+  };
+
   return (
     <div className="p-4">
       {id === userAuth._id && (
@@ -100,28 +109,12 @@ const Profile = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               {products &&
                 products
+                  .filter(filterFunctions[theFilter] || filterFunctions.all)
                   .filter((product) => {
-                    if (theFilter === "all") {
-                      return true;
-                    } else if (theFilter === "available") {
-                      return product.available;
-                    } else if (theFilter === "unavailable") {
-                      return !product.available;
-                    } else if (theFilter === "onSale") {
-                      return product.onSale;
-                    } else if (theFilter === "onSaleAvailable") {
-                      return product.available && product.onSale;
-                    } else if (theFilter === "onSaleUnavailable") {
-                      return !product.available && product.onSale;
-                    }
-                    return true;
-                  })
-                  .filter((product) => {
-                    if (selectedCategory === "") {
-                      return true;
-                    } else {
-                      return product.category === selectedCategory;
-                    }
+                    return (
+                      selectedCategory === "" ||
+                      product.category === selectedCategory
+                    );
                   })
                   .map((product) => (
                     <div

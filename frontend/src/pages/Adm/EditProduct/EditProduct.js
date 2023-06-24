@@ -39,7 +39,7 @@ const EditProduct = () => {
   const [onSale, setOnSale] = useState(false);
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState();
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(product.category);
 
   const resetComponentMessage = () => {
     setTimeout(() => {
@@ -60,6 +60,7 @@ const EditProduct = () => {
       setOnSale(product.onSale);
       setSalePrice(product.salePrice);
       setAvailable(product.available);
+      setCategory(product.category);
     }
   }, [product, id]);
 
@@ -77,6 +78,7 @@ const EditProduct = () => {
       onSale: onSale,
       salePrice: salePrice,
       available: available,
+      category: category,
     };
 
     dispatch(updateProduct(updatedProduct));
@@ -93,35 +95,15 @@ const EditProduct = () => {
   }
 
   // Colocando/retirando tamanhos do array
-  const handleCheckboxClick = (value) => {
-    setSize((prevSize) => {
-      if (prevSize.includes(value)) {
-        return prevSize.filter((size) => size !== value);
-      } else {
-        return [...prevSize, value];
-      }
-    });
-  };
-
-  const handleCategory = (e) => {
-    if (e.target.value !== "") {
-      setCategory(e.target.value);
+  const handleCheckboxClick = (checkedSize) => {
+    if (size.includes(checkedSize)) {
+      setSize(size.filter((size) => size !== checkedSize));
+    } else {
+      setSize([...size, checkedSize]);
     }
   };
 
-  // const handleCheckboxClick = (size) => {
-  //   setSelectedSizes((prevSelectedSizes) => {
-  //     if (prevSelectedSizes.includes(size)) {
-  //       // Se o tamanho já estiver selecionado, remova-o da lista de selecionados
-  //       return prevSelectedSizes.filter(
-  //         (selectedSize) => selectedSize !== size
-  //       );
-  //     } else {
-  //       // Caso contrário, adicione-o à lista de selecionados
-  //       return [...prevSelectedSizes, size];
-  //     }
-  //   });
-  // };
+  console.log(category);
 
   return (
     <div>
@@ -210,13 +192,25 @@ const EditProduct = () => {
             <div className="mb-4">
               <span className="text-white dark:text-gray-200">Tamanhos:</span>
               <div className="mt-2 flex">
-                {sizes.map((AllSizes, i) => (
-                  <SizeCheckbox
-                    key={i}
-                    size={AllSizes}
-                    checked={size.includes(AllSizes)}
-                    onChange={() => handleCheckboxClick(AllSizes)}
-                  />
+                {sizes.map((size, i) => (
+                  <label className="flex items-center mr-2" key={i}>
+                    <input
+                      type="checkbox"
+                      value={size}
+                      checked={size.includes(size)}
+                      onChange={() => handleCheckboxClick(size)}
+                      className="form-checkbox mr-1 hidden"
+                    />
+                    <span
+                      className={`rounded-md h-8 w-8 flex items-center justify-center border border-gray-300 ${
+                        size.includes(size)
+                          ? "bg-green-500 text-white"
+                          : "text-gray-400"
+                      } cursor-pointer hover:opacity-75 transition-opacity`}
+                    >
+                      {size}
+                    </span>
+                  </label>
                 ))}
               </div>
             </div>
@@ -226,10 +220,14 @@ const EditProduct = () => {
                 <span className="text-white dark:text-gray-200">Categoria</span>
                 <select
                   className="block w-full mt-2 p-2 rounded-md bg-slate-200"
-                  onChange={handleCategory}
+                  onChange={(e) => setCategory(e.target.value)}
                   required
                 >
-                  <option value="">Selecione uma Categoria</option>
+                  <option value="">
+                    {product.category
+                      ? category
+                      : "Selecione uma categoria"}
+                  </option>
                   {allCategories.map((category, index) => {
                     return (
                       <option value={category} key={index}>
