@@ -224,9 +224,7 @@ const EditProduct = () => {
                   required
                 >
                   <option value="">
-                    {product.category
-                      ? category
-                      : "Selecione uma categoria"}
+                    {product.category ? category : "Selecione uma categoria"}
                   </option>
                   {allCategories.map((category, index) => {
                     return (
@@ -257,7 +255,7 @@ const EditProduct = () => {
                 <select
                   className="block w-full mt-2 p-2 rounded-md bg-slate-200"
                   value={onSale}
-                  onChange={(e) => setOnSale(e.target.value === "true")}
+                  onChange={(e) => setOnSale(e.target.value)}
                 >
                   <option value={true}>Sim</option>
                   <option value={false}>Não</option>
