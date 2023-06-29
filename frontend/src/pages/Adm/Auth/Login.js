@@ -1,16 +1,19 @@
 import Message from "../../../components/Message/Message";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 // Hooks
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "../../../slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -22,6 +25,7 @@ const Login = () => {
     };
 
     dispatch(login(user));
+    navigate("/dashboard");
   };
 
   useEffect(() => {

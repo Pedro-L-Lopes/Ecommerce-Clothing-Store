@@ -3,6 +3,7 @@ import Message from "../../../components/Message/Message";
 import { useState, useEffect } from "react";
 import { register, reset } from "../../../slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -24,6 +27,7 @@ const Register = () => {
     };
 
     dispatch(register(user));
+    navigate("/dashboard");
   };
 
   useEffect(() => {

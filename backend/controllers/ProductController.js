@@ -179,6 +179,7 @@ const updateProduct = async (req, res) => {
 
   if (size) {
     product.size = size;
+    // product.size = size.split(",").map((item) => item.trim());
   }
 
   if (description) {

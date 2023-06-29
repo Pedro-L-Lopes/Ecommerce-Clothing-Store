@@ -1,16 +1,20 @@
 // Components
 import Message from "../../../components/Message/Message";
 import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
+import Loading from "../../../components/Loading/Loading";
+
 import {
   allCategories,
   sizes,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+
 import { ReactSortable } from "react-sortablejs";
 import { arrayMoveImmutable } from "array-move";
+
+import { useNavigate } from "react-router-dom";
+
 import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
 import { BiTrash } from "react-icons/bi";
-import Loading from "../../../components/Loading/Loading";
-import { useNavigate } from "react-router-dom";
 
 // Hooks
 import { useState, useEffect, useRef } from "react";
@@ -127,6 +131,10 @@ const AddProduct = () => {
         productData.images.forEach((image) => {
           productFormData.append("images", image);
         });
+      } else if (key === "size") {
+        productData.size.forEach((size) => {
+          productFormData.append("size[]", size);
+        });
       } else {
         productFormData.append(key, productData[key]);
       }
@@ -176,6 +184,8 @@ const AddProduct = () => {
   if (loading) {
     return <Loading />;
   }
+
+  console.log(size);
 
   return (
     <div>

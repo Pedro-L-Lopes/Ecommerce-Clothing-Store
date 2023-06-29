@@ -1,11 +1,10 @@
 import { uploads } from "../../../utils/config";
 import Message from "../../../components/Message/Message";
-import { Link } from "react-router-dom";
 import { BsPencilFill, BsXLg } from "react-icons/bs";
 import { BiEditAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUserDetails } from "../../../slices/userSlice";
 import {
   resetMessage,

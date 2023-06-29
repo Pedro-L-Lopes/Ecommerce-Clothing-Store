@@ -1,5 +1,3 @@
-import styles from "./EditProduct.module.css";
-
 // Uploads
 import { uploads } from "../../../utils/config";
 
@@ -64,7 +62,7 @@ const EditProduct = () => {
     }
   }, [product, id]);
 
-  console.log(product.size);
+  console.log(size);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -86,24 +84,22 @@ const EditProduct = () => {
     resetComponentMessage();
   };
 
-  const handleAvailableChange = (e) => {
-    setAvailable(e.target.value);
-  };
-
   if (loading) {
     return <Loading />;
   }
 
   // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (checkedSize) => {
-    if (size.includes(checkedSize)) {
-      setSize(size.filter((size) => size !== checkedSize));
-    } else {
-      setSize([...size, checkedSize]);
-    }
-  };
+    const updatedSize = [...size];
 
-  console.log(category);
+    if (updatedSize.includes(checkedSize)) {
+      updatedSize.splice(updatedSize.indexOf(checkedSize), 1);
+    } else {
+      updatedSize.push(checkedSize);
+    }
+
+    setSize(updatedSize);
+  };
 
   return (
     <div>
@@ -192,25 +188,13 @@ const EditProduct = () => {
             <div className="mb-4">
               <span className="text-white dark:text-gray-200">Tamanhos:</span>
               <div className="mt-2 flex">
-                {sizes.map((size, i) => (
-                  <label className="flex items-center mr-2" key={i}>
-                    <input
-                      type="checkbox"
-                      value={size}
-                      checked={size.includes(size)}
-                      onChange={() => handleCheckboxClick(size)}
-                      className="form-checkbox mr-1 hidden"
-                    />
-                    <span
-                      className={`rounded-md h-8 w-8 flex items-center justify-center border border-gray-300 ${
-                        size.includes(size)
-                          ? "bg-green-500 text-white"
-                          : "text-gray-400"
-                      } cursor-pointer hover:opacity-75 transition-opacity`}
-                    >
-                      {size}
-                    </span>
-                  </label>
+                {sizes.map((AllSizes, i) => (
+                  <SizeCheckbox
+                    key={i}
+                    size={AllSizes}
+                    checked={size.includes(AllSizes)}
+                    onChange={() => handleCheckboxClick(AllSizes)}
+                  />
                 ))}
               </div>
             </div>
