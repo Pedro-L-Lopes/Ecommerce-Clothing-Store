@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-image: linear-gradient(to left, #ffca7b, #ffaebf);
-  box-shadow: 2px 2px 5px #e5e5e5;
+  background-color: white;
   padding: 0.1em 1em;
+  height: 70px;
 }
 
 .navLogo {

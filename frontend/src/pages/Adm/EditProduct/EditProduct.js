@@ -102,7 +102,7 @@ const EditProduct = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen bg-slate-800">
       <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
         {product.images &&
           product.images.map((image, index) => (
@@ -116,7 +116,7 @@ const EditProduct = () => {
           ))}
       </div>
 
-      <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
+      <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <form onSubmit={handleUpdate}>
             <div className="mb-4">

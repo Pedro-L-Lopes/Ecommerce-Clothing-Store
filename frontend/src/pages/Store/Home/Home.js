@@ -30,7 +30,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div> 
       <div className={styles.destaque}>
         <img src={destaque} alt="" />
       </div>

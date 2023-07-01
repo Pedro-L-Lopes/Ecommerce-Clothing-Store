@@ -168,7 +168,6 @@ const updateProduct = async (req, res) => {
     return;
   }
 
-  // Checando os campos alterados vieram
   if (name) {
     product.name = name;
   }
@@ -179,7 +178,6 @@ const updateProduct = async (req, res) => {
 
   if (size) {
     product.size = size;
-    // product.size = size.split(",").map((item) => item.trim());
   }
 
   if (description) {

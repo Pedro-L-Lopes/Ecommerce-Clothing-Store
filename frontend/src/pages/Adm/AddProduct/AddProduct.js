@@ -185,8 +185,6 @@ const AddProduct = () => {
     return <Loading />;
   }
 
-  console.log(size);
-
   return (
     <div>
       {id === userAuth._id && (
@@ -237,7 +235,7 @@ const AddProduct = () => {
                   <img
                     src={preview}
                     alt={`Preview ${index + 1}`}
-                    className="w-52 h-52 object-cover object-top rounded-md cursor-move"
+                    className="w-52 h-52 object-cover object-center rounded-md cursor-move"
                   />
                   <button
                     className="absolute top-0 right-0 text-slate-600 bg-white rounded hover:bg-red-700 hover:text-white transition-all focus:bg-red-700 focus:outline-none"
@@ -251,7 +249,7 @@ const AddProduct = () => {
             <BiRightArrowAlt className="mr-2 fill-slate-400" size="25px" />
           </div>
 
-          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
+          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <form onSubmit={submitHandle}>
                 <div className="mb-4">
