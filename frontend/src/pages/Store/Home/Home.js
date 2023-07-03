@@ -2,6 +2,7 @@ import styles from "./Home.module.css";
 
 // Components
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
+import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 import { Link } from "react-router-dom";
 
 // Hooks
@@ -12,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../../../slices/productSlice";
 
 // Imagens
-import destaque from "../../../images/destaque.jpg";
+import banner2 from "../../../images/banner2.jpg";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -30,9 +31,18 @@ const Home = () => {
   }
 
   return (
-    <div> 
-      <div className={styles.destaque}>
-        <img src={destaque} alt="" />
+    <main>
+      <div className="flex justify-center w-full">
+        <img
+          src={banner2}
+          alt="Banner promoção"
+          style={{ maxHeight: "80vh", width: "100%" }}
+          className="object-cover object-top rounded"
+        />
+      </div>
+
+      <div>
+        <CategoryCard />
       </div>
 
       <h2>Em promoção</h2>
@@ -62,7 +72,7 @@ const Home = () => {
               </div>
             ))}
       </div>
-    </div>
+    </main>
   );
 };
 
