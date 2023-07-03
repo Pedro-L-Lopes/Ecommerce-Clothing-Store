@@ -34,7 +34,7 @@ const Login = () => {
 
   return (
     <>
-      <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20 border-2 border-gray-600">
+      <section className="max-w-full p-6 mx-auto rounded-md shadow-md dark:bg-gray-800 mt-20 border-2 border-gray-600">
         <h1 className="text-xl text-center font-bold text-white capitalize dark:text-white m-auto">
           Login
         </h1>

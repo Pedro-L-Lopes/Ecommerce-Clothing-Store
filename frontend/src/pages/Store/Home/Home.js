@@ -46,7 +46,7 @@ const Home = () => {
       </div>
 
       <h2>Em promoção</h2>
-      <div className={styles.productsContainerBox}>
+      <div className="">
         {products &&
           products
             .filter((product) => product.available && product.onSale)
@@ -60,7 +60,7 @@ const Home = () => {
       </div>
 
       <h2>Ultimas novidades</h2>
-      <div className={styles.productsContainerBox}>
+      <div className="">
         {products &&
           products
             .filter((product) => product.available && !product.onSale)

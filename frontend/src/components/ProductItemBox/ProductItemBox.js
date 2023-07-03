@@ -16,17 +16,21 @@ const ProductItemBox = ({ product }) => {
   };
 
   return (
-    <div className={styles.productBox}>
+    <div className="flex w-40 h-44">
       {product.images &&
         product.images.map((image, index) => (
-          <img
-            key={index}
-            src={`${uploads}/products/${image.filename}`}
-            alt={product.name}
-          />
+          <div key={index} className="bg-white rounded-lg shadow-md p-4">
+            <img
+              src={`${uploads}/products/${image.filename}`}
+              alt={product.name}
+              className="w-full mb-4 rounded-md"
+            />
+            <p className="text-lg font-semibold mb-2">
+              {formatPrice(product.price)}
+            </p>
+            <p className="text-base">{product.name}</p>
+          </div>
         ))}
-      <p className={styles.productPriceBox}>{formatPrice(product.price)}</p>
-      <p className="co">{product.name}</p>
     </div>
   );
 };

@@ -225,7 +225,7 @@ const EditProduct = () => {
                 <select
                   className="block w-full mt-2 p-2 rounded-md bg-slate-200"
                   value={available}
-                  onChange={(e) => setAvailable(e.target.value === "true")}
+                  onChange={(e) => setAvailable(e.target.value)}
                 >
                   <option value={true}>Disponível</option>
                   <option value={false}>Indisponível</option>
