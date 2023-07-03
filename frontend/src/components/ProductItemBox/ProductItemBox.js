@@ -15,22 +15,23 @@ const ProductItemBox = ({ product }) => {
     });
   };
 
+  const firstImage = product.images ? product.images[0] : null;
+
   return (
-    <div className="flex w-40 h-44">
-      {product.images &&
-        product.images.map((image, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md p-4">
-            <img
-              src={`${uploads}/products/${image.filename}`}
-              alt={product.name}
-              className="w-full mb-4 rounded-md"
-            />
-            <p className="text-lg font-semibold mb-2">
-              {formatPrice(product.price)}
-            </p>
-            <p className="text-base">{product.name}</p>
+    <div className="w-44 p-2 m-2">
+      {firstImage && (
+        <div className="h-60 grid grid-cols-5">
+          <img
+            src={`${uploads}/products/${firstImage.filename}`}
+            alt={product.name}
+            className="w-44 h-56 flex items-center justify-center object-cover object-top mx-auto mb-2 col-span-5"
+          />
+          <div className="col-start-1 col-end-6">
+            <p className="text-lg font-bold">{formatPrice(product.price)}</p>
+            <p className="text-sm">{product.name}</p>
           </div>
-        ))}
+        </div>
+      )}
     </div>
   );
 };

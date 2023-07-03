@@ -46,7 +46,7 @@ const Home = () => {
       </div>
 
       <h2>Em promoção</h2>
-      <div className="">
+      <div className="flex">
         {products &&
           products
             .filter((product) => product.available && product.onSale)
@@ -59,7 +59,7 @@ const Home = () => {
             ))}
       </div>
 
-      <h2>Ultimas novidades</h2>
+      {/* <h2>Ultimas novidades</h2>
       <div className="">
         {products &&
           products
@@ -71,7 +71,7 @@ const Home = () => {
                 </Link>
               </div>
             ))}
-      </div>
+      </div> */}
     </main>
   );
 };
