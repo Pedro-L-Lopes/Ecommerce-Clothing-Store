@@ -211,7 +211,13 @@ const searchProducts = async (req, res) => {
 
   // Com a expressão regular diz que o q(o que estou procurando) está em qualquer lugar da string
   // O "i" ignora a case sensitive
-  const products = await Product.find({ name: new RegExp(q, "i") }).exec();
+  // const products = await Product.find({ name: new RegExp(q, "i") }).exec();
+
+  const query = {
+    $or: [{ name: new RegExp(q, "i") }, { category: new RegExp(q, "i") }],
+  };
+
+  const products = await Product.find(query).exec();
 
   res.status(200).json(products);
 };

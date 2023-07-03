@@ -59,8 +59,8 @@ const Home = () => {
             ))}
       </div>
 
-      {/* <h2>Ultimas novidades</h2>
-      <div className="">
+      <h2>Ultimas novidades</h2>
+      <div className="flex">
         {products &&
           products
             .filter((product) => product.available && !product.onSale)
@@ -71,7 +71,7 @@ const Home = () => {
                 </Link>
               </div>
             ))}
-      </div> */}
+      </div>
     </main>
   );
 };
