@@ -52,7 +52,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center items-center bg-slate-800 p-20 ml-10 rounded-lg">
       <div className="text-center">
         <h1 className="text-white text-5xl text">Store</h1>
         <h2 className="text-white">Insira a senha atual para alterar os dados</h2>

@@ -205,7 +205,6 @@ const updateProduct = async (req, res) => {
   res.status(200).json({ product, message: "Produto atualizado com sucesso." });
 };
 
-// Buscando produtos pelo titulo
 const searchProducts = async (req, res) => {
   const { q } = req.query; // Argumento q da querry string da url
 

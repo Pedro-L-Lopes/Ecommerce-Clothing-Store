@@ -17,6 +17,8 @@ import UnavailableProducts from "../src/pages/Adm/UnavailableProducts/Unavailabl
 import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 
+import Teste from "../src/pages/Teste"
+
 // Componentes
 import Navbar from "../src/components/Navbar/Navbar";
 import Footer from "../src/components/Footer/Footer";
@@ -62,6 +64,7 @@ function App() {
             />
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
+            <Route path="/teste" element={<Teste/>}/>
           </Routes>
         </div>
         {/* <Footer /> */}

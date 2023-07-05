@@ -16,19 +16,19 @@ const CategoryCard = () => {
     { id: 2, name: "Moleton", image: moleton },
     { id: 3, name: "Cropped", image: cropped },
     { id: 4, name: "Saias", image: saia },
-    { id: 4, name: "Vestidos", image: vestido },
+    { id: 5, name: "Vestidos", image: vestido },
   ];
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center overflow-hidden">
       {categories.map((category) => (
         <Link
           to={`/search?q=${encodeURIComponent(category.name)}`}
           key={category.id}
         >
-          <div className="flex flex-col items-center justify-center mx-4 w-60 rounded-2xl m-2">
+          <div className="flex flex-col items-center justify-center mx-4 w-60 h-60 rounded-2xl m-2">
             <img
-              className="w-44 bg-white sm:w-32 rounded-full object-cover shadow-md hover:shadow-gray-400 transition-all"
+              className="w-44 h-44 bg-white sm:w-32 rounded-full object-cover shadow-md hover:shadow-gray-400 transition-all"
               src={category.image}
               alt={category.name}
             />

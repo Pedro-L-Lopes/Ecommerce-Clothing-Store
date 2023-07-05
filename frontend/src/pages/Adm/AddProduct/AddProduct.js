@@ -191,65 +191,63 @@ const AddProduct = () => {
         <>
           {images.length > 0 && (
             <div className="flex items-center justify-center">
-              <h2 className="text-white text-center p-2 -mt-10">
+              <h2 className="text-slate-800 text-center p-2 -mt-10">
                 Arraste para ordenar as imagens
               </h2>
             </div>
           )}
-
-          <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
-            <label className="text-white dark:text-gray-200 absolute">
-              <input
-                className="hidden"
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFile}
-                multiple
-                required
-              />
-              {images.length === 0 && (
-                <span
-                  onClick={(e) => {
-                    e.preventDefault();
-                    fileInputRef.current.click();
-                  }}
-                  className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md w-full h-full p-10 shadow-md"
-                >
-                  Adicionar fotos
-                </span>
-              )}
-            </label>
-            <BiLeftArrowAlt className="mr-2 fill-slate-400" size="25px" />
-            <ReactSortable
-              list={previewImages}
-              setList={setPreviewImages}
-              onEnd={handleImageSortEnd}
-              className="flex"
-            >
-              {previewImages.map((preview, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-52 h-52 relative mr-1"
-                >
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-52 h-52 object-cover object-center rounded-md cursor-move"
-                  />
-                  <button
-                    className="absolute top-0 right-0 text-slate-600 bg-white rounded hover:bg-red-700 hover:text-white transition-all focus:bg-red-700 focus:outline-none"
-                    onClick={() => removeImage(index)}
+          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800 ml-4">
+            <div className="flex justify-center items-center ml-2 border border-slate-800 bg-slate-800 rounded min-w-full h-52 p-2">
+              <label className="text-white dark:text-gray-200 absolute">
+                <input
+                  className="hidden"
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFile}
+                  multiple
+                  required
+                />
+                {images.length === 0 && (
+                  <span
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fileInputRef.current.click();
+                    }}
+                    className="cursor-pointer bg-slate-600 hover:bg-slate-500 rounded-md w-full h-full p-10 shadow-md"
                   >
-                    <BiTrash size="26px" />
-                  </button>
-                </div>
-              ))}
-            </ReactSortable>
-            <BiRightArrowAlt className="mr-2 fill-slate-400" size="25px" />
-          </div>
-
-          <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
+                    Adicionar fotos
+                  </span>
+                )}
+              </label>
+              <BiLeftArrowAlt className="mr-2 fill-slate-400" size="25px" />
+              <ReactSortable
+                list={previewImages}
+                setList={setPreviewImages}
+                onEnd={handleImageSortEnd}
+                className="flex"
+              >
+                {previewImages.map((preview, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-52 h-52 relative mr-1"
+                  >
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-52 h-52 object-cover object-top rounded-md cursor-move"
+                    />
+                    <button
+                      className="absolute top-0 right-0 text-slate-600 bg-white rounded hover:bg-red-700 hover:text-white transition-all focus:bg-red-700 focus:outline-none"
+                      onClick={() => removeImage(index)}
+                    >
+                      <BiTrash size="26px" />
+                    </button>
+                  </div>
+                ))}
+              </ReactSortable>
+              <BiRightArrowAlt className="mr-2 fill-slate-400" size="25px" />
+            </div>
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <form onSubmit={submitHandle}>
                 <div className="mb-4">

@@ -32,7 +32,7 @@ const Home = () => {
 
   return (
     <main>
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full mt-4">
         <img
           src={banner2}
           alt="Banner promoção"
@@ -41,12 +41,14 @@ const Home = () => {
         />
       </div>
 
-      <div>
+      <div className="">
         <CategoryCard />
       </div>
 
-      <h2>Em promoção</h2>
-      <div className="flex">
+      <h2 className="text-xl text-white bg-black inline p-2 rounded">
+        Em promoção
+      </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {products &&
           products
             .filter((product) => product.available && product.onSale)
@@ -59,8 +61,18 @@ const Home = () => {
             ))}
       </div>
 
-      <h2>Ultimas novidades</h2>
-      <div className="flex">
+      <div className="flex items-center justify-center mt-14 gap-2">
+        <div>
+          <img src={banner2} alt="" />
+        </div>  
+        <div>
+          <img src={banner2} alt="" />
+        </div>
+      </div>
+
+      <h2 className="text-xl mt-12 -mb-8">Lançamentos</h2>
+
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7">
         {products &&
           products
             .filter((product) => product.available && !product.onSale)

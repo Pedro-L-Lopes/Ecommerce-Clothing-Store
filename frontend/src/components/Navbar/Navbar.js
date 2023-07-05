@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { CgShoppingBag } from "react-icons/cg";
 import Sidebar from "../Sidebar/Sidebar";
+import { allCategories } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 // Hooks
 import { useState, useEffect } from "react";
@@ -35,6 +36,14 @@ const Navbar = () => {
     }
   };
 
+  const [isOpen, setisOpen] = useState(false);
+
+  const [theCategory, setTheCategory] = useState("");
+
+  const handleCategoryClick = (category) => {
+    navigate(`/search?q=${encodeURIComponent(category)}`);
+  };
+
   return (
     <>
       {auth && user ? (
@@ -54,7 +63,32 @@ const Navbar = () => {
               <Link>Ofertas</Link>
             </div>
             <div className="hover:border-b-2 hover:border-black p-2">
-              <Link>Categorias</Link>
+              <div
+                onMouseOver={() => setisOpen(true)}
+                onMouseOut={() => setisOpen(false)}
+                className="hover:cursor-pointer"
+              >
+                Categorias
+              </div>
+              {isOpen && (
+                <div
+                  onMouseOver={() => setisOpen(true)}
+                  onMouseOut={() => setisOpen(false)}
+                  className="absolute bg-white hover:cursor-pointer p-6 mr-10 rounded"
+                >
+                  {allCategories &&
+                    allCategories.map((category, index) => (
+                      <option
+                        key={index}
+                        value={category}
+                        className="hover:underline"
+                        onClick={() => handleCategoryClick(category)}
+                      >
+                        {category}
+                      </option>
+                    ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex items-center">
