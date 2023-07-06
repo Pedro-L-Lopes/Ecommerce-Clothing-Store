@@ -1,9 +1,8 @@
-import styles from "./Home.module.css";
-
 // Components
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 import { Link } from "react-router-dom";
+import LazyLoad from "react-lazy-load";
 
 // Hooks
 import { useEffect } from "react";
@@ -15,6 +14,7 @@ import { addCart } from "../../../slices/cartSlice";
 
 // Imagens
 import banner2 from "../../../images/banner2.jpg";
+import destaque from "../../../images/destaque.jpg";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Home = () => {
   }, [dispatch]);
 
   const addProductToCart = (product) => {
-    dispatch(addCart(product))
+    dispatch(addCart(product));
   };
 
   if (loading) {
@@ -37,14 +37,16 @@ const Home = () => {
 
   return (
     <main>
-      {/* <div className="flex justify-center w-full mt-4">
-        <img
-          src={banner2}
-          alt="Banner promoção"
-          style={{ maxHeight: "80vh", width: "100%" }}
-          className="object-cover object-top rounded"
-        />
-      </div> */}
+      <div className="flex justify-center w-full mt-4">
+        <LazyLoad width={2000}>
+          <img
+            src={destaque}
+            alt="Banner promoção"
+            style={{ maxHeight: "60vh", width: "100%" }}
+            className="object-cover object-top rounded"
+          />
+        </LazyLoad>
+      </div>
 
       <div className="">
         <CategoryCard />
@@ -59,28 +61,39 @@ const Home = () => {
             .filter((product) => product.available && product.onSale)
             .map((product) => (
               <div key={product._id}>
-                {/* <Link to={`/products/${product._id}`}> */}
-                <ProductItemBox
-                  product={product}
-                  addProductToCart={addProductToCart}
-                />
-                {/* </Link> */}
+                <Link to={`/products/${product._id}`}>
+                  <ProductItemBox product={product} />
+                </Link>
               </div>
             ))}
       </div>
 
-      {/* <div className="flex items-center justify-center mt-14 gap-2">
+      <div className="flex items-center justify-center mt-14 gap-2">
         <div>
-          <img src={banner2} alt="" />
-        </div>  
-        <div>
-          <img src={banner2} alt="" />
+          <LazyLoad>
+            <img
+              src={banner2}
+              alt="banner de promoção"
+              style={{ maxHeight: "60vh", width: "100%" }}
+              className="object-cover object-top rounded"
+            />
+          </LazyLoad>
         </div>
-      </div> */}
+        <div>
+          <LazyLoad>
+            <img
+              src={banner2}
+              alt="banner de promoção"
+              style={{ maxHeight: "60vh", width: "100%" }}
+              className="object-cover object-top rounded"
+            />
+          </LazyLoad>
+        </div>
+      </div>
 
       <h2 className="text-xl mt-12 -mb-8">Lançamentos</h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {products &&
           products
             .filter((product) => product.available && !product.onSale)

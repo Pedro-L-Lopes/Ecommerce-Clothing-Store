@@ -18,7 +18,7 @@ import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 import Cart from "./pages/Store/Cart/Cart";
 
-import Teste from "../src/pages/Teste"
+import Teste from "../src/pages/Teste";
 
 // Componentes
 import Navbar from "../src/components/Navbar/Navbar";
@@ -65,11 +65,11 @@ function App() {
             />
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
-            <Route path="/teste" element={<Teste/>}/>
+            <Route path="/teste" element={<Teste />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -1,6 +1,6 @@
 // Components
 import { Link } from "react-router-dom";
-import { GrCart} from "react-icons/gr";
+import { GrCart } from "react-icons/gr";
 import Sidebar from "../Sidebar/Sidebar";
 import { allCategories } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
@@ -16,7 +16,7 @@ import logo from "../../images/21store.png";
 const Navbar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
-  const length = useSelector(state => state.cart.length)
+  const length = useSelector((state) => state.cart.length);
 
   const [query, setQuery] = useState("");
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -39,8 +39,6 @@ const Navbar = () => {
 
   const [isOpen, setisOpen] = useState(false);
 
-  const [theCategory, setTheCategory] = useState("");
-
   const handleCategoryClick = (category) => {
     navigate(`/search?q=${encodeURIComponent(category)}`);
   };
@@ -58,7 +56,7 @@ const Navbar = () => {
           </div>
           <div className="flex gap-4 ml-10">
             <div className="hover:border-b-2 hover:border-black p-2">
-              <Link>Lançamentos</Link>
+              <Link>Todos os produtos</Link>
             </div>
             <div className="hover:border-b-2 hover:border-black p-2">
               <Link>Ofertas</Link>
@@ -75,14 +73,14 @@ const Navbar = () => {
                 <div
                   onMouseOver={() => setisOpen(true)}
                   onMouseOut={() => setisOpen(false)}
-                  className="absolute bg-white hover:cursor-pointer p-6 mr-10 rounded"
+                  className="absolute bg-white border top-12 hover:cursor-pointer p-6 mr-10 rounded"
                 >
                   {allCategories &&
                     allCategories.map((category, index) => (
                       <option
                         key={index}
                         value={category}
-                        className="hover:underline"
+                        className="hover:underline text-lg"
                         onClick={() => handleCategoryClick(category)}
                       >
                         {category}
@@ -126,9 +124,15 @@ const Navbar = () => {
             </form>
             <div className="ml-4">
               <Link to="/cart">
-                <p className="text-center w-6 h-6 rounded-full absolute top-7 right-10 transform translate-x-1/2 -translate-y-1/2">
-                  {length === 0 ? "" : length}
-                </p>
+                <Link to="/cart">
+                  <p
+                    className={`text-center text-white ${
+                      length > 0 ? "bg-black" : ""
+                    } w-6 h-6 rounded-full absolute top-7 right-10 transform translate-x-1/2 -translate-y-1/2`}
+                  >
+                    {length > 0 ? length : ""}
+                  </p>
+                </Link>
                 <GrCart size={25} />
               </Link>
             </div>

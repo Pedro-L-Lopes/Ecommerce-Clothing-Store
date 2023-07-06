@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, addProductToCart }) => {
   return (
     <div id="product-item">
       <div className="Container-product">
@@ -30,6 +30,12 @@ const ProductItem = ({ product }) => {
       <h2>{product.description === "undefined" ? "" : product.description}</h2>
       <h2>{product.size}</h2>
       <h2>{product.category}</h2>
+      <button
+        className="text-white bg-black p-2 rounded"
+        onClick={() => addProductToCart(product)}
+      >
+        Adicionar ao carrinho
+      </button>
     </div>
   );
 };

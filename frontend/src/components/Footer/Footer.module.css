@@ -1,5 +1,6 @@
 .footer {
-  background-image: linear-gradient(to left, #fdbd5b, #ffaebf);
+  background: black;
+  color: white;
   height: 200px;
   display: flex;
   justify-content: center;

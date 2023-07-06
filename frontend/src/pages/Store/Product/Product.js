@@ -4,7 +4,6 @@ import { uploads } from "../../../utils/config";
 
 // Components
 import Message from "../../../components/Message/Message";
-import { Link } from "react-router-dom";
 import ProductItem from "../../../components/ProductItem/ProductItem";
 
 // Hooks
@@ -14,6 +13,7 @@ import { useParams } from "react-router-dom";
 
 // Redux
 import { getProduct } from "../../../slices/productSlice";
+import { addCart } from "../../../slices/cartSlice";
 
 const Product = () => {
   const { id } = useParams(); // Id do produto pela url
@@ -31,13 +31,17 @@ const Product = () => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
 
+  const addProductToCart = (product) => {
+    dispatch(addCart(product));
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
 
   return (
     <div>
-      <ProductItem product={product} />
+      <ProductItem product={product} addProductToCart={addProductToCart} />
     </div>
   );
 };

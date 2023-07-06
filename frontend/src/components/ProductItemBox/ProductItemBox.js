@@ -1,9 +1,11 @@
 import React from "react";
 
+import LazyLoad from "react-lazy-load";
+
 import { uploads } from "../../utils/config";
 import { formatPrice } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
-const ProductItemBox = ({ product, addProductToCart }) => {
+const ProductItemBox = ({ product }) => {
   const firstImage = product.images ? product.images[0] : null;
   return (
     <div>
@@ -11,11 +13,13 @@ const ProductItemBox = ({ product, addProductToCart }) => {
         <div className="h-64">
           {firstImage && (
             <>
-              <img
-                src={`${uploads}/products/${firstImage.filename}`}
-                alt={product.name}
-                className="w-64 h-80 object-cover object-top mx-auto rounded mb-2"
-              />
+              <LazyLoad>
+                <img
+                  src={`${uploads}/products/${firstImage.filename}`}
+                  alt={product.name}
+                  className="w-64 h-80 object-cover object-top mx-auto rounded mb-2"
+                />
+              </LazyLoad>
               <div className="line-clamp-2 ml-4">
                 <p className="text-sm ml-2">{product.name}</p>
                 {product.onSale ? (
@@ -33,9 +37,6 @@ const ProductItemBox = ({ product, addProductToCart }) => {
                   </p>
                 )}
               </div>
-              <button className="bg-red-600 p-2" onClick={() => addProductToCart(product)}>
-                Adicionar
-              </button>
             </>
           )}
         </div>
