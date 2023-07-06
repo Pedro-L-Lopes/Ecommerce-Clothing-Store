@@ -1,5 +1,4 @@
 // Requisição http que tem haver com a autenticação do usuário // Register // Login
-
 import { api, requestConfig } from "../utils/config";
 
 // Registrar usuário

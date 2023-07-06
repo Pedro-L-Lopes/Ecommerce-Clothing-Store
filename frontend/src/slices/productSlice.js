@@ -9,6 +9,7 @@ const initialState = {
   success: false,
   loading: false,
   message: null,
+  cartItems: ["teste"],
 };
 // Publicando produto
 export const publishProduct = createAsyncThunk(

@@ -16,6 +16,7 @@ import Search from "../src/pages/Store/Search/Search";
 import UnavailableProducts from "../src/pages/Adm/UnavailableProducts/UnavailableProducts";
 import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
+import Cart from "./pages/Store/Cart/Cart";
 
 import Teste from "../src/pages/Teste"
 
@@ -65,6 +66,7 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
             <Route path="/teste" element={<Teste/>}/>
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
         {/* <Footer /> */}

@@ -1,6 +1,4 @@
 // Requisição http que tem haver com os produtos
-
-import { json } from "react-router-dom";
 import { api, requestConfig } from "../utils/config";
 
 // Publicando produto

@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // Redux
 import { getAllProducts } from "../../../slices/productSlice";
+import { addCart } from "../../../slices/cartSlice";
 
 // Imagens
 import banner2 from "../../../images/banner2.jpg";
@@ -26,20 +27,24 @@ const Home = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
+  const addProductToCart = (product) => {
+    dispatch(addCart(product))
+  };
+
   if (loading) {
     return <p>Carregando</p>;
   }
 
   return (
     <main>
-      <div className="flex justify-center w-full mt-4">
+      {/* <div className="flex justify-center w-full mt-4">
         <img
           src={banner2}
           alt="Banner promoção"
           style={{ maxHeight: "80vh", width: "100%" }}
           className="object-cover object-top rounded"
         />
-      </div>
+      </div> */}
 
       <div className="">
         <CategoryCard />
@@ -54,21 +59,24 @@ const Home = () => {
             .filter((product) => product.available && product.onSale)
             .map((product) => (
               <div key={product._id}>
-                <Link to={`/products/${product._id}`}>
-                  <ProductItemBox product={product} />
-                </Link>
+                {/* <Link to={`/products/${product._id}`}> */}
+                <ProductItemBox
+                  product={product}
+                  addProductToCart={addProductToCart}
+                />
+                {/* </Link> */}
               </div>
             ))}
       </div>
 
-      <div className="flex items-center justify-center mt-14 gap-2">
+      {/* <div className="flex items-center justify-center mt-14 gap-2">
         <div>
           <img src={banner2} alt="" />
         </div>  
         <div>
           <img src={banner2} alt="" />
         </div>
-      </div>
+      </div> */}
 
       <h2 className="text-xl mt-12 -mb-8">Lançamentos</h2>
 

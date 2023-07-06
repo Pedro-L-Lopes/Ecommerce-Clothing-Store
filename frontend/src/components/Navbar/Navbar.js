@@ -1,6 +1,6 @@
 // Components
 import { Link } from "react-router-dom";
-import { CgShoppingBag } from "react-icons/cg";
+import { GrCart} from "react-icons/gr";
 import Sidebar from "../Sidebar/Sidebar";
 import { allCategories } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
@@ -16,6 +16,7 @@ import logo from "../../images/21store.png";
 const Navbar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
+  const length = useSelector(state => state.cart.length)
 
   const [query, setQuery] = useState("");
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -124,8 +125,11 @@ const Navbar = () => {
               </button>
             </form>
             <div className="ml-4">
-              <Link to="/">
-                <CgShoppingBag size={22} />
+              <Link to="/cart">
+                <p className="text-center w-6 h-6 rounded-full absolute top-7 right-10 transform translate-x-1/2 -translate-y-1/2">
+                  {length === 0 ? "" : length}
+                </p>
+                <GrCart size={25} />
               </Link>
             </div>
           </div>

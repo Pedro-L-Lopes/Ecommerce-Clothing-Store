@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice"; // Renomeio o slice aqui para authReducer
 import userReducer from "./slices/userSlice";
 import productSlice from "./slices/productSlice";
+import cartReducer from "./slices/cartSlice";
 
 export const store = configureStore({
   // Onde todos os Contextos (dados) da aplicação serão salvos para serem distribuidos para a aplicação (+- assim)
@@ -12,5 +13,6 @@ export const store = configureStore({
     auth: authReducer, // Nome auth dado em authSlice no createSlice
     user: userReducer,
     product: productSlice,
+    cart: cartReducer,
   },
 });
