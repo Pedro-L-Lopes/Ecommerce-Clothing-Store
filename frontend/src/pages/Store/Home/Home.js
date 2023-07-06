@@ -53,12 +53,13 @@ const Home = () => {
       </div>
 
       <h2 className="text-xl text-white bg-black inline p-2 rounded">
-        Em promoção
+        Alguns em promoção
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {products &&
           products
             .filter((product) => product.available && product.onSale)
+            .slice(0, 9)
             .map((product) => (
               <div key={product._id}>
                 <Link to={`/products/${product._id}`}>
@@ -66,6 +67,13 @@ const Home = () => {
                 </Link>
               </div>
             ))}
+        {products &&
+          products.filter((product) => product.available && product.onSale)
+            .length > 9 && (
+            <div className="flex justify-center items-center w-full md:w-52 sm:w-32 lg:w-72 lg:h-80 mt-10 mb-8">
+              <Link to="/promotions">Ver mais</Link>
+            </div>
+          )}
       </div>
 
       <div className="flex items-center justify-center mt-14 gap-2">
