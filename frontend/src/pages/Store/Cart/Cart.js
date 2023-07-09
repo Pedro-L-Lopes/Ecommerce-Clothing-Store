@@ -8,8 +8,8 @@ const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
-  const removeProductFromCart = (id) => {
-    dispatch(removeCart(id));
+  const removeProductFromCart = (cartItemId) => {
+    dispatch(removeCart(cartItemId));
   };
 
   const calculateTotalPrice = () => {
