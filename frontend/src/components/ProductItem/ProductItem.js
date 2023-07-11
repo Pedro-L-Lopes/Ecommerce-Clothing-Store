@@ -15,11 +15,12 @@ const ProductItem = ({ product, addProductToCart }) => {
   };
 
   return (
-    <div id="product-item">
+    <div className="bg-gray-500">
       {/* Renderizar as imagens do produto */}
       {product.images &&
         product.images.map((image, index) => (
           <img
+            className="w-48 h-52"
             key={index}
             src={`${uploads}/products/${image.filename}`}
             alt={product.name}
@@ -38,15 +39,6 @@ const ProductItem = ({ product, addProductToCart }) => {
           <option value="M">M</option>
           <option value="L">L</option>
         </select>
-      </label>
-      <label>
-        Quantidade:
-        <input
-          type="number"
-          value={selectedQuantity}
-          min={1}
-          onChange={(e) => setSelectedQuantity(Number(e.target.value))}
-        />
       </label>
       <button
         className="text-white bg-black p-2 rounded"

@@ -17,6 +17,7 @@ import UnavailableProducts from "../src/pages/Adm/UnavailableProducts/Unavailabl
 import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 import Cart from "./pages/Store/Cart/Cart";
+import AllProducts from "./pages/Store/AllProducts/AllProducts";
 
 import Teste from "../src/pages/Teste";
 
@@ -67,6 +68,7 @@ function App() {
             <Route path="/products/:id" element={<Product />} />
             <Route path="/teste" element={<Teste />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/allproducts" element={<AllProducts />} />
           </Routes>
         </div>
         <Footer />

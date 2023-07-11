@@ -12,11 +12,17 @@ import { useNavigate } from "react-router-dom";
 
 // Images and Svg
 import logo from "../../images/21store.png";
+import Product from "../../pages/Store/Product/Product";
 
 const Navbar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
-  const length = useSelector((state) => state.cart.length);
+  const cart = useSelector((state) => state.cart);
+
+  const totalQuantity = cart.reduce(
+    (accumulator, product) => accumulator + product.quantity,
+    0
+  );
 
   const [query, setQuery] = useState("");
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -56,7 +62,7 @@ const Navbar = () => {
           </div>
           <div className="flex gap-4 ml-10">
             <div className="hover:border-b-2 hover:border-black p-2">
-              <Link>Todos os produtos</Link>
+              <Link to="/allproducts">Todos os produtos</Link>
             </div>
             <div className="hover:border-b-2 hover:border-black p-2">
               <Link>Promoções</Link>
@@ -127,10 +133,10 @@ const Navbar = () => {
                 <Link to="/cart">
                   <p
                     className={`text-center text-white ${
-                      length > 0 ? "bg-black" : ""
+                      totalQuantity > 0 ? "bg-black" : ""
                     } w-6 h-6 rounded-full absolute top-7 right-10 transform translate-x-1/2 -translate-y-1/2`}
                   >
-                    {length > 0 ? length : ""}
+                    {totalQuantity > 0 ? totalQuantity : ""}
                   </p>
                 </Link>
                 <GrCart size={25} />

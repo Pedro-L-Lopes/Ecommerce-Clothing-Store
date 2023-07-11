@@ -143,12 +143,12 @@ const AddProduct = () => {
     await dispatch(publishProduct(productFormData));
 
     setName("");
-    setPrice("");
+    setPrice(0);
     setDescription("");
     setSize([]);
     setAvailable(true);
     setOnSale(false);
-    setSalePrice("");
+    setSalePrice(0);
     setPreviewImages([]);
     setImages([]);
 

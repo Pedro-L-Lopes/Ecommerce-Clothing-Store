@@ -21,13 +21,13 @@ const ProductItemBox = ({ product }) => {
                 />
               </LazyLoad>
               <div className="line-clamp-2 ml-4">
-                <p className="text-sm ml-2">{product.name}</p>
+                <p className="text-sm text-gray-400 ml-2">{product.name}</p>
                 {product.onSale ? (
                   <div className="flex items-center">
                     <p className="text-lg font-bold">
                       {formatPrice(product.salePrice)}
                     </p>
-                    <p className="text-red-400 text-sm font-bold ml-2 line-through">
+                    <p className="text-gray-400 text-sm font-bold ml-2 line-through">
                       {formatPrice(product.price)}
                     </p>
                   </div>

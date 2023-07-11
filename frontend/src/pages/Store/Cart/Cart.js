@@ -16,7 +16,8 @@ const Cart = () => {
     let totalPrice = 0;
     cart.forEach((product) => {
       const productPrice = product.onSale ? product.salePrice : product.price;
-      totalPrice += productPrice;
+      const productAndQuantity = productPrice * product.quantity;
+      totalPrice += productAndQuantity  ;
     });
     return totalPrice;
   };
@@ -38,6 +39,7 @@ const Cart = () => {
           </>
         )}
         <p>Total: {formatPrice(calculateTotalPrice())}</p>
+        <button className="text-white bg-slate-800 p-2 m-2 rounded-md">Finalizar compra</button>
       </div>
     </div>
   );

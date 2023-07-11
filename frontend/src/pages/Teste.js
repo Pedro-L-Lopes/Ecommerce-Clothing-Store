@@ -32,3 +32,22 @@ const SelectWithHover = () => {
 };
 
 export default SelectWithHover;
+
+// removeCart: (state, action) => {
+//   const { cartItemId } = action.payload;
+
+//   const existingItemIndex = state.findIndex(
+//     (item) => item.cartItemId === cartItemId
+//   );
+
+//   if (existingItemIndex !== -1) {
+//     const existingItem = state[existingItemIndex];
+//     if (existingItem.quantity > 1) {
+//       existingItem.quantity -= 1;
+//     } else {
+//       state.splice(existingItemIndex, 1);
+//     }
+//   }
+
+//   localStorage.setItem("cart", JSON.stringify(state));
+// },
