@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 
 import "./Search.css";
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
+import ProductFilter from "../../../components/ProductFilter/ProductFilter";
 
 const Search = () => {
   const query = useQuery();
@@ -18,6 +19,9 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [promotionFilter, setPromotionFilter] = useState("");
+
   useEffect(() => {
     dispatch(searchProducts(search));
   }, [dispatch, search]);
@@ -26,13 +30,41 @@ const Search = () => {
     setCurrentPage(selected);
   };
 
-  const renderProducts = () => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+  const handleCategoryFilterChange = (category) => {
+    setCategoryFilter(category);
+    setCurrentPage(0);
+  };
 
+  const handlePromotionFilterChange = (promotion) => {
+    setPromotionFilter(promotion);
+    setCurrentPage(0);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    let isCategoryMatch = true;
+    let isPromotionMatch = true;
+
+    if (categoryFilter) {
+      isCategoryMatch = product.category === categoryFilter;
+    }
+
+    if (promotionFilter === "true") {
+      isPromotionMatch = product.onSale;
+    } else if (promotionFilter === "false") {
+      isPromotionMatch = !product.onSale;
+    }
+
+    return isCategoryMatch && isPromotionMatch;
+  });
+
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const renderProducts = () => {
     return (
-      products &&
-      products.slice(startIndex, endIndex).map((product) => (
+      displayedProducts &&
+      displayedProducts.map((product) => (
         <div key={product._id}>
           <Link to={`/products/${product._id}`}>
             <ProductItemBox product={product} />
@@ -48,6 +80,12 @@ const Search = () => {
 
   return (
     <div id="search">
+      <ProductFilter
+        categoryFilter={categoryFilter}
+        promotionFilter={promotionFilter}
+        onCategoryChange={handleCategoryFilterChange}
+        onPromotionChange={handlePromotionFilterChange}
+      />
       <h2>Resultado para: {search}</h2>
       <div id="products-container-box">{renderProducts()}</div>
       {products && products.length === 0 && (
@@ -57,7 +95,7 @@ const Search = () => {
         previousLabel={"Anterior"}
         nextLabel={"Próximo"}
         breakLabel={"..."}
-        pageCount={Math.ceil(products.length / itemsPerPage)}
+        pageCount={Math.ceil(filteredProducts.length / itemsPerPage)}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { getProduct } from "../../../slices/productSlice";
 import ProductItem from "../../../components/ProductItem/ProductItem";
 import { addCart } from "../../../slices/cartSlice";
-import { Link } from "react-router-dom";
 import CartCard from "../../../components/CartCard/CartCard";
 
 const Product = () => {
@@ -32,7 +31,7 @@ const Product = () => {
     return <p>Carregando...</p>;
   }
 
-  console.log(product)
+  console.log(product);
 
   return (
     <div>

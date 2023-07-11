@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import chooseProductSize from "../components/chooseProductSize/chooseProductSize";
 
 const SelectWithHover = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,20 +14,10 @@ const SelectWithHover = () => {
 
   return (
     <div>
-      <div
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      >
-        Hover para abrir o select
+      TESTE
+      <div>
+        <chooseProductSize />
       </div>
-
-      {isOpen && (
-        <select>
-          <option value="option1">Opção 1</option>
-          <option value="option2">Opção 2</option>
-          <option value="option3">Opção 3</option>
-        </select>
-      )}
     </div>
   );
 };

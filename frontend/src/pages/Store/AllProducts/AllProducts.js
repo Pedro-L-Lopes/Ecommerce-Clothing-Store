@@ -1,45 +1,66 @@
-// Components
-import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
-import CategoryCard from "../../../components/CategoryCard/CategoryCard";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import LazyLoad from "react-lazy-load";
+import { getAllProducts } from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
 
-// Hooks
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-// Redux
-import { getAllProducts } from "../../../slices/productSlice";
-import { addCart } from "../../../slices/cartSlice";
+import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
+import ProductFilter from "../../../components/ProductFilter/ProductFilter";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth);
   const { products, loading } = useSelector((state) => state.product);
 
-  // Variáveis para controle da paginação
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 15; // Número de itens por página
+  const itemsPerPage = 15;
 
-  // Carregando todos os produtos
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [promotionFilter, setPromotionFilter] = useState("");
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  const addProductToCart = (product) => {
-    dispatch(addCart(product));
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
-  // Função para exibir os produtos da página atual
-  const renderProducts = () => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+  const handleCategoryFilterChange = (category) => {
+    setCategoryFilter(category);
+    setCurrentPage(0);
+  };
 
+  const handlePromotionFilterChange = (promotion) => {
+    setPromotionFilter(promotion);
+    setCurrentPage(0);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    let isCategoryMatch = true;
+    let isPromotionMatch = true;
+
+    if (categoryFilter) {
+      isCategoryMatch = product.category === categoryFilter;
+    }
+
+    if (promotionFilter === "true") {
+      isPromotionMatch = product.onSale;
+    } else if (promotionFilter === "false") {
+      isPromotionMatch = !product.onSale;
+    }
+
+    return isCategoryMatch && isPromotionMatch;
+  });
+
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const renderProducts = () => {
     return (
-      products &&
-      products.slice(startIndex, endIndex).map((product) => (
+      displayedProducts &&
+      displayedProducts.map((product) => (
         <div key={product._id}>
           <Link to={`/products/${product._id}`}>
             <ProductItemBox product={product} />
@@ -49,17 +70,18 @@ const AllProducts = () => {
     );
   };
 
-  // Função para atualizar a página atual ao clicar na paginação
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
-
   if (loading) {
     return <p>Carregando</p>;
   }
 
   return (
     <main>
+      <ProductFilter
+        categoryFilter={categoryFilter}
+        promotionFilter={promotionFilter}
+        onCategoryChange={handleCategoryFilterChange}
+        onPromotionChange={handlePromotionFilterChange}
+      />
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {renderProducts()}
       </div>
@@ -67,7 +89,7 @@ const AllProducts = () => {
         previousLabel={"Anterior"}
         nextLabel={"Próximo"}
         breakLabel={"..."}
-        pageCount={Math.ceil(products.length / itemsPerPage)}
+        pageCount={Math.ceil(filteredProducts.length / itemsPerPage)}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}
