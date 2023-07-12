@@ -12,7 +12,7 @@ const Product = () => {
 
   const cart = useSelector((state) => state.cart);
 
-  const { product, loading, error, message } = useSelector(
+  const { products, product, loading, error, message } = useSelector(
     (state) => state.product
   );
 
@@ -35,7 +35,11 @@ const Product = () => {
 
   return (
     <div>
-      <ProductItem product={product} addProductToCart={addProductToCart} />
+      <ProductItem
+        product={product}
+        products={products}
+        addProductToCart={addProductToCart}
+      />
       {cartMessage && <CartCard cart={cart} close={() => setCartMessage("")} />}
     </div>
   );

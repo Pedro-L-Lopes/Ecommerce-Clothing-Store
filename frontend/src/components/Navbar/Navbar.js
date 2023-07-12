@@ -54,7 +54,7 @@ const Navbar = () => {
       {auth && user ? (
         <Sidebar user={user} />
       ) : (
-        <nav className="flex -mt-1 items-center justify-between flex-wrap bg-white py-4 lg:px-12 shadow border-solid border-t-2 border-blue-700 fixed top-0 w-full">
+        <nav className="flex z-10 -mt-1 items-center justify-between flex-wrap bg-white py-4 lg:px-12 shadow border-solid border-t-2 border-blue-700 fixed top-0 w-full">
           <div className="flex items-center flex-shrink-0 mr-16">
             <Link to="/">
               <img src={logo} alt="Logo da loja" className="w-16" />

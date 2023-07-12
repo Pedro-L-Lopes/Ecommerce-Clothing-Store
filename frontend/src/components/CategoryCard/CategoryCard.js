@@ -26,7 +26,7 @@ const CategoryCard = () => {
           to={`/search?q=${encodeURIComponent(category.name)}`}
           key={category.id}
         >
-          <div className="flex flex-col items-center justify-center mx-4 w-60 h-60 rounded-2xl m-2">
+          <div className="flex flex-col items-center justify-center w-60 h-60 rounded-2xl m-2">
             <img
               className="w-48 h-48 bg-white sm:w-44 rounded-md object-cover object-top shadow-md hover:w-52 hover:object-top transition-all"
               src={category.image}
