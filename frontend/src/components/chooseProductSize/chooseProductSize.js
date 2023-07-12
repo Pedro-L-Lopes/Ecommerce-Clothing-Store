@@ -1,10 +1,10 @@
 import React from "react";
 
 const ChooseProductSize = ({
-  product,
   productSizes,
   selectedSize,
   setSelectedSize,
+  cartMsg,
 }) => {
   return (
     <div className="flex items-center">
@@ -13,6 +13,7 @@ const ChooseProductSize = ({
           <ChooseSizeButton
             key={size}
             size={size}
+            cartMsg={cartMsg}
             checked={selectedSize === size}
             onChange={() => setSelectedSize(size)}
           />
@@ -33,11 +34,11 @@ const ChooseSizeButton = ({ size, checked, onChange, cartMsg }) => {
         required
       />
       <span
-        className={`rounded-md h-10 w-10 flex items-center justify-center border ${
-          cartMsg ? "bg-red-500" : ""
+        className={`rounded-md h-12 w-12 flex items-center justify-center border ${
+          cartMsg ? "border border-red-600" : ""
         } border-gray-300 ${
           checked ? "bg-green-500 text-white" : "text-gray-400"
-        } cursor-pointer hover:opacity-75 transition-opacity `}
+        } cursor-pointer hover:opacity-75 hover:bg-green-100 hover:text-black transition-opacity `}
       >
         {size}
       </span>
