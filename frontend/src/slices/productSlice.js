@@ -73,6 +73,7 @@ export const updateProduct = createAsyncThunk(
         salePrice: productData.salePrice,
         available: productData.available,
         category: productData.category,
+        tags: productData.tags,
       },
       productData.id,
       token

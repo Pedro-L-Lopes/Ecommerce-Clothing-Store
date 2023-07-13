@@ -17,6 +17,7 @@ const createProduct = async (req, res) => {
     salePrice,
     available,
     category,
+    tags,
   } = req.body;
 
   const images = req.files.map((file) => ({ filename: file.filename }));
@@ -24,6 +25,8 @@ const createProduct = async (req, res) => {
   const reqUser = req.user; // Usuário da requisição
 
   const user = await User.findById(reqUser._id);
+
+  const tagArray = tags.split(",").map((tag) => tag.trim());
 
   // Criando produto
   const newProduct = await Product.create({
@@ -36,6 +39,7 @@ const createProduct = async (req, res) => {
     salePrice,
     available,
     category,
+    tags: tagArray,
     userId: user._id,
     userName: user.name,
   });
@@ -103,7 +107,7 @@ const deleteProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   // Buscando todos os produtos = find({}) // sort() = ordenar  // exec() = executar
   const products = await Product.find({})
-    .sort([["createdAt", -1]])
+    .sort([["updatedAt", -1]])
     .exec();
 
   return res.status(200).json(products);
@@ -148,6 +152,7 @@ const updateProduct = async (req, res) => {
     salePrice,
     available,
     category,
+    tags,
   } = req.body; // Nome do produto
 
   const reqUser = req.user; // Usuário da requisição
@@ -200,6 +205,10 @@ const updateProduct = async (req, res) => {
     product.category = category;
   }
 
+  if (tags) {
+    product.tags = tags;
+  }
+
   await product.save();
 
   res.status(200).json({ product, message: "Produto atualizado com sucesso." });
@@ -213,7 +222,11 @@ const searchProducts = async (req, res) => {
   // const products = await Product.find({ name: new RegExp(q, "i") }).exec();
 
   const query = {
-    $or: [{ name: new RegExp(q, "i") }, { category: new RegExp(q, "i") }],
+    $or: [
+      { name: new RegExp(q, "i") },
+      { category: new RegExp(q, "i") },
+      { tags: new RegExp(q, "i") },
+    ],
   };
 
   const products = await Product.find(query).exec();

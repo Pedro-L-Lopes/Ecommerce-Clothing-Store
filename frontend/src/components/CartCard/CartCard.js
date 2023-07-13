@@ -1,31 +1,50 @@
 import React, { useEffect } from "react";
 import { uploads } from "../../utils/config";
 import { Link } from "react-router-dom";
+import { formatPrice } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const CartCard = ({ cart, close }) => {
   useEffect(() => {
-    document.body.style.overflow = "hidden"; // Desabilitar rolagem quando o componente é montado
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "auto"; // Restaurar rolagem quando o componente é desmontado
+      document.body.style.overflow = "auto";
     };
   }, []);
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-      <div className="bg-white p-8">
-        <h2>Meu Carrinho</h2>
+      <div className="bg-white p-8 rounded">
+        <h2 className="text-white text-xl font-bold text-center p-2 bg-black rounded">
+          Meu Carrinho
+        </h2>
         {cart && cart.length > 0 ? (
           cart.map((product) => (
-            <div className="w-20 h-24" key={product.cartItemId}>
+            <div
+              className="flex items-center justify-start mt-1"
+              key={product.cartItemId}
+            >
               <img
                 className="w-10 h-10"
                 src={`${uploads}/products/${product.images[0].filename}`}
                 alt={product.name}
               />
-              <div>
+              <div className="ml-2">
                 <p>{product.name}</p>
-                <p>{product.onSale ? product.salePrice : product.price}</p>
-                <p>Quantity: {product.quantity}</p>
+                <p>Quantidade: {product.quantity}</p>
+              </div>
+              <div className="ml-2">
+                <p className=" font-bold">
+                  {product.onSale
+                    ? formatPrice(product.salePrice * product.quantity)
+                    : formatPrice(product.price * product.quantity)}
+                </p>
+                <p className="">
+                  (
+                  {formatPrice(
+                    product.onSale ? product.salePrice : product.price
+                  )}
+                  <span className="ml-1">Cada</span>)
+                </p>
               </div>
             </div>
           ))
@@ -33,9 +52,13 @@ const CartCard = ({ cart, close }) => {
           <p>O carrinho está vazio.</p>
         )}
         <div className="">
-          <button onClick={close} className="bg-gray-500 p-2 m-2 rounded">Continuar comprando</button>
+          <button onClick={close} className="bg-gray-500 p-2 m-2 rounded">
+            Continuar comprando
+          </button>
           <Link to="/cart">
-            <button className="bg-slate-500 p-2 m-2 rounded">Ir para o carrinho</button>
+            <button className="bg-slate-500 p-2 m-2 rounded">
+              Ir para o carrinho
+            </button>
           </Link>
         </div>
       </div>

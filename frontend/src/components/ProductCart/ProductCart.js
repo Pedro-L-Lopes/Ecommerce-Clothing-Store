@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { uploads } from "../../utils/config";
 import { removeCart, updateCartQuantity } from "../../slices/cartSlice";
+import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 
 const ProductCart = ({ product }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(product.quantity);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -31,8 +33,9 @@ const ProductCart = ({ product }) => {
     );
   };
 
-  const removeProductFromCart = () => {
+  const confirmemoveProduct = () => {
     dispatch(removeCart(product.cartItemId));
+    setShowDeleteModal(false);
   };
 
   return (
@@ -64,11 +67,21 @@ const ProductCart = ({ product }) => {
               +1
             </button>
           </div>
-          <button onClick={removeProductFromCart} className="bg-red-600">
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="bg-red-600"
+          >
             Remover
           </button>
         </div>
       </div>
+      {showDeleteModal && (
+        <DeleteConfirmation
+          title={"Remover produto do carrinho?"}
+          close={() => setShowDeleteModal(false)}
+          remove={() => confirmemoveProduct()}
+        />
+      )}
     </div>
   );
 };

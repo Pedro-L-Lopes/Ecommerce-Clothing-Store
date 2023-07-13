@@ -95,6 +95,11 @@ const AllProducts = () => {
         onPageChange={handlePageChange}
         containerClassName={"pagination"}
         activeClassName={"active"}
+        className="flex mt-10 p-2"
+        previousClassName="text-white bg-black rounded p-2 mt-2 mr-2"
+        nextClassName="text-white bg-black rounded p-2 mt-2 ml-2"
+        pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
+        activeLinkClassName="p-2 font-bold"
       />
     </main>
   );

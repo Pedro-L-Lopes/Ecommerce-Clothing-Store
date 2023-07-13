@@ -2,21 +2,28 @@ import React, { useState } from "react";
 import chooseProductSize from "../components/chooseProductSize/chooseProductSize";
 
 const SelectWithHover = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [tags, setTags] = useState("");
 
-  const handleMouseOver = () => {
-    setIsOpen(true);
-  };
+  const tagsArray = tags.split(",");
 
-  const handleMouseOut = () => {
-    setIsOpen(false);
-  };
+  console.log(tags);
+  console.log(tagsArray);
 
   return (
     <div>
       TESTE
       <div>
-        <chooseProductSize />
+        <div className="mb-4">
+          <span className="text-white dark:text-gray-200">Tags</span>
+          <input
+            required
+            placeholder="Separe as tags por virgula"
+            type="text"
+            onChange={(e) => setTags(e.target.value)}
+            value={tags}
+            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+          />
+        </div>
       </div>
     </div>
   );

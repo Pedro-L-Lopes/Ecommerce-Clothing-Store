@@ -38,7 +38,7 @@ const ChooseSizeButton = ({ size, checked, onChange, cartMsg }) => {
           cartMsg ? "border border-red-600" : ""
         } border-gray-300 ${
           checked ? "bg-green-500 text-white" : "text-gray-400"
-        } cursor-pointer hover:opacity-75 hover:bg-green-100 hover:text-black transition-opacity `}
+        } cursor-pointer hover:opacity-75 hover:text-black transition-opacity `}
       >
         {size}
       </span>

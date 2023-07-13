@@ -17,6 +17,7 @@ const productSchema = new Schema(
     regularPrice: Number,
     category: String,
     available: Boolean,
+    tags: [String],
     userId: mongoose.Types.ObjectId,
   },
   {

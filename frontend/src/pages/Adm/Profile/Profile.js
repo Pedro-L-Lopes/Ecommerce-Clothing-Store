@@ -16,6 +16,7 @@ import {
   allCategories,
   formatPrice,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import DeleteConfirmation from "../../../components/DeleteConfirmation/DeleteConfirmation";
 
 const Profile = () => {
   const { id } = useParams();
@@ -175,25 +176,11 @@ const Profile = () => {
                     </div>
                   ))}
               {showDeleteModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                  <div className="bg-white p-4 rounded shadow">
-                    <p className="text-center">Excluir o produto?</p>
-                    <div className="flex justify-end mt-4">
-                      <button
-                        className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded mr-2"
-                        onClick={() => confirmDelete(productIdToDelete)}
-                      >
-                        Excluir
-                      </button>
-                      <button
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
-                        onClick={() => setShowDeleteModal(false)}
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <DeleteConfirmation
+                  title="Excluir o produto?"
+                  close={() => setShowDeleteModal(false)}
+                  remove={() => confirmDelete(productIdToDelete)}
+                />
               )}
             </div>
           </div>

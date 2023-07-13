@@ -4,10 +4,13 @@ import { uploads } from "../../utils/config";
 
 import ChooseProductSize from "../chooseProductSize/chooseProductSize";
 import Carousel from "../Carousel/Carousel";
+import RelatedProducts from "../RelatedProducts/RelatedProducts";
+
 import ProductItemBox from "../ProductItemBox/ProductItemBox";
 import { formatPrice } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { MdPix } from "react-icons/md";
 import { BsWhatsapp } from "react-icons/bs";
@@ -18,6 +21,8 @@ const ProductItem = ({ product, addProductToCart, products }) => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [cartMsg, setCartMsg] = useState("");
+
+  const actualCategory = product.category;
 
   const handleAddToCart = () => {
     if (selectedSize) {
@@ -44,8 +49,6 @@ const ProductItem = ({ product, addProductToCart, products }) => {
   }, [cartMsg]);
 
   console.log(product);
-
-  const actualCategory = product.category;
 
   return (
     <main className="">
@@ -107,9 +110,9 @@ const ProductItem = ({ product, addProductToCart, products }) => {
           )}
           <div className="fixed bottom-0 right-0 ml-4 mb-4 group">
             <Link>
-              <div className="flex text-white bg-green-600 p-2 rounded">
-                <BsWhatsapp size={20} className="text-white mt-1 mr-1" />
-                <p className="hidden group-hover:block">
+              <div className="flex text-white bg-green-600 p-4 rounded-full m-2">
+                <BsWhatsapp size={24} className="text-white" />
+                <p className="hidden group-hover:block ml-1">
                   Comprar ou tirar duvidas
                 </p>
               </div>
@@ -146,21 +149,18 @@ const ProductItem = ({ product, addProductToCart, products }) => {
         </p>
       </div>
 
-      <div className="mt-10">
-        <h1 className="text-lg font-bold p-2 -mb-7">Produtos relacionados</h1>
-        <div className="flex overflow-hidden">
-          {products &&
-            products
-              .filter((product) => product.category === actualCategory)
-              .slice(0, 10)
-              .map((product) => (
-                <div key={product._id}>
-                  <Link to={`/products/${product._id}`}>
-                    <ProductItemBox product={product} />
-                  </Link>
-                </div>
-              ))}
-        </div>
+      <div className="flex overflow-hidden">
+        {products &&
+          products
+            .filter((product) => product.category === actualCategory)
+            .slice(0, 10)
+            .map((product) => (
+              <div key={product._id}>
+                <Link to={`/products/${product._id}`}>
+                  <RelatedProducts product={product} />
+                </Link>
+              </div>
+            ))}
       </div>
     </main>
   );

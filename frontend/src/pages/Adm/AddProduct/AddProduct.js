@@ -55,8 +55,9 @@ const AddProduct = () => {
   const [size, setSize] = useState([]);
   const [category, setCategory] = useState("");
   const [previewImages, setPreviewImages] = useState([]);
+  const [tags, setTags] = useState("");
 
-  const navigate = useNavigate();
+  const tagsArray = tags.split(",");
 
   const fileInputRef = useRef(null);
 
@@ -76,7 +77,7 @@ const AddProduct = () => {
   const handleFile = (e) => {
     const selectedImages = Array.from(e.target.files);
     if (selectedImages.length > 3) {
-      alert("Adicione no maxímo três fotos!");
+      alert("Adicione no máximo três fotos!");
       return;
     }
     const previewImageUrls = selectedImages.map((file) =>
@@ -123,6 +124,7 @@ const AddProduct = () => {
       salePrice,
       available,
       category,
+      tags: tagsArray,
     };
 
     const productFormData = new FormData();
@@ -141,16 +143,6 @@ const AddProduct = () => {
     });
 
     await dispatch(publishProduct(productFormData));
-
-    setName("");
-    setPrice(0);
-    setDescription("");
-    setSize([]);
-    setAvailable(true);
-    setOnSale(false);
-    setSalePrice(0);
-    setPreviewImages([]);
-    setImages([]);
 
     resetComponentMessage();
   };
@@ -418,6 +410,17 @@ const AddProduct = () => {
                       />
                     </div>
                   )}
+                </div>
+                <div className="mb-4">
+                  <span className="text-white dark:text-gray-200">Tags</span>
+                  <input
+                    required
+                    placeholder="Separe as tags por virgula"
+                    type="text"
+                    onChange={(e) => setTags(e.target.value)}
+                    value={tags}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  />
                 </div>
               </div>
             </div>
