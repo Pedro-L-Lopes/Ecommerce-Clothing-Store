@@ -215,17 +215,15 @@ const updateProduct = async (req, res) => {
 };
 
 const searchProducts = async (req, res) => {
-  const { q } = req.query; // Argumento q da querry string da url
+  const { q } = req.query; // Argumento q da query string da URL
 
-  // Com a expressão regular diz que o q(o que estou procurando) está em qualquer lugar da string
-  // O "i" ignora a case sensitive
-  // const products = await Product.find({ name: new RegExp(q, "i") }).exec();
+  const keywords = q.split(" ").map((keyword) => new RegExp(keyword, "i"));
 
   const query = {
     $or: [
-      { name: new RegExp(q, "i") },
-      { category: new RegExp(q, "i") },
-      { tags: new RegExp(q, "i") },
+      { name: { $in: keywords } },
+      { category: { $in: keywords } },
+      { tags: { $in: keywords } },
     ],
   };
 

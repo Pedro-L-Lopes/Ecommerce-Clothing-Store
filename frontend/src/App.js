@@ -1,6 +1,12 @@
 import "./App.css";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 // Hooks
 import { useAuth } from "./hooks/useAuth";
@@ -13,7 +19,6 @@ import Login from "../src/pages/Adm/Auth/Login";
 import Register from "../src/pages/Adm/Auth/Register";
 import Product from "../src/pages/Store/Product/Product";
 import Search from "../src/pages/Store/Search/Search";
-import UnavailableProducts from "../src/pages/Adm/UnavailableProducts/UnavailableProducts";
 import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 import Cart from "./pages/Store/Cart/Cart";
@@ -25,15 +30,32 @@ import Teste from "../src/pages/Teste";
 import Navbar from "../src/components/Navbar/Navbar";
 import Footer from "../src/components/Footer/Footer";
 
+// function PageStyleProvider({ children }) {
+//   const location = useLocation();
+
+//   const isStorePage = location.pathname.includes("/products:id/edit");
+//   const isAdmPage = location.pathname.includes("/users");
+
+//   const pageClass = isStorePage
+//     ? "bg-red-200"
+//     : isAdmPage
+//     ? "bg-gray-800"
+//     : "";
+
+//   return <div className={`app ${pageClass}`}>{children}</div>;
+// }
+
 function App() {
   const { auth, loading } = useAuth();
+
+  // const pageClass = "";
 
   if (loading) {
     return <p>Carregando...</p>;
   }
 
   return (
-    <div className="app">
+    <div className={`app`}>
       <BrowserRouter>
         <Navbar />
         <div className="p-16">
@@ -44,10 +66,10 @@ function App() {
               element={auth ? <EditProfile /> : <Navigate to="/" />}
             />
             <Route path="/users/:id" element={<Profile />} />
-            <Route
-              path="/users/:id/unavailable"
-              element={auth ? <UnavailableProducts /> : <Navigate to="/" />}
-            />
+            {/* <Route
+                path="/users/:id/unavailable"
+                element={auth ? <UnavailableProducts /> : <Navigate to="/" />}
+              /> */}
             <Route
               path="/users/:id/add"
               element={auth ? <AddProduct /> : <Navigate to="/" />}
@@ -71,7 +93,7 @@ function App() {
             <Route path="/allproducts" element={<AllProducts />} />
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </div>
   );

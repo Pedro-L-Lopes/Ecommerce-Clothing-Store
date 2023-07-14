@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from "../../../slices/userSlice";
 import Message from "../../../components/Message/Message";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const EditProfile = () => {
       setName(user.name);
       setEmail(user.email);
     }
+    PageColor("rgb(31 41 55)");
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -55,7 +57,9 @@ const EditProfile = () => {
     <div className="flex justify-center items-center bg-slate-800 p-20 ml-10 rounded-lg">
       <div className="text-center">
         <h1 className="text-white text-5xl text">Store</h1>
-        <h2 className="text-white">Insira a senha atual para alterar os dados</h2>
+        <h2 className="text-white">
+          Insira a senha atual para alterar os dados
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>

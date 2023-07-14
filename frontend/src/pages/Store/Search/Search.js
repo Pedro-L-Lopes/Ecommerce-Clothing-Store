@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "../../../hooks/useQuery";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import ReactPaginate from "react-paginate";
 import "./Search.css";
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Search = () => {
   const query = useQuery();
@@ -22,57 +23,62 @@ const Search = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [promotionFilter, setPromotionFilter] = useState("");
 
-  useEffect(() => {
-    dispatch(searchProducts(search));
-  }, [dispatch, search]);
-
-  const handlePageChange = ({ selected }) => {
+  const handlePageChange = useCallback(({ selected }) => {
     setCurrentPage(selected);
-  };
+  }, []);
 
-  const handleCategoryFilterChange = (category) => {
+  const handleCategoryFilterChange = useCallback((category) => {
     setCategoryFilter(category);
     setCurrentPage(0);
-  };
+  }, []);
 
-  const handlePromotionFilterChange = (promotion) => {
+  const handlePromotionFilterChange = useCallback((promotion) => {
     setPromotionFilter(promotion);
     setCurrentPage(0);
-  };
+  }, []);
 
-  const filteredProducts = products.filter((product) => {
-    let isCategoryMatch = true;
-    let isPromotionMatch = true;
+  useEffect(() => {
+    dispatch(searchProducts(search));
+    PageColor("white");
+  }, [dispatch, search]);
 
-    if (categoryFilter) {
-      isCategoryMatch = product.category === categoryFilter;
-    }
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      let isCategoryMatch = true;
+      let isPromotionMatch = true;
 
-    if (promotionFilter === "true") {
-      isPromotionMatch = product.onSale;
-    } else if (promotionFilter === "false") {
-      isPromotionMatch = !product.onSale;
-    }
+      if (categoryFilter) {
+        isCategoryMatch = product.category === categoryFilter;
+      }
 
-    return isCategoryMatch && isPromotionMatch;
-  });
+      if (promotionFilter === "true") {
+        isPromotionMatch = product.onSale;
+      } else if (promotionFilter === "false") {
+        isPromotionMatch = !product.onSale;
+      }
+
+      return isCategoryMatch && isPromotionMatch;
+    });
+  }, [products, categoryFilter, promotionFilter]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = filteredProducts.slice(startIndex, endIndex);
 
-  const renderProducts = () => {
+  const renderProducts = useCallback(() => {
     return (
       displayedProducts &&
-      displayedProducts.map((product) => (
-        <div key={product._id}>
-          <Link to={`/products/${product._id}`}>
-            <ProductItemBox product={product} />
-          </Link>
-        </div>
-      ))
+      displayedProducts
+        .filter((product) => product.available)
+        .map((product) => (
+          <div key={product._id}>
+            <Link to={`/products/${product._id}`}>
+              <ProductItemBox product={product} />
+            </Link>
+          </div>
+        ))
     );
-  };
+  }, [displayedProducts]);
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -88,7 +94,7 @@ const Search = () => {
       />
       <h2>Resultado para: {search}</h2>
       <div id="products-container-box">{renderProducts()}</div>
-      {products && products.length === 0 && (
+      {products.length === 0 && (
         <h2>Não foram encontrados resultados para a sua busca.</h2>
       )}
       <ReactPaginate

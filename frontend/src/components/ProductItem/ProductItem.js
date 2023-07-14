@@ -23,7 +23,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
   const [cartMsg, setCartMsg] = useState("");
 
   const actualCategory = product.category;
-  const actualTags = product.tags;
+  const actualTags = product.tags || [];
 
   const handleAddToCart = () => {
     if (selectedSize) {
@@ -162,7 +162,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
           products
             .filter(
               (p) =>
-                p._id !== product._id &&
+                p._id !== product._id && p.available &&
                 (p.category === actualCategory ||
                   p.name === product.name ||
                   relatedTags(p.tags, actualTags))

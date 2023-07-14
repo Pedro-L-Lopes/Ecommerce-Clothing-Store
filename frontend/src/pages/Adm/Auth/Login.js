@@ -1,5 +1,6 @@
 import Message from "../../../components/Message/Message";
 import { Link, redirect } from "react-router-dom";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 // Hooks
 import React, { useState, useEffect } from "react";
@@ -30,6 +31,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(reset());
+    PageColor("rgb(31 41 55)");
   }, [dispatch]);
 
   return (

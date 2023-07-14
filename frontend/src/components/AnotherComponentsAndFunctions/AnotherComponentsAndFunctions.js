@@ -59,6 +59,13 @@ export const formatPrice = (price) => {
       minimumFractionDigits: 2,
     });
   } else {
-    return ""; 
+    return "";
   }
+};
+
+export const PageColor = (color) => {
+  document.body.style.backgroundColor = color;
+  return () => {
+    document.body.style.backgroundColor = "";
+  };
 };

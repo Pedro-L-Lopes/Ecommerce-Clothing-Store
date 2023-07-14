@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import { useEffect } from "react";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Pomotions = () => {
-  return (
-    <div>Pomotions</div>
-  )
-}
+  useEffect(() => {
+    PageColor("rgb(31 41 55)");
+  }, []);
 
-export default Pomotions
+  return <div>Pomotions</div>;
+};
+
+export default Pomotions;

@@ -12,10 +12,11 @@ import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
 import {
   allCategories,
   sizes,
+  PageColor,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import Loading from "../../../components/Loading/Loading";
 
-/// Redux
+// Redux
 import {
   updateProduct,
   resetMessage,
@@ -51,6 +52,7 @@ const EditProduct = () => {
     if (product && Array.isArray(product.tags)) {
       setTags(product.tags.join(","));
     }
+    PageColor("rgb(31 41 55)");
   }, []);
 
   useEffect(() => {
@@ -82,7 +84,7 @@ const EditProduct = () => {
       salePrice: salePrice,
       available: available,
       category: category,
-      tags: tags.split(","),
+      tags: typeof tags === "string" ? tags.split(",") : [],
     };
 
     dispatch(updateProduct(updatedProduct));

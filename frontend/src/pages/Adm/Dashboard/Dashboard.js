@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import { useEffect } from "react";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  useEffect(() => {
+    PageColor("rgb(31 41 55)");
+  }, []);
 
-export default Dashboard
+  return <div>Dashboard</div>;
+};
+
+export default Dashboard;

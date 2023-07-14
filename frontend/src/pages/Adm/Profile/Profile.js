@@ -13,6 +13,7 @@ import {
 } from "../../../slices/productSlice";
 import Loading from "../../../components/Loading/Loading";
 import {
+  PageColor,
   allCategories,
   formatPrice,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
@@ -37,6 +38,13 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUserDetails(id));
+    PageColor("rgb(31 41 55)");
+    return () => {
+      PageColor(""); // Reverte a cor da página ao desmontar o componente
+    };
+  }, [dispatch, id]);
+
+  useEffect(() => {
     dispatch(getUserProducts(id));
   }, [dispatch, id]);
 

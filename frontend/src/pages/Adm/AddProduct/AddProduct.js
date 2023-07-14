@@ -6,6 +6,7 @@ import Loading from "../../../components/Loading/Loading";
 import {
   allCategories,
   sizes,
+  PageColor,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 import { ReactSortable } from "react-sortablejs";
@@ -72,6 +73,7 @@ const AddProduct = () => {
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserProducts(id));
+    PageColor("rgb(31 41 55)");
   }, [dispatch, id]);
 
   const handleFile = (e) => {

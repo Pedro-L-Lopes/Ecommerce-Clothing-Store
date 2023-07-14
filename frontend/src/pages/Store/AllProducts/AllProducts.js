@@ -6,6 +6,9 @@ import ReactPaginate from "react-paginate";
 
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
+import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+
+const MemoizedProductItemBox = React.memo(ProductItemBox);
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -20,6 +23,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
+    PageColor("white");
   }, [dispatch]);
 
   const handlePageChange = ({ selected }) => {
@@ -57,18 +61,7 @@ const AllProducts = () => {
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = filteredProducts.slice(startIndex, endIndex);
 
-  const renderProducts = () => {
-    return (
-      displayedProducts &&
-      displayedProducts.map((product) => (
-        <div key={product._id}>
-          <Link to={`/products/${product._id}`}>
-            <ProductItemBox product={product} />
-          </Link>
-        </div>
-      ))
-    );
-  };
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   if (loading) {
     return <p>Carregando</p>;
@@ -83,13 +76,19 @@ const AllProducts = () => {
         onPromotionChange={handlePromotionFilterChange}
       />
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {renderProducts()}
+        {displayedProducts.map((product) => (
+          <div key={product._id}>
+            <Link to={`/products/${product._id}`}>
+              <MemoizedProductItemBox product={product} />
+            </Link>
+          </div>
+        ))}
       </div>
       <ReactPaginate
         previousLabel={"Anterior"}
         nextLabel={"Próximo"}
         breakLabel={"..."}
-        pageCount={Math.ceil(filteredProducts.length / itemsPerPage)}
+        pageCount={totalPages}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}

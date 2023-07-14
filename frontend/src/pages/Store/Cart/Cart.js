@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeCart } from "../../../slices/cartSlice";
-import { formatPrice } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import {
+  formatPrice,
+  PageColor,
+} from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import ProductCart from "../../../components/ProductCart/ProductCart";
+
+const MemoizedProductCart = React.memo(ProductCart);
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    PageColor("white");
+  }, []);
 
   const removeProductFromCart = (cartItemId) => {
     dispatch(removeCart(cartItemId));
   };
 
   const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    cart.forEach((product) => {
+    return cart.reduce((totalPrice, product) => {
       const productPrice = product.onSale ? product.salePrice : product.price;
       const productAndQuantity = productPrice * product.quantity;
-      totalPrice += productAndQuantity  ;
-    });
-    return totalPrice;
+      return totalPrice + productAndQuantity;
+    }, 0);
   };
 
   return (
@@ -30,7 +37,7 @@ const Cart = () => {
         ) : (
           <>
             {cart.map((product) => (
-              <ProductCart
+              <MemoizedProductCart
                 key={product._id}
                 product={product}
                 removeProductFromCart={removeProductFromCart}
@@ -39,7 +46,9 @@ const Cart = () => {
           </>
         )}
         <p>Total: {formatPrice(calculateTotalPrice())}</p>
-        <button className="text-white bg-slate-800 p-2 m-2 rounded-md">Finalizar compra</button>
+        <button className="text-white bg-slate-800 p-2 m-2 rounded-md">
+          Finalizar compra
+        </button>
       </div>
     </div>
   );
