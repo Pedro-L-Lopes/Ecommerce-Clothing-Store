@@ -38,6 +38,7 @@ const EditProduct = () => {
   const [salePrice, setSalePrice] = useState(0);
   const [available, setAvailable] = useState();
   const [category, setCategory] = useState(product.category);
+  const [tags, setTags] = useState("");
 
   const resetComponentMessage = () => {
     setTimeout(() => {
@@ -47,6 +48,9 @@ const EditProduct = () => {
 
   useEffect(() => {
     dispatch(getProduct(id));
+    if (product && Array.isArray(product.tags)) {
+      setTags(product.tags.join(","));
+    }
   }, []);
 
   useEffect(() => {
@@ -59,6 +63,7 @@ const EditProduct = () => {
       setSalePrice(product.salePrice);
       setAvailable(product.available);
       setCategory(product.category);
+      setTags(product.tags);
     }
   }, [product, id]);
 
@@ -77,6 +82,7 @@ const EditProduct = () => {
       salePrice: salePrice,
       available: available,
       category: category,
+      tags: tags.split(","),
     };
 
     dispatch(updateProduct(updatedProduct));
@@ -84,11 +90,6 @@ const EditProduct = () => {
     resetComponentMessage();
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  // Colocando/retirando tamanhos do array
   const handleCheckboxClick = (checkedSize) => {
     const updatedSize = [...size];
 
@@ -101,22 +102,28 @@ const EditProduct = () => {
     setSize(updatedSize);
   };
 
-  return (
-    <div className="h-screen bg-slate-800">
-      <div className="flex justify-center items-center ml-2 bg-slate-700 rounded min-w-full h-52 p-2">
-        {product.images &&
-          product.images.map((image, index) => (
-            <div key={index} className="flex-shrink-0 w-52 h-52 relative mr-1">
-              <img
-                src={`${uploads}/products/${image.filename}`}
-                alt={product.name}
-                className="w-52 h-52 object-cover object-top rounded-md"
-              />
-            </div>
-          ))}
-      </div>
+  if (loading) {
+    return <Loading />;
+  }
 
-      <div className="max-w-full p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
+  return (
+    <div className="ml-2">
+      <div className="max-w-full ml-2 p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
+        <div className="flex justify-center items-center ml-2 bg-gray-800 rounded-t min-w-full h-52 p-2">
+          {product.images &&
+            product.images.map((image, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-52 h-52 relative mr-1"
+              >
+                <img
+                  src={`${uploads}/products/${image.filename}`}
+                  alt={product.name}
+                  className="w-52 h-52 object-cover object-top rounded-md"
+                />
+              </div>
+            ))}
+        </div>
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <form onSubmit={handleUpdate}>
             <div className="mb-4">
@@ -277,6 +284,17 @@ const EditProduct = () => {
                   />
                 </div>
               )}
+            </div>
+            <div className="mb-4">
+              <span className="text-white dark:text-gray-200">Tags</span>
+              <input
+                required
+                placeholder="Separe as tags por virgula"
+                type="text"
+                onChange={(e) => setTags(e.target.value)}
+                value={tags}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
             </div>
           </div>
         </div>

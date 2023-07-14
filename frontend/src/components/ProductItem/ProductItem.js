@@ -23,6 +23,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
   const [cartMsg, setCartMsg] = useState("");
 
   const actualCategory = product.category;
+  const actualTags = product.tags;
 
   const handleAddToCart = () => {
     if (selectedSize) {
@@ -49,6 +50,13 @@ const ProductItem = ({ product, addProductToCart, products }) => {
   }, [cartMsg]);
 
   console.log(product);
+
+  console.log(actualCategory);
+  console.log(actualTags);
+
+  const relatedTags = (t1, t2) => {
+    return t1.some((item) => t2.includes(item));
+  };
 
   return (
     <main className="">
@@ -152,12 +160,18 @@ const ProductItem = ({ product, addProductToCart, products }) => {
       <div className="flex overflow-hidden">
         {products &&
           products
-            .filter((product) => product.category === actualCategory)
+            .filter(
+              (p) =>
+                p._id !== product._id &&
+                (p.category === actualCategory ||
+                  p.name === product.name ||
+                  relatedTags(p.tags, actualTags))
+            )
             .slice(0, 10)
-            .map((product) => (
-              <div key={product._id}>
-                <Link to={`/products/${product._id}`}>
-                  <RelatedProducts product={product} />
+            .map((relatedProduct) => (
+              <div key={relatedProduct._id}>
+                <Link to={`/products/${relatedProduct._id}`}>
+                  <RelatedProducts product={relatedProduct} />
                 </Link>
               </div>
             ))}

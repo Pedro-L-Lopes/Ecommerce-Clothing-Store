@@ -415,7 +415,7 @@ const AddProduct = () => {
                   <span className="text-white dark:text-gray-200">Tags</span>
                   <input
                     required
-                    placeholder="Separe as tags por virgula"
+                    placeholder="Separe as tags por virgula! Ex: florida, rosas"
                     type="text"
                     onChange={(e) => setTags(e.target.value)}
                     value={tags}
