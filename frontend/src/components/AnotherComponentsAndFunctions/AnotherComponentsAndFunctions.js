@@ -13,7 +13,6 @@ export const allCategories = [
   "Moda fitness",
   "Moleton",
   "Pijamas",
-  "Roupas de banho",
   "Roupas íntimas",
   "Saias",
   "Short",

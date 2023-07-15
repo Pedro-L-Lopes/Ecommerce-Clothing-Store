@@ -146,6 +146,18 @@ const AddProduct = () => {
 
     await dispatch(publishProduct(productFormData));
 
+    setName("");
+    setImages([]);
+    setPrice(0);
+    setDescription("");
+    setOnSale(false);
+    setSalePrice(0);
+    setAvailable(true);
+    setSize([]);
+    setCategory("");
+    setTags("");
+    setPreviewImages([]);
+
     resetComponentMessage();
   };
 

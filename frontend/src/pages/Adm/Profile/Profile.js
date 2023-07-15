@@ -40,7 +40,7 @@ const Profile = () => {
     dispatch(getUserDetails(id));
     PageColor("rgb(31 41 55)");
     return () => {
-      PageColor(""); // Reverte a cor da página ao desmontar o componente
+      PageColor("");
     };
   }, [dispatch, id]);
 
@@ -83,7 +83,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 ml-8">
       {id === userAuth._id && (
         <>
           <div className="mb-4">

@@ -19,13 +19,17 @@ const {
 } = require("../middlewares/productValidation");
 const authGuard = require("../middlewares/authGuard");
 const validate = require("../middlewares/handleValidation");
-const { imageUploadProducts } = require("../middlewares/imageUpload");
+const {
+  imageUploadProducts,
+  compressProductImagesMiddleware,
+} = require("../middlewares/imageUpload");
 
 // Routes // Deixar nessa ordem pois dar algum erro
 router.post(
   "/",
   authGuard,
   imageUploadProducts,
+  compressProductImagesMiddleware,
   productInsertValidation(),
   validate,
   createProduct // InsertPhoto

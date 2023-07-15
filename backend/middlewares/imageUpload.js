@@ -1,49 +1,90 @@
-const multer = require("multer"); // Upload de arquivos
-const path = require("path"); // Modulo padrão de caminhos/diretorios do node
+const multer = require("multer");
+const path = require("path");
+const sharp = require("sharp");
+const fs = require("fs");
 
-// Destino da imagem
 const imageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     let folder = "";
 
     if (req.baseUrl.includes("users")) {
-      // Ver se a url por onde ela foi inserida inclui "users"
       folder = "users";
     } else if (req.baseUrl.includes("products")) {
       folder = "products";
     }
 
-    cb(null, `uploads/${folder}/`); // Callback configurando o destino da imagem
+    cb(null, `uploads/${folder}/`);
   },
-
   filename: (req, file, cb) => {
-    // Mudando nome do arquivo para não ter substituição de arquivo
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
 const imageUpload = multer({
   storage: imageStorage,
-  fileFilter(req, file, cb) {
-    //expressão regular para verificar as extensões do arquivo
+  fileFilter: (req, file, cb) => {
     if (!file.originalname.match(/\.(png|jpg)$/)) {
-      // Upload de png e jpg
       return cb(new Error("Por favor, envie apenas png ou jpg!"));
     }
-    cb(undefined, true);
+    cb(null, true);
   },
 });
 
 const imageUploadProducts = multer({
   storage: imageStorage,
-  fileFilter(req, file, cb) {
-    //expressão regular para verificar as extensões do arquivo
+  fileFilter: (req, file, cb) => {
     if (!file.originalname.match(/\.(png|jpg)$/)) {
-      // Upload de png e jpg
       return cb(new Error("Por favor, envie apenas png ou jpg!"));
     }
-    cb(undefined, true);
+    cb(null, true);
   },
 }).array("images", 3);
 
-module.exports = { imageUpload, imageUploadProducts };
+// Middleware para aplicar a compressão nas imagens de produtos
+const compressProductImagesMiddleware = async (req, res, next) => {
+  if (req.files && req.files.length > 0) {
+    try {
+      const compressImagePromises = req.files.map(async (file) => {
+        const imagePath = file.path;
+        const compressedImagePath = `${Date.now()}_compressed.jpg`;
+
+        await sharp(imagePath)
+          .resize({ width: 800, height: 800 })
+          .toFormat("jpeg")
+          .jpeg({ quality: 80 })
+          .toFile(path.join(path.dirname(imagePath), compressedImagePath));
+
+        fs.unlinkSync(imagePath); // Exclui o arquivo original
+
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            fs.rename(
+              path.join(path.dirname(imagePath), compressedImagePath),
+              imagePath,
+              (err) => {
+                if (err) throw err;
+                resolve();
+              }
+            );
+          }, 100); // Atraso de 100 milissegundos
+        });
+
+        console.log(`Imagem ${imagePath} comprimida com sucesso!`);
+      });
+
+      await Promise.all(compressImagePromises);
+      next();
+    } catch (error) {
+      console.error("Erro ao comprimir imagens:", error);
+      res.status(500).send("Erro ao comprimir imagens");
+    }
+  } else {
+    next();
+  }
+};
+
+module.exports = {
+  imageUpload,
+  imageUploadProducts,
+  compressProductImagesMiddleware,
+};

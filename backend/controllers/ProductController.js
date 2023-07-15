@@ -28,8 +28,17 @@ const createProduct = async (req, res) => {
 
   const tagArray = tags.split(",").map((tag) => tag.trim());
 
+  // Buscar o último código utilizado e incrementar em 1
+  const lastProduct = await Product.findOne({}).sort({ code: -1 }).exec();
+  let nextCode = 1;
+
+  if (lastProduct && !isNaN(lastProduct.code)) {
+    nextCode = parseInt(lastProduct.code) + 1;
+  }
+
   // Criando produto
   const newProduct = await Product.create({
+    code: nextCode,
     images,
     name,
     price,
