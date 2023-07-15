@@ -35,6 +35,7 @@ const Profile = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [sortByCode, setSortByCode] = useState("");
 
   useEffect(() => {
     dispatch(getUserDetails(id));
@@ -63,6 +64,14 @@ const Profile = () => {
     dispatch(deleteProduct(id));
     resetComponentMessage();
     setShowDeleteModal(false);
+  };
+
+  const handleSortByCode = () => {
+    if (sortByCode === "asc") {
+      setSortByCode("desc");
+    } else {
+      setSortByCode("asc");
+    }
   };
 
   if (loading) {
@@ -114,6 +123,12 @@ const Profile = () => {
                   </option>
                 ))}
             </select>
+            <button
+              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
+              onClick={handleSortByCode}
+            >
+              Ordenar por código {sortByCode === "asc" ? "▲" : "▼"}
+            </button>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               {products &&
                 products
@@ -124,12 +139,24 @@ const Profile = () => {
                       product.category === selectedCategory
                     );
                   })
+                  .sort((a, b) => {
+                    if (sortByCode === "asc") {
+                      return a.code - b.code;
+                    } else if (sortByCode === "desc") {
+                      return b.code - a.code;
+                    } else {
+                      return 0;
+                    }
+                  })
                   .map((product) => (
                     <div
                       key={product._id}
                       className="bg-slate-700 p-2 rounded shadow flex items-center justify-between"
                     >
-                      <div>
+                      <div className="flex">
+                        <div className="flex items-center justify-center font-bold text-white mr-4 p-2 w-10">
+                          {product.code}
+                        </div>
                         <Link
                           to={`/products/${product._id}`}
                           className="flex items-center"

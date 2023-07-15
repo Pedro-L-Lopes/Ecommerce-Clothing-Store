@@ -30,25 +30,8 @@ import Teste from "../src/pages/Teste";
 import Navbar from "../src/components/Navbar/Navbar";
 import Footer from "../src/components/Footer/Footer";
 
-// function PageStyleProvider({ children }) {
-//   const location = useLocation();
-
-//   const isStorePage = location.pathname.includes("/products:id/edit");
-//   const isAdmPage = location.pathname.includes("/users");
-
-//   const pageClass = isStorePage
-//     ? "bg-red-200"
-//     : isAdmPage
-//     ? "bg-gray-800"
-//     : "";
-
-//   return <div className={`app ${pageClass}`}>{children}</div>;
-// }
-
 function App() {
   const { auth, loading } = useAuth();
-
-  // const pageClass = "";
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -66,10 +49,6 @@ function App() {
               element={auth ? <EditProfile /> : <Navigate to="/" />}
             />
             <Route path="/users/:id" element={<Profile />} />
-            {/* <Route
-                path="/users/:id/unavailable"
-                element={auth ? <UnavailableProducts /> : <Navigate to="/" />}
-              /> */}
             <Route
               path="/users/:id/add"
               element={auth ? <AddProduct /> : <Navigate to="/" />}
