@@ -1,4 +1,5 @@
 import React from "react";
+import { sizes } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const ChooseProductSize = ({
   productSizes,
@@ -6,18 +7,21 @@ const ChooseProductSize = ({
   setSelectedSize,
   cartMsg,
 }) => {
+  const availableSizes = productSizes
+    ? sizes.filter((size) => productSizes.includes(size))
+    : [];
+
   return (
     <div className="flex items-center">
-      {productSizes &&
-        productSizes.map((size) => (
-          <ChooseSizeButton
-            key={size}
-            size={size}
-            cartMsg={cartMsg}
-            checked={selectedSize === size}
-            onChange={() => setSelectedSize(size)}
-          />
-        ))}
+      {availableSizes.map((size) => (
+        <ChooseSizeButton
+          key={size}
+          size={size}
+          cartMsg={cartMsg}
+          checked={selectedSize === size}
+          onChange={() => setSelectedSize(size)}
+        />
+      ))}
     </div>
   );
 };
