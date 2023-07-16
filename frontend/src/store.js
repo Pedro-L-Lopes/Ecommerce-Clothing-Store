@@ -6,6 +6,7 @@ import authReducer from "./slices/authSlice"; // Renomeio o slice aqui para auth
 import userReducer from "./slices/userSlice";
 import productSlice from "./slices/productSlice";
 import cartReducer from "./slices/cartSlice";
+import shippingReducer from "./slices/shippingSlice";
 
 export const store = configureStore({
   // Onde todos os Contextos (dados) da aplicação serão salvos para serem distribuidos para a aplicação (+- assim)
@@ -14,5 +15,6 @@ export const store = configureStore({
     user: userReducer,
     product: productSlice,
     cart: cartReducer,
+    shipping: shippingReducer,
   },
 });

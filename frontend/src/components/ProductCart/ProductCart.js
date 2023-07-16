@@ -3,11 +3,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { uploads } from "../../utils/config";
 import { removeCart, updateCartQuantity } from "../../slices/cartSlice";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
+import { formatPrice } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import {
+  AiOutlineMinusSquare,
+  AiOutlinePlusSquare,
+  AiOutlineDelete,
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const ProductCart = ({ product }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(product.quantity);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [removingProduct, setRemovingProduct] = useState(false);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -33,45 +41,70 @@ const ProductCart = ({ product }) => {
     );
   };
 
-  const confirmemoveProduct = () => {
+  const removeProduct = () => {
+    setRemovingProduct(true);
     dispatch(removeCart(product.cartItemId));
-    setShowDeleteModal(false);
+    // Pode adicionar um atraso simulado aqui para exibir o loading
+    setTimeout(() => {
+      setRemovingProduct(false);
+      setShowDeleteModal(false);
+    }, 1000); // Tempo de espera simulado de 1 segundo (1000 ms)
   };
 
   return (
     <div>
       <div className="flex">
-        <div className="flex justify-between w-80 mt-5 m-2 bg-slate-700">
-          {product.images && product.images.length > 0 && (
-            <img
-              className="w-20 h-20"
-              src={`${uploads}/products/${product.images[0].filename}`}
-              alt={product.name}
-            />
-          )}
-          <div>
-            <p>{product.name}</p>
-            <p>{product.onSale ? product.salePrice : product.price}</p>
-            <p>Selected Size: {product.selectedSize}</p>
-            <p>Quantity: {quantity}</p>
+        <div className="flex items-center justify-between mt-5 m-2">
+          <div className="mr-4">
+            {product.images && product.images.length > 0 && (
+              <img
+                className="w-28 h-28"
+                src={`${uploads}/products/${product.images[0].filename}`}
+                alt={product.name}
+              />
+            )}
+          </div>
+          <div className="w-96">
+            <Link to={`/products/${product._id}`}>
+              <p className="font-bold underline">{product.name}</p>
+            </Link>
+            <p>Tamanho {product.selectedSize}</p>
+          </div>
+          <div className="flex items-center justify-center w-24 border rounded-md">
             <button
               onClick={decreaseQuantity}
-              className="w-8 h-8 bg-white m-2 rounded"
+              className="w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all"
             >
-              -1
+              <AiOutlineMinusSquare size={25} />
             </button>
+            <p className="font-bold">{quantity}</p>
             <button
               onClick={increaseQuantity}
-              className="w-8 h-8 bg-white m-2 rounded"
+              className="w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all"
             >
-              +1
+              <AiOutlinePlusSquare size={25} className="" />
             </button>
           </div>
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            className="bg-red-600"
-          >
-            Remover
+          <div className="text-center w-36 ml-2">
+            <p className="font-bold">
+              {product.onSale
+                ? formatPrice(product.salePrice * product.quantity)
+                : formatPrice(product.price * product.quantity)}
+            </p>
+            {product.quantity > 1 ? (
+              <p className="">
+                (
+                {formatPrice(
+                  product.onSale ? product.salePrice : product.price
+                )}
+                <span className="ml-1">Cada</span>)
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+          <button onClick={() => setShowDeleteModal(true)} className="m-4">
+            <AiOutlineDelete size={30} />
           </button>
         </div>
       </div>
@@ -79,8 +112,15 @@ const ProductCart = ({ product }) => {
         <DeleteConfirmation
           title={"Remover produto do carrinho?"}
           close={() => setShowDeleteModal(false)}
-          remove={() => confirmemoveProduct()}
+          remove={removeProduct}
         />
+      )}
+      {removingProduct && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-4 rounded">
+            <p>Removendo produto...</p>
+          </div>
+        </div>
       )}
     </div>
   );
