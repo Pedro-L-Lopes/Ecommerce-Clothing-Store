@@ -94,7 +94,7 @@ const ProductCart = ({ product }) => {
             {product.quantity > 1 ? (
               <p className="">
                 (
-                {formatPrice(
+                {formatPrice( 
                   product.onSale ? product.salePrice : product.price
                 )}
                 <span className="ml-1">Cada</span>)

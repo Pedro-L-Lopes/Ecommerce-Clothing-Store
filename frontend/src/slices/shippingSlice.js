@@ -30,7 +30,13 @@ export const fetchCalculateTermsAndPrice = createAsyncThunk(
 const shippingSlice = createSlice({
   name: "shipping",
   initialState: {
-    data: null,
+    data: {
+      localidade: null,
+      uf: null,
+      logradouro: null,
+      bairro: null,
+      prazoEPreco: [],
+    },
     error: null,
     loading: false,
   },
@@ -43,7 +49,13 @@ const shippingSlice = createSlice({
       })
       .addCase(fetchShippingByCep.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.data = {
+          ...state.data,
+          localidade: action.payload.localidade,
+          uf: action.payload.uf,
+          logradouro: action.payload.logradouro,
+          bairro: action.payload.bairro,
+        };
       })
       .addCase(fetchShippingByCep.rejected, (state, action) => {
         state.loading = false;
@@ -55,7 +67,10 @@ const shippingSlice = createSlice({
       })
       .addCase(fetchCalculateTermsAndPrice.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;  
+        state.data = {
+          ...state.data,
+          prazoEPreco: action.payload,
+        };
       })
       .addCase(fetchCalculateTermsAndPrice.rejected, (state, action) => {
         state.loading = false;

@@ -10,16 +10,18 @@ import {
   PageColor,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import ProductCart from "../../../components/ProductCart/ProductCart";
+import { BsTruck } from "react-icons/bs";
 
 const MemoizedProductCart = React.memo(ProductCart);
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const [cep, setCep] = useState("");
   const shippingData = useSelector((state) => state.shipping.data);
   const cart = useSelector((state) => state.cart);
 
-  console.log(shippingData)
+  const [cep, setCep] = useState("");
+
+  console.log(shippingData);
 
   useEffect(() => {
     PageColor("white");
@@ -61,36 +63,51 @@ const Cart = () => {
             ))}
           </>
         )}
-        <div className="flex border">
-          <div className="mr-4">
-            <h2>Frete</h2>
-            <label>CEP: </label>
-            <input
-              type="text"
-              placeholder="CEP"
-              value={cep}
-              onChange={(e) => setCep(e.target.value)}
-            />
-            <button onClick={handleSearchCep}>Buscar</button>
-            {shippingData && (
+        <div className="flex mt-5">
+          <div className="w-96 mr-20">
+            <h2 className="font-bold text-xl mb-2">Frete</h2>
+            <div className="flex">
+              <div className="flex flex-col">
+                <label htmlFor="cep" className="text-xs mb-1">
+                  CEP
+                </label>
+                <input
+                  id="cep"
+                  type="text"
+                  placeholder="CEP: 00000-000"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  className="p-2 border-b-2 border-black rounded bg-gray-100 opacity-70"
+                />
+              </div>
+              <button
+                onClick={handleSearchCep}
+                className="text-white bg-black hover:opacity-80 border w-12 h-12 mt-4 ml-2 rounded"
+              >
+                Usar
+              </button>
+            </div>
+            {shippingData && shippingData.localidade && (
               <div>
                 <div>
-                  <p>
+                  <p className="font-bold text-lg mt-4">
                     {shippingData.localidade}-{shippingData.uf}
                   </p>
-                  <p>
-                    {shippingData.logradouro}, {shippingData.bairro}
-                  </p>
+                  <p>{shippingData.logradouro}</p>
+                  <p>{shippingData.bairro}</p>
                 </div>
-                <p>Valor: {shippingData[0]?.Valor}</p>
-                <p>
-                  Prazo de entrega: {shippingData[0]?.PrazoEntrega} dias úteis
-                </p>
-
-                <p>Valor: {shippingData[1]?.Valor}</p>
-                <p>
-                  Prazo de entrega: {shippingData[1]?.PrazoEntrega} dias úteis
-                </p>
+                {shippingData.prazoEPreco.map((item) => (
+                  <div
+                    className="flex items-center text-lg bg-slate-900 hover:opacity-80 mt-4 p-2 rounded cursor-pointer"
+                    key={item.Codigo}
+                  >
+                    <BsTruck size={20} className="text-white mr-2" />
+                    <p className="text-white font-bold mr-4">R$ {item.Valor}</p>
+                    <p className="text-white font-bold">
+                      Prazo: {item.PrazoEntrega} dia(s) úteis
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>
