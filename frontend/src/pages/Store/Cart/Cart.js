@@ -31,8 +31,13 @@ const Cart = () => {
     PrazoEntrega: null,
     Valor: 0,
     localidade: null,
-    tipo: "sedex",
+    tipo: null,
+    logradouro: null,
+    bairro: null,
+    cep: null,
   });
+
+  localStorage.setItem("cartData", JSON.stringify(selectedShipping));
 
   useEffect(() => {
     PageColor("white");
@@ -110,8 +115,6 @@ const Cart = () => {
                       <p className="font-bold text-lg mt-4">
                         {shippingData.localidade}-{shippingData.uf}
                       </p>
-                      <p>{shippingData.logradouro}</p>
-                      <p>{shippingData.bairro}</p>
                     </div>
 
                     <p className="mt-2">Selecione o tipo de envio</p>
@@ -158,7 +161,11 @@ const Cart = () => {
                                 ? 0
                                 : shippingData.prazoEPreco?.[0]?.Valor,
                             localidade: shippingData.localidade,
+                            uf: shippingData.uf,
                             tipo: "sedex",
+                            cep: shippingData.cep,
+                            logradouro: shippingData.logradouro,
+                            bairro: shippingData.bairro,
                           })
                         }
                       />
@@ -207,7 +214,11 @@ const Cart = () => {
                                 ? 0
                                 : shippingData.prazoEPreco?.[1]?.Valor,
                             localidade: shippingData.localidade,
+                            uf: shippingData.uf,
                             tipo: "pac",
+                            cep: shippingData.cep,
+                            logradouro: shippingData.logradouro,
+                            bairro: shippingData.bairro,
                           })
                         }
                       />
@@ -247,8 +258,8 @@ const Cart = () => {
               </div>
             </div>
             <div className="flex justify-end">
-              <Link to="/revisar">
-                <button className="text-white bg-black w-44 h-12 p-2 m-2 mt-5 rounded-md">
+              <Link to="/makeapurchase">
+                <button className="text-white bg-black hover:opacity-80 w-44 h-12 p-2 m-2 mt-5 rounded-md">
                   Continuar
                 </button>
               </Link>
