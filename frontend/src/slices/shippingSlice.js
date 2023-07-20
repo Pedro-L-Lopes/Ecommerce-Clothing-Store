@@ -36,6 +36,7 @@ const shippingSlice = createSlice({
       logradouro: null,
       bairro: null,
       prazoEPreco: [],
+      cep: [],
     },
     error: null,
     loading: false,

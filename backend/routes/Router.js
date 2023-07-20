@@ -5,6 +5,8 @@ const router = express(); // Chamando essa instancia do express de router
 router.use("/api/users", require("./UserRoutes"));
 router.use("/api/products", require("./ProductRoutes"));
 router.use("/api/shipping", require("./shippingRoutes"));
+router.use("/api/client", require("./ClientRoute"));
+router.use("/api/order", require("./OrderRoute"));
 
 // Rota de teste
 router.get("/", (req, res) => {

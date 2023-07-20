@@ -69,6 +69,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
         <div className="flex flex-col ml-10">
           <div>
             <h2 className="mt-4">{product.name}</h2>
+            <p className="text-xs opacity-70">código: {product.code}</p>
             <div className="flex mt-2">
               {product.onSale ? (
                 <>
@@ -162,7 +163,8 @@ const ProductItem = ({ product, addProductToCart, products }) => {
           products
             .filter(
               (p) =>
-                p._id !== product._id && p.available &&
+                p._id !== product._id &&
+                p.available &&
                 (p.category === actualCategory ||
                   p.name === product.name ||
                   relatedTags(p.tags, actualTags))

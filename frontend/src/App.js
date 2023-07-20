@@ -23,13 +23,14 @@ import AddProduct from "../src/pages/Adm/AddProduct/AddProduct";
 import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 import Cart from "./pages/Store/Cart/Cart";
 import AllProducts from "./pages/Store/AllProducts/AllProducts";
-import MakeAPurchase from "./pages/Store/MakeAPurchase/MakeAPurchase";
+import ClientForm from "./pages/Store/ClientForm/ClientForm";
 
 // import Teste from "../src/pages/Teste";
 
 // Componentes
 import Navbar from "../src/components/Navbar/Navbar";
 import Footer from "../src/components/Footer/Footer";
+import Revise from "./pages/Store/Revise/Revise";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -71,7 +72,8 @@ function App() {
             {/* <Route path="/teste" element={<Teste />} /> */}
             <Route path="/cart" element={<Cart />} />
             <Route path="/allproducts" element={<AllProducts />} />
-            <Route path="/makeapurchase" element={<MakeAPurchase />} />
+            <Route path="/fldcpcop1" element={<ClientForm />} />
+            <Route path="/revise" element={<Revise />} />
           </Routes>
         </div>
         <Footer />
