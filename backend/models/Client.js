@@ -18,6 +18,7 @@ const clientSchema = new Schema(
     nasc: String,
     gender: String,
     status: String,
+    uf: String,
   },
   {
     timestamps: true,

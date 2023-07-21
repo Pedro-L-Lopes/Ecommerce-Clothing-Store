@@ -3,6 +3,7 @@ import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 import { Link } from "react-router-dom";
 import LazyLoad from "react-lazy-load";
+import Navbar from "../../../components/Navbar/Navbar";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -15,7 +16,6 @@ import { addCart } from "../../../slices/cartSlice";
 // Imagens
 import destaque from "../../../images/destaque.jpg";
 import banner2 from "../../../images/PROMOCAO.png";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,6 @@ const Home = () => {
   // Carregando todos os produtos
   useEffect(() => {
     dispatch(getAllProducts());
-    PageColor("white");
   }, [dispatch]);
 
   useEffect(() => {
@@ -51,7 +50,8 @@ const Home = () => {
 
   return (
     <main>
-      <div className="flex justify-center w-full mt-4">
+      <Navbar />
+      <div className="flex justify-center w-full mt-20">
         <LazyLoad width={2000}>
           <img
             src={destaque}

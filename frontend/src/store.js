@@ -7,6 +7,7 @@ import userReducer from "./slices/userSlice";
 import productSlice from "./slices/productSlice";
 import cartReducer from "./slices/cartSlice";
 import shippingReducer from "./slices/shippingSlice";
+import clientReducer from "./slices/clientSlice";
 
 export const store = configureStore({
   // Onde todos os Contextos (dados) da aplicação serão salvos para serem distribuidos para a aplicação (+- assim)
@@ -16,5 +17,6 @@ export const store = configureStore({
     product: productSlice,
     cart: cartReducer,
     shipping: shippingReducer,
+    client: clientReducer,
   },
 });

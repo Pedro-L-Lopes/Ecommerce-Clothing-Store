@@ -3,7 +3,7 @@ import { DataForm } from "../../../components/PurchaseFlow/DataForm";
 
 const ClientForm = () => {
   return (
-    <div>
+    <div className="mt-28">
       <DataForm />
     </div>
   );

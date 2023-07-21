@@ -2,6 +2,8 @@ const Order = require("../models/Order");
 const Client = require("../models/Client");
 const Product = require("../models/Product");
 
+const mongoose = require("mongoose");
+
 const createOrder = async (req, res) => {
   const {
     clientId,
@@ -11,6 +13,7 @@ const createOrder = async (req, res) => {
     shippingCost,
     paymentMethod,
     status,
+    clientObservation,
   } = req.body;
 
   try {
@@ -55,6 +58,7 @@ const createOrder = async (req, res) => {
       shippingCost,
       paymentMethod,
       status,
+      clientObservation,
     });
 
     await order.save();
@@ -87,8 +91,48 @@ const getClientOrders = async (req, res) => {
   return res.status(200).json(orders);
 };
 
+const getOrderById = async (req, res) => {
+  const { id } = req.params;
+
+  const order = await Order.findById(new mongoose.Types.ObjectId(id));
+
+  if (!order) {
+    res.status(404).json({ errors: ["Pedido não encontrado!"] });
+    return;
+  }
+
+  res.status(200).json(order);
+};
+
+const updateOrder = async (req, res) => {
+  const { id } = req.params;
+
+  const { status, observation } = req.body;
+
+  const order = await Order.findById(id);
+
+  if (!order) {
+    res.status(404).json({ errors: ["Produto não encontrado."] });
+    return;
+  }
+
+  if (status) {
+    order.status = status;
+  }
+
+  if (observation) {
+    order.observation = observation;
+  }
+
+  await order.save();
+
+  res.status(200).json({ order, message: "Pedido atualizado com sucesso." });
+};
+
 module.exports = {
   createOrder,
   getAllOrders,
   getClientOrders,
+  getOrderById,
+  updateOrder,
 };

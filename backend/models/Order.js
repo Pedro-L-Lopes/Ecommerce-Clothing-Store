@@ -51,6 +51,8 @@ const orderSchema = new Schema(
       ],
       default: "Pagamento pendente",
     },
+    observation: String,
+    clientObservation: String,
   },
   {
     timestamps: true,

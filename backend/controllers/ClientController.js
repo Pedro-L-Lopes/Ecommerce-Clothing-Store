@@ -13,6 +13,7 @@ const insertClient = async (req, res) => {
     nasc,
     gender,
     status,
+    uf,
   } = req.body;
 
   try {
@@ -31,6 +32,7 @@ const insertClient = async (req, res) => {
       existingClient.nasc = nasc;
       existingClient.gender = gender;
       existingClient.status = status;
+      existingClient.uf = uf;
 
       await existingClient.save();
 
@@ -57,6 +59,7 @@ const insertClient = async (req, res) => {
         nasc,
         gender,
         status,
+        uf,
       });
 
       return res.status(201).json({ clientId: newClient._id });

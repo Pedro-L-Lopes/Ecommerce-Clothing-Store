@@ -28,7 +28,7 @@ import ClientForm from "./pages/Store/ClientForm/ClientForm";
 // import Teste from "../src/pages/Teste";
 
 // Componentes
-import Navbar from "../src/components/Navbar/Navbar";
+// import Navbar from "../src/components/Navbar/Navbar";
 import Footer from "../src/components/Footer/Footer";
 import Revise from "./pages/Store/Revise/Revise";
 
@@ -42,8 +42,8 @@ function App() {
   return (
     <div className={`app`}>
       <BrowserRouter>
-        <Navbar />
-        <div className="p-16">
+        {/* <Navbar /> */}
+        <div className="">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
@@ -73,7 +73,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/allproducts" element={<AllProducts />} />
             <Route path="/fldcpcop1" element={<ClientForm />} />
-            <Route path="/revise" element={<Revise />} />
+            <Route path="/pay" element={<Revise />} />
           </Routes>
         </div>
         <Footer />

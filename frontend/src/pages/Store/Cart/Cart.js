@@ -20,6 +20,7 @@ import ProductCart from "../../../components/ProductCart/ProductCart";
 import { BsTruck, BsCheckSquare } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ShippingSection from "../../../components/ShippingSection/ShippingSection";
+import Navbar from "../../../components/Navbar/Navbar";
 
 const MemoizedProductCart = React.memo(ProductCart);
 
@@ -68,7 +69,8 @@ const Cart = () => {
 
   return (
     <div>
-      <div className="flex items-center border-b-2 mt-5">
+      <Navbar />
+      <div className="flex items-center border-b-2 mt-20">
         <h1 className="font-bold text-3xl ml-80">Meu carrinho</h1>
       </div>
       <div className="flex flex-col items-center justify-center">

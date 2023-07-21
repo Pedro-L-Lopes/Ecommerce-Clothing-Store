@@ -5,7 +5,7 @@ import { getProduct } from "../../../slices/productSlice";
 import ProductItem from "../../../components/ProductItem/ProductItem";
 import { addCart } from "../../../slices/cartSlice";
 import CartCard from "../../../components/CartCard/CartCard";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import Navbar from "../../../components/Navbar/Navbar";
 
 const Product = () => {
   const { id } = useParams();
@@ -28,7 +28,6 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getProduct(id));
-    PageColor("white");
   }, [dispatch, id]);
 
   if (loading) {
@@ -37,11 +36,14 @@ const Product = () => {
 
   return (
     <div>
-      <ProductItem
-        product={product}
-        products={products}
-        addProductToCart={addProductToCart}
-      />
+      <Navbar />
+      <main className="mt-20">
+        <ProductItem
+          product={product}
+          products={products}
+          addProductToCart={addProductToCart}
+        />
+      </main>
       {cartMessage && <CartCard cart={cart} close={() => setCartMessage("")} />}
     </div>
   );
