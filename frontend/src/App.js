@@ -24,6 +24,7 @@ import EditProduct from "../src/pages/Adm/EditProduct/EditProduct";
 import Cart from "./pages/Store/Cart/Cart";
 import AllProducts from "./pages/Store/AllProducts/AllProducts";
 import ClientForm from "./pages/Store/ClientForm/ClientForm";
+import Payment from "./pages/Store/Payment/Payment";
 
 // import Teste from "../src/pages/Teste";
 
@@ -70,10 +71,12 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
             {/* <Route path="/teste" element={<Teste />} /> */}
+
             <Route path="/cart" element={<Cart />} />
             <Route path="/allproducts" element={<AllProducts />} />
             <Route path="/fldcpcop1" element={<ClientForm />} />
-            <Route path="/pay" element={<Revise />} />
+            <Route path="/payment/:id" element={<Payment />} />
+            <Route path="/revise" element={<Revise />} />
           </Routes>
         </div>
         <Footer />

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { uploads } from "../../utils/config";
-
 import ChooseProductSize from "../chooseProductSize/chooseProductSize";
 import Carousel from "../Carousel/Carousel";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
@@ -10,7 +8,6 @@ import ProductItemBox from "../ProductItemBox/ProductItemBox";
 import { formatPrice } from "../AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import { MdPix } from "react-icons/md";
 import { BsWhatsapp } from "react-icons/bs";

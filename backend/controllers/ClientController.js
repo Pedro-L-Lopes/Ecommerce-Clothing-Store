@@ -1,4 +1,5 @@
 const Client = require("../models/Client");
+const mongoose = require("mongoose");
 
 const insertClient = async (req, res) => {
   const {
@@ -81,7 +82,30 @@ const getAllClients = async (req, res) => {
   return res.status(200).json(client);
 };
 
+// Pegando usuário pelo Id
+const getClientById = async (req, res) => {
+  const { id } = req.params; // Pegando id da url pois é um GET
+
+  try {
+    // Tenta achar o cliente
+    const client = await Client.findById(new mongoose.Types.ObjectId(id));
+
+    // Checando se o cliente existe
+    if (!client) {
+      // Retornar uma resposta com erro caso o cliente não seja encontrado
+      return res.status(404).json({ errors: ["Cliente não encontrado"] });
+    }
+
+    // Retornar os dados do cliente encontrados
+    res.status(200).json(client);
+  } catch (error) {
+    // Lidar com qualquer outro erro
+    res.status(500).json({ errors: ["Erro ao buscar os dados do cliente."] });
+  }
+};
+
 module.exports = {
   insertClient,
   getAllClients,
+  getClientById,
 };

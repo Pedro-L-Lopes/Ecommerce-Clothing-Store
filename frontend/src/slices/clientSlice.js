@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import clientService from "../services/clientService";
 
+const client = JSON.parse(localStorage.getItem("client"));
+
 const initialState = {
   client: {},
+  clientId: null,
   error: false,
   success: false,
   loading: false,
@@ -20,6 +23,12 @@ export const insertClient = createAsyncThunk(
     return data;
   }
 );
+
+export const getClientById = createAsyncThunk("client/get", async (id) => {
+  const data = await clientService.getClientById(id);
+
+  return data;
+});
 
 export const clientSlice = createSlice({
   name: "client",
@@ -42,11 +51,24 @@ export const clientSlice = createSlice({
         state.success = true;
         state.error = false;
         state.client = action.payload;
+        state.clientId = action.payload.id;
       })
       .addCase(insertClient.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.client = null; 
+        state.client = null;
+        state.clientId = null;
+      })
+      .addCase(getClientById.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getClientById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        // Corrigir o nome do campo para "state.client" em vez de "state.product"
+        state.client = action.payload;
       });
   },
 });

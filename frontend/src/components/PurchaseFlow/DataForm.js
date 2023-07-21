@@ -13,6 +13,9 @@ export const DataForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const clientItem = JSON.parse(localStorage.getItem("client"));
+  const clientId = clientItem ? clientItem.clientId : null;
+
   const { loading, error } = useSelector((state) => state.client);
 
   const [name, setName] = useState("");
@@ -29,7 +32,7 @@ export const DataForm = () => {
 
   const [showError, setShowError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const client = {
@@ -46,11 +49,30 @@ export const DataForm = () => {
       uf,
     };
 
-    dispatch(insertClient(client));
-    if (showError) {
-      navigate("/pay");
+    try {
+      await dispatch(insertClient(client));
+
+      const updatedClientItem = JSON.parse(localStorage.getItem("client"));
+      const updatedClientId = updatedClientItem
+        ? updatedClientItem.clientId
+        : null;
+
+      if (updatedClientId) {
+        navigate(`/payment/${updatedClientId}`);
+      } else {
+        console.error("Erro ao obter o ID do cliente");
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar o cliente:", error);
+      setShowError(true);
     }
   };
+
+  useEffect(() => {
+    if (error && typeof error.msg === "string") {
+      setShowError(true);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (showError) {
@@ -59,19 +81,20 @@ export const DataForm = () => {
         dispatch(reset());
       }, 5000);
 
-      return () => {
-        clearTimeout(timer);
-        dispatch(reset());
-      };
+      return () => clearTimeout(timer);
     }
-  }, [showError, dispatch]);
+  }, [showError]);
 
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
 
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
   return (
-    <div className="mt-14">
+    <div className={`mt-14`}>
       <form action="" onSubmit={handleSubmit}>
         <div className="container max-w-screen-lg mx-auto">
           <div>
@@ -93,6 +116,7 @@ export const DataForm = () => {
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-black"
+                        required
                       />
                     </div>
                     <div className="md:col-span-5">
@@ -105,6 +129,7 @@ export const DataForm = () => {
                         placeholder="email@gmail.com"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
+                        required
                       />
                     </div>
                     <div className="md:col-span-3">
@@ -117,6 +142,7 @@ export const DataForm = () => {
                         placeholder=""
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
+                        required
                       />
                     </div>
                     <div className="md:col-span-2">
@@ -165,6 +191,7 @@ export const DataForm = () => {
                         placeholder=""
                         onChange={(e) => setCep(e.target.value)}
                         value={cep}
+                        required
                       />
                     </div>
 
@@ -175,12 +202,15 @@ export const DataForm = () => {
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-black"
                         onChange={(e) => setUf(e.target.value)}
                         value={uf}
+                        required
                       >
                         {estadosBrasil &&
                           estadosBrasil.map((estado) => {
-                            <option key={estado} value={estado}>
-                              {estado}
-                            </option>;
+                            return (
+                              <option key={estado} value={estado}>
+                                {estado}
+                              </option>
+                            );
                           })}
                       </select>
                     </div>
@@ -195,6 +225,7 @@ export const DataForm = () => {
                         placeholder=""
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         value={phoneNumber}
+                        required
                       />
                     </div>
                     <div className="md:col-span-2">
@@ -207,6 +238,7 @@ export const DataForm = () => {
                         placeholder=""
                         onChange={(e) => setNasc(e.target.value)}
                         value={nasc}
+                        required
                       />
                     </div>
                     <div className="md:col-span-1">
@@ -216,6 +248,7 @@ export const DataForm = () => {
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-black"
                         onChange={(e) => setGender(e.target.value)}
                         value={gender}
+                        required
                       >
                         <option value="">Selecione</option>
                         <option value="Feminino">Feminino</option>
@@ -225,7 +258,9 @@ export const DataForm = () => {
                     </div>
                     <div className="md:col-span-5 text-right">
                       <div className="inline-flex items-end">
-                        <button className="bg-black hover:opacity-80 text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className={`bg-black hover:opacity-80 text-white font-bold py-2 px-4 rounded`}
+                        >
                           Continuar
                         </button>
                       </div>
@@ -237,11 +272,7 @@ export const DataForm = () => {
           </div>
         </div>
       </form>
-      {error && typeof error.msg === "string" && (
-        <Message msg={error.msg} type="error" />
-      )}
-
-      {error && typeof error.msg === "string" && (
+      {showError && typeof error.msg === "string" && (
         <Message msg={error.msg} type="error" />
       )}
     </div>
