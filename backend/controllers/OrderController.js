@@ -8,22 +8,22 @@ const createOrder = async (req, res) => {
   const {
     clientId,
     products,
+    clientName,
     deliveryAddress,
     shippingType,
     shippingCost,
     paymentMethod,
     status,
     clientObservation,
+    code,
   } = req.body;
 
   try {
-    // Verificar se o cliente existe no banco de dados
     const client = await Client.findById(clientId);
     if (!client) {
       return res.status(404).json({ error: "Cliente não encontrado." });
     }
 
-    // Verificar se os produtos existem no banco de dados e calcular o total do pedido
     let total = 0;
     const orderProducts = [];
 
@@ -48,10 +48,18 @@ const createOrder = async (req, res) => {
       total += product.price * productData.quantity;
     }
 
+    const lastProduct = await Product.findOne({}).sort({ code: -1 }).exec();
+    let nextCode = 1;
+
+    if (lastProduct && !isNaN(lastProduct.code)) {
+      nextCode = parseInt(lastProduct.code) + 1;
+    }
+
     // Criar o pedido no banco de dados
     const order = new Order({
       products: orderProducts,
       client: client._id,
+      clientName,
       total: total,
       deliveryAddress,
       shippingType,
@@ -59,6 +67,7 @@ const createOrder = async (req, res) => {
       paymentMethod,
       status,
       clientObservation,
+      code: nextCode,
     });
 
     await order.save();

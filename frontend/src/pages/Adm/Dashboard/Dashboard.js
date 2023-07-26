@@ -1,13 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+import Footer from "../../../components/Footer/Footer";
 
 const Dashboard = () => {
-  useEffect(() => {
-    PageColor("rgb(31 41 55)");
-  }, []);
-
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <Sidebar />
+      teste
+      <Footer />
+    </div>
+  );
 };
 
 export default Dashboard;

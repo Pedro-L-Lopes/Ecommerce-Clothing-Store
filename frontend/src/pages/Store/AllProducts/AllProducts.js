@@ -6,7 +6,6 @@ import ReactPaginate from "react-paginate";
 
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const MemoizedProductItemBox = React.memo(ProductItemBox);
 
@@ -23,7 +22,6 @@ const AllProducts = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
-    PageColor("white");
   }, [dispatch]);
 
   const handlePageChange = ({ selected }) => {

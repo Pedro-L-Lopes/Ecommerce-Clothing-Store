@@ -8,7 +8,6 @@ import ReactPaginate from "react-paginate";
 import "./Search.css";
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Search = () => {
   const query = useQuery();
@@ -39,7 +38,6 @@ const Search = () => {
 
   useEffect(() => {
     dispatch(searchProducts(search));
-    PageColor("white");
   }, [dispatch, search]);
 
   const filteredProducts = useMemo(() => {

@@ -12,10 +12,7 @@ import {
 } from "../../../slices/shippingSlice";
 
 // Funtions and components
-import {
-  formatPrice,
-  PageColor,
-} from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
+import { formatPrice } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import ProductCart from "../../../components/ProductCart/ProductCart";
 import { BsTruck, BsCheckSquare } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -42,10 +39,6 @@ const Cart = () => {
   });
 
   localStorage.setItem("cartData", JSON.stringify(selectedShipping));
-
-  useEffect(() => {
-    PageColor("white");
-  }, []);
 
   const handleSearchCep = () => {
     dispatch(fetchShippingByCep(cep));
@@ -85,22 +78,20 @@ const Cart = () => {
                 removeProductFromCart={removeProductFromCart}
               />
             ))}
+            <ShippingSection
+              cep={cep}
+              setCep={setCep}
+              handleSearchCep={handleSearchCep}
+              loading={loading}
+              shippingData={shippingData}
+              selectedShipping={selectedShipping}
+              setSelectedShipping={setSelectedShipping}
+              calculateTotalPrice={calculateTotalPrice}
+              to={"/fldcpcop1"}
+              textSize={"text-lg"}
+            />
           </>
         )}
-
-        {/* Insert the ShippingSection component */}
-        <ShippingSection
-          cep={cep}
-          setCep={setCep}
-          handleSearchCep={handleSearchCep}
-          loading={loading}
-          shippingData={shippingData}
-          selectedShipping={selectedShipping}
-          setSelectedShipping={setSelectedShipping}
-          calculateTotalPrice={calculateTotalPrice}
-          to={"/fldcpcop1"}
-          textSize={"text-lg"}
-        />
       </div>
     </div>
   );

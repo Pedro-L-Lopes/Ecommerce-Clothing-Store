@@ -12,7 +12,6 @@ import SizeCheckbox from "../../../components/SizeCheckbox/SizeCheckbox";
 import {
   allCategories,
   sizes,
-  PageColor,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import Loading from "../../../components/Loading/Loading";
 
@@ -22,6 +21,7 @@ import {
   resetMessage,
   getProduct,
 } from "../../../slices/productSlice";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -52,7 +52,6 @@ const EditProduct = () => {
     if (product && Array.isArray(product.tags)) {
       setTags(product.tags.join(","));
     }
-    PageColor("rgb(31 41 55)");
   }, []);
 
   useEffect(() => {
@@ -109,8 +108,9 @@ const EditProduct = () => {
   }
 
   return (
-    <div className="ml-2">
-      <div className="max-w-full ml-2 p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
+    <div className="bg-slate-800 h-screen">
+      <Sidebar />
+      <div className="max-w-full ml-12 p-6 mx-auto bg-indigo-600 rounded-md dark:bg-gray-800">
         <div className="flex justify-center items-center ml-2 bg-gray-800 rounded-t min-w-full h-52 p-2">
           {product.images &&
             product.images.map((image, index) => (

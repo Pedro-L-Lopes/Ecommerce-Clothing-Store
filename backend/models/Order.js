@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 const orderSchema = new Schema(
   {
+    code: {
+      type: Number,
+      required: true,
+    },
     products: [
       {
         productId: {
@@ -28,26 +32,30 @@ const orderSchema = new Schema(
       required: true,
       ref: "Client",
     },
+    clientName: String,
     total: {
       type: Number,
       required: true,
     },
-    deliveryAddress: String, // Endereço de entrega
+    deliveryAddress: String,
     shippingType: {
       type: String,
       enum: ["PAC", "SEDEX"],
       default: "PAC",
     },
-    shippingCost: Number, // Custo do envio
-    paymentMethod: String, // Forma de pagamento
+    shippingCost: String,
+    paymentMethod: String,
     status: {
       type: String,
       enum: [
         "Pagamento pendente",
+        "Pagamento confirmado",
+        "Preparando",
         "A Enviar",
         "Enviado",
         "Entregue",
         "Cancelado",
+        "Devolução",
       ],
       default: "Pagamento pendente",
     },

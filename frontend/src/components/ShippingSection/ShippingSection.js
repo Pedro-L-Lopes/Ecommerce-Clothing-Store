@@ -84,7 +84,7 @@ const ShippingSection = ({
                   <p className={`text-white ml-4`}>
                     {shippingData.localidade === "Governador Valadares" ? (
                       <p
-                        className={`text-bold ${
+                        className={`font-bold ${
                           selectedShipping.tipo === "sedex"
                             ? "text-black"
                             : "text-green-500"
@@ -137,7 +137,7 @@ const ShippingSection = ({
                   <p className={`text-white ml-4`}>
                     {shippingData.localidade === "Governador Valadares" ? (
                       <p
-                        className={`text-bold ${
+                        className={`font-bold ${
                           selectedShipping.tipo === "pac"
                             ? "text-black"
                             : "text-green-500"

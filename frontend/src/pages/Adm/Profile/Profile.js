@@ -13,11 +13,11 @@ import {
 } from "../../../slices/productSlice";
 import Loading from "../../../components/Loading/Loading";
 import {
-  PageColor,
   allCategories,
   formatPrice,
 } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 import DeleteConfirmation from "../../../components/DeleteConfirmation/DeleteConfirmation";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 
 const Profile = () => {
   const { id } = useParams();
@@ -39,10 +39,6 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUserDetails(id));
-    PageColor("rgb(31 41 55)");
-    return () => {
-      PageColor("");
-    };
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -92,140 +88,143 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-4 ml-8">
-      {id === userAuth._id && (
-        <>
-          <div className="mb-4">
-            <select
-              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 focus:outline-none"
-              onChange={(e) => setTheFilter(e.target.value)}
-            >
-              <option value="all">Todos os produtos</option>
-              <option value="available">Produtos disponíveis</option>
-              <option value="unavailable">Produtos indisponíveis</option>
-              <option value="onSale">Produtos em promoção</option>
-              <option value="onSaleAvailable">
-                Produtos disponíveis e em promoção
-              </option>
-              <option value="onSaleUnavailable">
-                Produtos indisponíveis e em promoção
-              </option>
-            </select>
-            <select
-              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option value="">Todas as categorias</option>
-              {allCategories &&
-                allCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-            </select>
-            <button
-              className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
-              onClick={handleSortByCode}
-            >
-              Ordenar por código {sortByCode === "asc" ? "▲" : "▼"}
-            </button>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-              {products &&
-                products
-                  .filter(filterFunctions[theFilter] || filterFunctions.all)
-                  .filter((product) => {
-                    return (
-                      selectedCategory === "" ||
-                      product.category === selectedCategory
-                    );
-                  })
-                  .sort((a, b) => {
-                    if (sortByCode === "asc") {
-                      return a.code - b.code;
-                    } else if (sortByCode === "desc") {
-                      return b.code - a.code;
-                    } else {
-                      return 0;
-                    }
-                  })
-                  .map((product) => (
-                    <div
-                      key={product._id}
-                      className="bg-slate-700 p-2 rounded shadow flex items-center justify-between"
-                    >
-                      <div className="flex">
-                        <div className="flex items-center justify-center font-bold text-white mr-4 p-2 w-10">
-                          {product.code}
-                        </div>
-                        <Link
-                          to={`/products/${product._id}`}
-                          className="flex items-center"
-                        >
-                          {product.images && product.images.length > 0 && (
-                            <img
-                              src={`${uploads}/products/${product.images[0].filename}`}
-                              alt={product.name}
-                              className="w-16 h-16 rounded"
-                            />
-                          )}
-                          <div className="line-clamp-2">
-                            {product.onSale === true ? (
-                              <>
-                                <div className="flex">
-                                  <del className="text-gray-300 mr-2 ml-2">
-                                    {formatPrice(product.price)}
-                                  </del>
-                                  <p>{formatPrice(product.salePrice)}</p>
-                                </div>
-                              </>
-                            ) : (
-                              <p className="font-semibold ml-2">
-                                {formatPrice(product.price)}
-                              </p>
-                            )}
-                            <p className="ml-2">{product.name}</p>
-                          </div>
-                        </Link>
-                      </div>
-                      {id === userAuth._id ? (
-                        <div>
-                          <Link
-                            to={`/products/${product._id}/edit`}
-                            className="text-white mr-2"
-                          >
-                            <BiEditAlt size="20" />
-                          </Link>
-                          <BsXLg
-                            onClick={() => handleDelete(product._id)}
-                            className="text-red-600 cursor-pointer"
-                          />
-                        </div>
-                      ) : (
-                        <Link
-                          className="bg-blue-500 text-white px-4 py-2 rounded"
-                          to={`/products/${product._id}`}
-                        >
-                          Ver
-                        </Link>
-                      )}
-                    </div>
+    <div className="bg-slate-800 h-screen">
+      <Sidebar />
+      <div className="p-6 ml-14">
+        {id === userAuth._id && (
+          <>
+            <div className="mb-4">
+              <select
+                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 focus:outline-none"
+                onChange={(e) => setTheFilter(e.target.value)}
+              >
+                <option value="all">Todos os produtos</option>
+                <option value="available">Produtos disponíveis</option>
+                <option value="unavailable">Produtos indisponíveis</option>
+                <option value="onSale">Produtos em promoção</option>
+                <option value="onSaleAvailable">
+                  Produtos disponíveis e em promoção
+                </option>
+                <option value="onSaleUnavailable">
+                  Produtos indisponíveis e em promoção
+                </option>
+              </select>
+              <select
+                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="">Todas as categorias</option>
+                {allCategories &&
+                  allCategories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
-              {showDeleteModal && (
-                <DeleteConfirmation
-                  title="Excluir o produto?"
-                  close={() => setShowDeleteModal(false)}
-                  remove={() => confirmDelete(productIdToDelete)}
-                />
-              )}
+              </select>
+              <button
+                className="text-white bg-slate-700 rounded text-xl font-bold -mt-12 mb-2 p-2 ml-2 focus:outline-none"
+                onClick={handleSortByCode}
+              >
+                Ordenar por código {sortByCode === "asc" ? "▲" : "▼"}
+              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+                {products &&
+                  products
+                    .filter(filterFunctions[theFilter] || filterFunctions.all)
+                    .filter((product) => {
+                      return (
+                        selectedCategory === "" ||
+                        product.category === selectedCategory
+                      );
+                    })
+                    .sort((a, b) => {
+                      if (sortByCode === "asc") {
+                        return a.code - b.code;
+                      } else if (sortByCode === "desc") {
+                        return b.code - a.code;
+                      } else {
+                        return 0;
+                      }
+                    })
+                    .map((product) => (
+                      <div
+                        key={product._id}
+                        className="bg-slate-700 p-2 rounded shadow flex items-center justify-between"
+                      >
+                        <div className="flex">
+                          <div className="flex items-center justify-center font-bold text-white mr-4 p-2 w-10">
+                            {product.code}
+                          </div>
+                          <Link
+                            to={`/products/${product._id}`}
+                            className="flex items-center"
+                          >
+                            {product.images && product.images.length > 0 && (
+                              <img
+                                src={`${uploads}/products/${product.images[0].filename}`}
+                                alt={product.name}
+                                className="w-16 h-16 rounded"
+                              />
+                            )}
+                            <div className="line-clamp-2">
+                              {product.onSale === true ? (
+                                <>
+                                  <div className="flex">
+                                    <del className="text-gray-300 mr-2 ml-2">
+                                      {formatPrice(product.price)}
+                                    </del>
+                                    <p>{formatPrice(product.salePrice)}</p>
+                                  </div>
+                                </>
+                              ) : (
+                                <p className="font-semibold ml-2">
+                                  {formatPrice(product.price)}
+                                </p>
+                              )}
+                              <p className="ml-2">{product.name}</p>
+                            </div>
+                          </Link>
+                        </div>
+                        {id === userAuth._id ? (
+                          <div>
+                            <Link
+                              to={`/products/${product._id}/edit`}
+                              className="text-white mr-2"
+                            >
+                              <BiEditAlt size="20" />
+                            </Link>
+                            <BsXLg
+                              onClick={() => handleDelete(product._id)}
+                              className="text-red-600 cursor-pointer"
+                            />
+                          </div>
+                        ) : (
+                          <Link
+                            className="bg-blue-500 text-white px-4 py-2 rounded"
+                            to={`/products/${product._id}`}
+                          >
+                            Ver
+                          </Link>
+                        )}
+                      </div>
+                    ))}
+                {showDeleteModal && (
+                  <DeleteConfirmation
+                    title="Excluir o produto?"
+                    close={() => setShowDeleteModal(false)}
+                    remove={() => confirmDelete(productIdToDelete)}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-          {errorProduct && <Message msg={errorProduct} type="error" />}
-          {messageProduct && <Message msg={messageProduct} type="success" />}
-        </>
-      )}
-      {products.length === 0 && (
-        <p className="text-gray-500">Ainda não há produtos publicados...</p>
-      )}
+            {errorProduct && <Message msg={errorProduct} type="error" />}
+            {messageProduct && <Message msg={messageProduct} type="success" />}
+          </>
+        )}
+        {products.length === 0 && (
+          <p className="text-gray-500">Ainda não há produtos publicados...</p>
+        )}
+      </div>
     </div>
   );
 };

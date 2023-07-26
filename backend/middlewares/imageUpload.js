@@ -33,8 +33,8 @@ const imageUpload = multer({
 const imageUploadProducts = multer({
   storage: imageStorage,
   fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(png|jpg)$/)) {
-      return cb(new Error("Por favor, envie apenas png ou jpg!"));
+    if (!file.originalname.match(/\.(png|jpg|webp)$/)) {
+      return cb(new Error("Por favor, envie apenas png, jpg ou webp!"));
     }
     cb(null, true);
   },

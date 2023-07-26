@@ -67,7 +67,6 @@ export const clientSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        // Corrigir o nome do campo para "state.client" em vez de "state.product"
         state.client = action.payload;
       });
   },

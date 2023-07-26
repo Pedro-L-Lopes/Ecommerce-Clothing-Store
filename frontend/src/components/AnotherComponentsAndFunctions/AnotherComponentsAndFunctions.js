@@ -35,12 +35,6 @@ export const formatPrice = (price) => {
   }
 };
 
-export const PageColor = (color) => {
-  document.body.style.backgroundColor = color;
-  return () => {
-    document.body.style.backgroundColor = "";
-  };
-};
 
 export const estadosBrasil = [
   "AC",

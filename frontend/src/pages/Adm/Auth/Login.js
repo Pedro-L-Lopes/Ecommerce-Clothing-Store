@@ -1,6 +1,5 @@
 import Message from "../../../components/Message/Message";
 import { Link, redirect } from "react-router-dom";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 // Hooks
 import React, { useState, useEffect } from "react";
@@ -31,12 +30,11 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(reset());
-    PageColor("rgb(31 41 55)");
   }, [dispatch]);
 
   return (
-    <>
-      <section className="max-w-full p-6 mx-auto rounded-md shadow-md dark:bg-gray-800 mt-20 border-2 border-gray-600">
+    <main className="bg-slate-800 h-screen">
+      <section className="flex flex-col justify-center items-center max-w-full p-6 mx-auto rounded-md shadow-md dark:bg-gray-800 border-2 border-gray-600">
         <h1 className="text-xl text-center font-bold text-white capitalize dark:text-white m-auto">
           Login
         </h1>
@@ -100,7 +98,7 @@ const Login = () => {
         </form>
         {error && <Message msg={error} type="error" />}
       </section>
-    </>
+    </main>
   );
 };
 

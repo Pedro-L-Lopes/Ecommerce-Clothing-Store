@@ -11,7 +11,7 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const ProductCart = ({ product }) => {
+const ProductCart = ({ product, hidden }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(product.quantity);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -73,14 +73,14 @@ const ProductCart = ({ product }) => {
           <div className="flex items-center justify-center w-24 border rounded-md">
             <button
               onClick={decreaseQuantity}
-              className="w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all"
+              className={`w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all ${hidden}`}
             >
               <AiOutlineMinusSquare size={25} />
             </button>
             <p className="font-bold">{quantity}</p>
             <button
               onClick={increaseQuantity}
-              className="w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all"
+              className={`w-8 h-8 m-2 opacity-50 hover:opacity-80 transition-all ${hidden}`}
             >
               <AiOutlinePlusSquare size={25} className="" />
             </button>
@@ -94,7 +94,7 @@ const ProductCart = ({ product }) => {
             {product.quantity > 1 ? (
               <p className="">
                 (
-                {formatPrice( 
+                {formatPrice(
                   product.onSale ? product.salePrice : product.price
                 )}
                 <span className="ml-1">Cada</span>)

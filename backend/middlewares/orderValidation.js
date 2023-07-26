@@ -7,6 +7,7 @@ const createOrderValidation = () => {
       .withMessage("ID do cliente não fornecido!")
       .isMongoId()
       .withMessage("ID do cliente inválido!"),
+    body("clientName").notEmpty().withMessage("Nome do cliente não fornecido!"),
     body("products")
       .isArray({ min: 1 })
       .withMessage("Insira pelo menos um produto no pedido!")
@@ -50,11 +51,7 @@ const createOrderValidation = () => {
       .withMessage("Selecione o tipo de envio!")
       .isIn(["PAC", "SEDEX"])
       .withMessage("Selecione um tipo de envio válido!"),
-    body("shippingCost")
-      .notEmpty()
-      .withMessage("Insira o custo do envio!")
-      .isNumeric({ min: 0 })
-      .withMessage("O custo do envio deve ser um número não negativo!"),
+    body("shippingCost").notEmpty().withMessage("Insira o custo do envio!"),
     body("paymentMethod")
       .notEmpty()
       .withMessage("Insira a forma de pagamento!")

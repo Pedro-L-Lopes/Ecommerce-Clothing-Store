@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { register, reset } from "../../../slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PageColor } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -33,7 +32,6 @@ const Register = () => {
 
   useEffect(() => {
     dispatch(reset());
-    PageColor("rgb(31 41 55)");
   }, [dispatch]);
 
   const fields = [

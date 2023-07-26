@@ -5,6 +5,7 @@ import { RxDashboard } from "react-icons/rx";
 import { AiOutlinePlusSquare, AiOutlineTags } from "react-icons/ai";
 import { VscGear, VscTag } from "react-icons/vsc";
 import { BiExit } from "react-icons/bi";
+import { MdOutlineBorderColor } from "react-icons/md";
 
 import { Link } from "react-router-dom";
 
@@ -16,9 +17,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const Sidebar = ({ user }) => {
+const Sidebar = () => {
+  const { user } = useSelector((state) => state.auth);
+
   const menus = [
     { name: "Dashboard", link: "/dashboard", icon: RxDashboard },
+    {
+      name: "Pedidos",
+      link: "/orders/",
+      icon: MdOutlineBorderColor,
+      margin: true,
+    },
     {
       name: "Produtos",
       link: `/users/${user._id}`,

@@ -13,6 +13,8 @@ export const DataForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const cartData = JSON.parse(localStorage.getItem("cartData"));
+
   const clientItem = JSON.parse(localStorage.getItem("client"));
   const clientId = clientItem ? clientItem.clientId : null;
 
@@ -20,15 +22,15 @@ export const DataForm = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [street, setStreet] = useState("");
-  const [neighborhood, setNeighborhood] = useState("");
+  const [street, setStreet] = useState(cartData.logradouro);
+  const [neighborhood, setNeighborhood] = useState(cartData.bairro);
   const [houseNumber, setHouseNumber] = useState("");
-  const [city, setCity] = useState("");
-  const [cep, setCep] = useState("");
+  const [city, setCity] = useState(cartData.localidade);
+  const [cep, setCep] = useState(cartData.cep);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nasc, setNasc] = useState("");
   const [gender, setGender] = useState("");
-  const [uf, setUf] = useState("");
+  const [uf, setUf] = useState(cartData.uf);
 
   const [showError, setShowError] = useState(false);
 

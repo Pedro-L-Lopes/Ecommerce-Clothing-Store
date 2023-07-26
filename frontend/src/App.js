@@ -25,13 +25,9 @@ import Cart from "./pages/Store/Cart/Cart";
 import AllProducts from "./pages/Store/AllProducts/AllProducts";
 import ClientForm from "./pages/Store/ClientForm/ClientForm";
 import Payment from "./pages/Store/Payment/Payment";
-
-// import Teste from "../src/pages/Teste";
-
-// Componentes
-// import Navbar from "../src/components/Navbar/Navbar";
-import Footer from "../src/components/Footer/Footer";
-import Revise from "./pages/Store/Revise/Revise";
+import Thanks from "./pages/Store/Thanks/Thanks";
+import Orders from "./pages/Adm/Orders/Orders";
+import Order from "./pages/Adm/Order/Order";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -43,7 +39,6 @@ function App() {
   return (
     <div className={`app`}>
       <BrowserRouter>
-        {/* <Navbar /> */}
         <div className="">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -70,16 +65,16 @@ function App() {
             />
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
-            {/* <Route path="/teste" element={<Teste />} /> */}
+            <Route path="/orders/" element={<Orders />} />
+            <Route path="/orders/:id" element={<Order />} />
 
             <Route path="/cart" element={<Cart />} />
             <Route path="/allproducts" element={<AllProducts />} />
             <Route path="/fldcpcop1" element={<ClientForm />} />
             <Route path="/payment/:id" element={<Payment />} />
-            <Route path="/revise" element={<Revise />} />
+            <Route path="/thanks" element={<Thanks />} />
           </Routes>
         </div>
-        <Footer />
       </BrowserRouter>
     </div>
   );
