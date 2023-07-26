@@ -59,9 +59,6 @@ const Navbar = () => {
           <Link to="/allproducts">Todos os produtos</Link>
         </div>
         <div className="hover:border-b-2 hover:border-black p-2">
-          <Link>Promoções</Link>
-        </div>
-        <div className="hover:border-b-2 hover:border-black p-2">
           <div
             onMouseOver={() => setisOpen(true)}
             onMouseOut={() => setisOpen(false)}

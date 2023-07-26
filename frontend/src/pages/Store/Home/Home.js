@@ -4,6 +4,7 @@ import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 import { Link } from "react-router-dom";
 import LazyLoad from "react-lazy-load";
 import Navbar from "../../../components/Navbar/Navbar";
+import Footer from "../../../components/Footer/Footer";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -11,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 // Redux
 import { getAllProducts } from "../../../slices/productSlice";
-import { addCart } from "../../../slices/cartSlice";
 
 // Imagens
 import destaque from "../../../images/destaque.jpg";
@@ -56,6 +56,7 @@ const Home = () => {
           <img
             src={destaque}
             alt="Banner promoção"
+            loading="lazy"
             style={{ maxHeight: "60vh", width: "100%" }}
             className="object-cover object-top rounded"
           />
@@ -92,6 +93,7 @@ const Home = () => {
             <img
               src={banner2}
               alt="banner de promoção"
+              loading="lazy"
               style={{ maxHeight: "60vh", width: "100%" }}
               className="object-cover object-top rounded"
             />
@@ -108,6 +110,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </main>
   );
 };

@@ -6,6 +6,7 @@ import ProductItem from "../../../components/ProductItem/ProductItem";
 import { addCart } from "../../../slices/cartSlice";
 import CartCard from "../../../components/CartCard/CartCard";
 import Navbar from "../../../components/Navbar/Navbar";
+import Footer from "../../../components/Footer/Footer";
 
 const Product = () => {
   const { id } = useParams();
@@ -45,6 +46,7 @@ const Product = () => {
         />
       </main>
       {cartMessage && <CartCard cart={cart} close={() => setCartMessage("")} />}
+      <Footer />
     </div>
   );
 };

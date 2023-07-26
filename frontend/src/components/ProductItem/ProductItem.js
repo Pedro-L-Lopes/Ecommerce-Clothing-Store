@@ -130,10 +130,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
               <p className="font-bold text-sm">Frete grátis</p>
             </div>
             <p className="text-sm text-gray-400 p-2 -mt-3">
-              Entrega grátis em Governador Valadares e região
-            </p>
-            <p className="text-sm text-gray-400 p-2 -mt-3">
-              Outras cidades necessário consultar os correios
+              Entrega grátis em Governador Valadares
             </p>
             <div className="flex p-2">
               <AiFillSafetyCertificate

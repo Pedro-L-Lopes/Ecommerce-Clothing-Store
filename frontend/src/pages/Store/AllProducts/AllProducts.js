@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { getAllProducts } from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
 
+import Navbar from "../../../components/Navbar/Navbar";
+import Footer from "../../../components/Footer/Footer";
+
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
 
@@ -67,6 +70,7 @@ const AllProducts = () => {
 
   return (
     <main>
+      <Navbar />
       <ProductFilter
         categoryFilter={categoryFilter}
         promotionFilter={promotionFilter}
@@ -98,6 +102,7 @@ const AllProducts = () => {
         pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
         activeLinkClassName="p-2 font-bold"
       />
+      <Footer />
     </main>
   );
 };

@@ -29,12 +29,12 @@ const Orders = () => {
     return status === selectedStatus ? "bg-slate-800 transition-all" : "";
   };
 
-  if(loading){
-    return <p>Carregando</p>
+  if (loading) {
+    return <p>Carregando</p>;
   }
 
   return (
-    <div className="bg-slate-800">
+    <div className="bg-slate-800 h-screen">
       <Sidebar />
       <main className="ml-16 p-2">
         <h2 className="text-white text-2xl text-center font-bold p-2">
@@ -92,37 +92,21 @@ const Orders = () => {
           </button>
         </div>
 
-        <ul className="flex items-center gap-8 text-white p-2 bg-slate-500 mt-2 font-bold rounded">
-          <li className="text-center w-10 ml-2">
-            <p>Código</p>
-          </li>
-          <li className="text-center w-96">
-            <p>Nome/Endereço</p>
-          </li>
-          <li className="text-center w-40">
-            <p>Pedido/frete</p>
-          </li>
-          <li className="text-center w-40">
-            <p>Data/atualização</p>
-          </li>
-          <li className="w-40 text-center">
-            <p>Detalhes</p>
-          </li>
-        </ul>
-
         {filteredOrders.length === 0 ? (
-          <p>Não há pedidos com o status selecionado.</p>
+          <p className="text-center text-2xl text-white font-bold mt-10">
+            Não há pedidos com o status selecionado.
+          </p>
         ) : (
-          <ul>
+          <div>
             {filteredOrders.map((order) => (
               <div
-                className="flex items-center gap-10 h-20 text-white p-2 bg-slate-700 mt-2 rounded"
+                className="flex items-center justify-center gap-10 h-20 text-white p-2 bg-slate-700 mt-2 rounded"
                 key={order._id}
               >
-                <div className="flex items-center justify-center font-bold w-10 ml-2">
+                <div className="flex items-center justify-center font-bold w-10">
                   <p>{order.code}</p>
                 </div>
-                <div className="w-96 p-2  font-bold">
+                <div className="w-96 p-2 font-bold">
                   <p>{order.clientName}</p>
                   <p>{order.deliveryAddress}</p>
                 </div>
@@ -130,7 +114,7 @@ const Orders = () => {
                   <p>Total: R${order.total.toFixed(2)}</p>
                   <p>Frete: R${order.shippingCost}</p>
                 </div>
-                <div className="w-40 p-2  text-center font-bold">
+                <div className="w-40 p-2 text-center font-bold">
                   <p>{formattedDate(order.createdAt)}</p>
                   <p>
                     {order.createdAt != order.updatedAt
@@ -146,7 +130,7 @@ const Orders = () => {
                 </Link>
               </div>
             ))}
-          </ul>
+          </div>
         )}
       </main>
     </div>
