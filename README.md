@@ -1,6 +1,6 @@
-# Catalog
+# E-commerce
 
-Catalogo de produtos sendo feito com Node.js + Express e MongoDB no backend, e React + Redux Toolkit no frontend.
+E-commerce de roupas sendo feito com Node.js + Express, MongoDB, React + Redux Toolkit.
 
 ## Funcionalidades
 
