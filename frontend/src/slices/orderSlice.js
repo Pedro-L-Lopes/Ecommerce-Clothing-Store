@@ -61,6 +61,12 @@ export const getOrderById = createAsyncThunk(
   }
 );
 
+export const getClientOrders = createAsyncThunk("order/client", async (id) => {
+  const data = await orderService.getClientOrders(id);
+
+  return data;
+});
+
 export const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -129,6 +135,16 @@ export const orderSlice = createSlice({
         state.success = true;
         state.error = null;
         state.order = action.payload;
+      })
+      .addCase(getClientOrders.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getClientOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.orders = action.payload;
       });
   },
 });

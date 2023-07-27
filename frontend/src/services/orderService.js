@@ -59,11 +59,26 @@ const getOrderById = async (id, token) => {
   }
 };
 
+const getClientOrders = async (id) => {
+  const config = requestConfig("GET");
+
+  try {
+    const res = await fetch(api + "/order/client/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const orderService = {
   createOrder,
   getAllOrders,
   updateOrder,
   getOrderById,
+  getClientOrders,
 };
 
 export default orderService;

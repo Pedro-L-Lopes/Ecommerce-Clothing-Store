@@ -13,7 +13,7 @@ const authGuard = require("../middlewares/authGuard");
 
 router.post("/", orderValidation(), createOrder);
 router.get("/", authGuard, getAllOrders);
-router.get("/client/:id", authGuard, getClientOrders);
+router.get("/client/:id", getClientOrders);
 router.get("/:id", authGuard, getOrderById);
 router.put("/:id", authGuard, updateOrder);
 

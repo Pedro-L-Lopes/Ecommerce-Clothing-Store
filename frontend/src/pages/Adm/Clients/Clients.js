@@ -17,15 +17,15 @@ const Clients = () => {
   console.log(clients);
   console.log(error);
   return (
-    <div className="bg-slate-800 h-screen">
+    <div className="bg-slate-800">
       <Sidebar />
       <div className="ml-20">
-        <nav className="text-white text-xl font-bold bg-slate-700 p-2 rounded max-w-4xl">
+        <nav className="text-white text-xl font-bold bg-slate-700 p-2 rounded max-w-6xl">
           <ul className="flex justify-between">
             <li className="w-12 text-center">Cod</li>
-            <li className="w-52 text-center">Nome</li>
-            <li className="w-52 text-center">Email</li>
-            <li className="w-52 text-center">Cidade</li>
+            <li className="w-80 text-center">Nome</li>
+            <li className="w-80 text-center">Email</li>
+            <li className="w-80 text-center">Cidade</li>
             <li className="w-52 text-center">Telefone</li>
             <li className="w-52 text-center">Detalhes</li>
           </ul>
@@ -35,18 +35,18 @@ const Clients = () => {
             clients.map((client) => (
               <div
                 key={client._id}
-                className="flex justify-between text-white text-lg font-bold p-3 max-w-4xl"
+                className="flex justify-between text-white text-lg font-bold p-3 max-w-6xl"
               >
                 <p className="w-12 text-center border border-slate-700 p-2 truncate">
                   {client.code}
                 </p>
-                <p className="w-52 text-center border border-slate-700 p-2 truncate">
+                <p className="w-80 text-center border border-slate-700 p-2 truncate">
                   {client.name}
                 </p>
-                <p className="w-52 text-center border border-slate-700 p-2 truncate">
+                <p className="w-80 text-center border border-slate-700 p-2 truncate">
                   {client.email}
                 </p>
-                <p className="w-52 text-center border border-slate-700 p-2 truncate">
+                <p className="w-80 text-center border border-slate-700 p-2 truncate">
                   {client.city}-{client.uf}
                 </p>
                 <p className="w-52 text-center border border-slate-700 p-2 truncate">
