@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import clientService from "../services/clientService";
+import orderSlice from "./orderSlice";
 
 const client = JSON.parse(localStorage.getItem("client"));
 
 const initialState = {
+  clients: [],
   client: {},
   clientId: null,
   error: false,
@@ -30,6 +32,11 @@ export const getClientById = createAsyncThunk("client/get", async (id) => {
   return data;
 });
 
+export const getAllClients = createAsyncThunk("orders/getall", async () => {
+  const data = await clientService.getAllClients();
+  return data;
+});
+
 export const clientSlice = createSlice({
   name: "client",
   initialState,
@@ -51,6 +58,7 @@ export const clientSlice = createSlice({
         state.success = true;
         state.error = false;
         state.client = action.payload;
+        state.clients.unshift(state.client);
         state.clientId = action.payload.id;
       })
       .addCase(insertClient.rejected, (state, action) => {
@@ -68,6 +76,16 @@ export const clientSlice = createSlice({
         state.success = true;
         state.error = null;
         state.client = action.payload;
+      })
+      .addCase(getAllClients.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getAllClients.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.clients = action.payload;
       });
   },
 });

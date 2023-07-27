@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 // Redux
 import { getOrderById } from "../../../slices/orderSlice";
@@ -90,7 +91,11 @@ const Order = () => {
           <div className="text-white font-bold">
             <h1 className="text-2xl p-2">Dados</h1>
             <section className="text-xl mt-1 border-b">
-              <p>Nome: {order.clientName}</p>
+              <p>
+                <Link to={`/client/${order.client}`}>
+                  Nome: {order.clientName}
+                </Link>
+              </p>
               {order.observation != "" ? (
                 <p>Observação: {order.clientObservation}</p>
               ) : (

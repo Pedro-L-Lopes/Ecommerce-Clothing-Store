@@ -9,8 +9,6 @@ const insertClient = async (data) => {
       .catch((err) => err);
 
     if (res) {
-      // Recebe um usuário (id e token)
-      // Salvando na localStorage para extrair depois e ver se o usuário está logado // Tranforma em string novamente a resposta
       localStorage.setItem("client", JSON.stringify(res));
     }
 
@@ -35,9 +33,24 @@ const getClientById = async (id) => {
   }
 };
 
+const getAllClients = async () => {
+  const config = requestConfig("GET");
+
+  try {
+    const res = await fetch(api + "/client/", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const clientService = {
   insertClient,
   getClientById,
+  getAllClients,
 };
 
 export default clientService;

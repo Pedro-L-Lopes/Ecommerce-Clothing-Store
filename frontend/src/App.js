@@ -28,6 +28,8 @@ import Payment from "./pages/Store/Payment/Payment";
 import Thanks from "./pages/Store/Thanks/Thanks";
 import Orders from "./pages/Adm/Orders/Orders";
 import Order from "./pages/Adm/Order/Order";
+import Clients from "./pages/Adm/Clients/Clients";
+import Client from "./pages/Adm/Clients/Client";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -65,8 +67,12 @@ function App() {
             />
             <Route path="/search" element={<Search />} />
             <Route path="/products/:id" element={<Product />} />
+
             <Route path="/orders/" element={<Orders />} />
             <Route path="/orders/:id" element={<Order />} />
+
+            <Route path="/clients/" element={<Clients />} />
+            <Route path="/client/:id" element={<Client />} />
 
             <Route path="/cart" element={<Cart />} />
             <Route path="/allproducts" element={<AllProducts />} />

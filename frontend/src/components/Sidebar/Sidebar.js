@@ -6,6 +6,7 @@ import { AiOutlinePlusSquare, AiOutlineTags } from "react-icons/ai";
 import { VscGear, VscTag } from "react-icons/vsc";
 import { BiExit } from "react-icons/bi";
 import { MdOutlineBorderColor } from "react-icons/md";
+import { FiUsers } from "react-icons/fi";
 
 import { Link } from "react-router-dom";
 
@@ -27,6 +28,11 @@ const Sidebar = () => {
       link: "/orders/",
       icon: MdOutlineBorderColor,
       margin: true,
+    },
+    {
+      name: "Clientes",
+      link: "/clients/",
+      icon: FiUsers,
     },
     {
       name: "Produtos",
