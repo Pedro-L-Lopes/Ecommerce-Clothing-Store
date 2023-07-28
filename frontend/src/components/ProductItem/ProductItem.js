@@ -152,25 +152,28 @@ const ProductItem = ({ product, addProductToCart, products }) => {
         </p>
       </div>
 
-      <div className="flex overflow-hidden">
-        {products &&
-          products
-            .filter(
-              (p) =>
-                p._id !== product._id &&
-                p.available &&
-                (p.category === actualCategory ||
-                  p.name === product.name ||
-                  relatedTags(p.tags, actualTags))
-            )
-            .slice(0, 10)
-            .map((relatedProduct) => (
-              <div key={relatedProduct._id}>
-                <Link to={`/products/${relatedProduct._id}`}>
-                  <RelatedProducts product={relatedProduct} />
-                </Link>
-              </div>
-            ))}
+      <div>
+        <h1 className="text-xl font-bold mt-10 ml-4">Relacionados</h1>
+        <div className="flex overflow-hidden">
+          {products &&
+            products
+              .filter(
+                (p) =>
+                  p._id !== product._id &&
+                  p.available &&
+                  (p.category === actualCategory ||
+                    p.name === product.name ||
+                    relatedTags(p.tags, actualTags))
+              )
+              .slice(0, 10)
+              .map((relatedProduct) => (
+                <div key={relatedProduct._id}>
+                  <Link to={`/products/${relatedProduct._id}`}>
+                    <RelatedProducts product={relatedProduct} />
+                  </Link>
+                </div>
+              ))}
+        </div>
       </div>
     </main>
   );

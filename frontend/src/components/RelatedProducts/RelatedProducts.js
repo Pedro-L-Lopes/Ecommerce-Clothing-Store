@@ -9,7 +9,7 @@ const ProductItemBox = ({ product }) => {
   const firstImage = product.images ? product.images[0] : null;
   return (
     <div>
-      <div className="w-full md:w-52 sm:w-32 lg:w-72 lg:h-96 mt-10 mb-8">
+      <div className="w-full md:w-52 sm:w-32 lg:w-72 lg:h-96 mb-8">
         <div className="h-64">
           {firstImage && (
             <>

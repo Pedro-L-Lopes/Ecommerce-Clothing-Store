@@ -107,7 +107,7 @@ const Order = () => {
                   <p className="flex items-center w-32 border-r-2 border-b p-2">
                     Pedido
                   </p>
-                  <p className="flex items-center p-2">
+                  <p className="flex items-center border-b p-2">
                     {formatPrice(order.total)}
                   </p>
                 </div>
@@ -116,14 +116,14 @@ const Order = () => {
                   <p className="flex items-center w-32 border-r-2 border-b  p-2">
                     Frete
                   </p>
-                  <p className="flex items-center p-2">
+                  <p className="flex items-center border-b p-2">
                     R$ {order.shippingCost}
                   </p>
                 </div>
 
                 <div className="flex">
                   <p className="flex items-center w-32 border-r-2 p-2">Total</p>
-                  <p className="flex items-center p-2">
+                  <p className="flex items-center  border-b p-2">
                     {formatPrice(order.total + parseInt(order.shippingCost))}
                   </p>
                 </div>
