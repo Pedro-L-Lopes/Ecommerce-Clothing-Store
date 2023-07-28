@@ -12,6 +12,7 @@ import { getProduct } from "../../../slices/productSlice";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import ReviseProductOrder from "../../../components/Revise/ReviseProductOrder";
 import { formattedDate } from "../../../components/AnotherComponentsAndFunctions/formattedDate";
+import { formatPrice } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Order = () => {
   const { id } = useParams();
@@ -66,6 +67,109 @@ const Order = () => {
       <Sidebar />
 
       <div className="ml-20 flex gap-2">
+        <div className="flex">
+          <div className="font-bold">
+            <h1 className="text-white text-2xl p-2">Dados</h1>
+
+            <div>
+              <Link to={`/client/${order.client}`}>
+                <div className="flex text-xl bg-white  rounded mt-2">
+                  <p className="flex items-center w-32 border-r-2 p-2">Nome</p>
+                  <p className="flex items-center p-2">{order.clientName}</p>
+                </div>
+              </Link>
+
+              <div className="flex text-xl bg-white  rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">
+                  Observação
+                </p>
+                <textarea cols="40" rows="3" className="p-2">
+                  {order.clientObservation}
+                </textarea>
+              </div>
+
+              <div className="flex text-xl bg-white rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">
+                  Endereço
+                </p>
+                <p className="flex items-center p-2">{order.deliveryAddress}</p>
+              </div>
+
+              <div className="flex text-xl bg-white rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">
+                  Tipo de envio
+                </p>
+                <p className="flex items-center p-2">{order.shippingType}</p>
+              </div>
+
+              <div className="flex flex-col text-xl bg-white rounded mt-2">
+                <div className="flex">
+                  <p className="flex items-center w-32 border-r-2 border-b p-2">
+                    Pedido
+                  </p>
+                  <p className="flex items-center p-2">
+                    {formatPrice(order.total)}
+                  </p>
+                </div>
+
+                <div className="flex">
+                  <p className="flex items-center w-32 border-r-2 border-b  p-2">
+                    Frete
+                  </p>
+                  <p className="flex items-center p-2">
+                    R$ {order.shippingCost}
+                  </p>
+                </div>
+
+                <div className="flex">
+                  <p className="flex items-center w-32 border-r-2 p-2">Total</p>
+                  <p className="flex items-center p-2">
+                    {formatPrice(order.total + parseInt(order.shippingCost))}
+                  </p>
+                </div>
+              </div>
+              <div className="flex text-xl bg-white  rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">Data/hr</p>
+                <p className="flex items-center p-2">
+                  {formattedDate(order.createdAt)}h
+                </p>
+              </div>
+
+              <div className="flex text-xl bg-white  rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">
+                  Método de pagamento
+                </p>
+                <p className="flex items-center p-2">{order.paymentMethod}</p>
+              </div>
+
+              <div className="flex text-xl bg-white  rounded mt-2">
+                <p className="flex items-center w-32 border-r-2 p-2">Status</p>
+                <select
+                  name="changeStatus"
+                  id="changeStatus"
+                  value={changeStatus}
+                  onChange={(e) => setChangeStatus(e.target.value)}
+                  className="flex items-center p-2 rounded"
+                >
+                  <option value="Cancelado">Cancelado</option>
+                  <option value="Pagamento Pendente">Pagamento Pendente</option>
+                  <option value="Pagamento confirmado">
+                    Pagamento confirmado
+                  </option>
+                  <option value="Preparando">Preparando</option>
+                  <option value="A enviar">A enviar</option>
+                  <option value="Enviado">Enviado</option>
+                  <option value="Entregue">Entregue</option>
+                  <option value="Devolução">Devolução</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <section className="">
+            <div className="flex"></div>
+          </section>
+        </div>
         <section>
           <div>
             <h1 className="text-white text-2xl font-bold p-2 ml-10">
@@ -87,66 +191,6 @@ const Order = () => {
               ))}
           </section>
         </section>
-        <div className="flex">
-          <div className="text-white font-bold">
-            <h1 className="text-2xl p-2">Dados</h1>
-            <section className="text-xl mt-1 border-b">
-              <p>
-                <Link to={`/client/${order.client}`}>
-                  Nome: {order.clientName}
-                </Link>
-              </p>
-              {order.observation != "" ? (
-                <p>Observação: {order.clientObservation}</p>
-              ) : (
-                <p>Observação: Vazio</p>
-              )}
-            </section>
-            <section className="text-xl mt-2 border-b">
-              <p>Endereço: {order.deliveryAddress}</p>
-              <p>Tipo de envio: {order.shippingType}</p>
-            </section>
-            <section className="text-xl mt-2 border-b">
-              <p>Pedido: {order.total}</p>
-              <p>Frete: {order.shippingCost}</p>
-              <p>Total: {order.total + parseInt(order.shippingCost)}</p>
-            </section>
-
-            <p>Data: {formattedDate(order.createdAt)}</p>
-          </div>
-
-          <section className="">
-            <p className="text-white text-xl font-bold mt-2">
-              Método de pagamento: {order.paymentMethod}
-            </p>
-            <div className="flex">
-              <label
-                htmlFor="changeStatus"
-                className="text-white text-xl mr-2 font-bold"
-              >
-                Status
-              </label>
-              <select
-                name="changeStatus"
-                id="changeStatus"
-                value={changeStatus}
-                onChange={(e) => setChangeStatus(e.target.value)}
-                className="rounded"
-              >
-                <option value="Cancelado">Cancelado</option>
-                <option value="Pagamento Pendente">Pagamento Pendente</option>
-                <option value="Pagamento confirmado">
-                  Pagamento confirmado
-                </option>
-                <option value="Preparando">Preparando</option>
-                <option value="A enviar">A enviar</option>
-                <option value="Enviado">Enviado</option>
-                <option value="Entregue">Entregue</option>
-                <option value="Devolução">Devolução</option>
-              </select>
-            </div>
-          </section>
-        </div>
       </div>
     </div>
   );

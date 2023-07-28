@@ -20,6 +20,7 @@ const Clients = () => {
     <div className="bg-slate-800">
       <Sidebar />
       <div className="ml-20">
+        <h1 className="text-white text-2xl font-bold p-2">Clientes</h1>
         <nav className="text-white text-xl font-bold bg-slate-700 p-2 rounded max-w-6xl">
           <ul className="flex justify-between">
             <li className="w-12 text-center">Cod</li>

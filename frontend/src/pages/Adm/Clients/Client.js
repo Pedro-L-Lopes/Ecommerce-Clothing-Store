@@ -9,6 +9,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import { getClientById } from "../../../slices/clientSlice";
 import { getClientOrders } from "../../../slices/orderSlice";
 import { DataFormClient } from "../../../components/AnotherComponentsAndFunctions/DataFormClient";
+import { formatPrice } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
 const Client = () => {
   const { id } = useParams();
@@ -41,9 +42,11 @@ const Client = () => {
             orders.map((order) => (
               <Link to={`/orders/${order._id}`}>
                 <div className="flex items-center gap-10 font-bold bg-slate-700 max-w-xl p-2 rounded mt-2">
-                  <p className="ml-10">Data: {formattedDate(order.createdAt)}</p>
-                  <p>Total de items: {order.products.length}</p>
-                  <p>Valor: {order.total}</p>
+                  <p className="ml-10">
+                    Data: {formattedDate(order.createdAt)}h
+                  </p>
+                  <p>Total de itens: {order.products.length}</p>
+                  <p>Valor: {formatPrice(order.total)}</p>
                 </div>
               </Link>
             ))}
