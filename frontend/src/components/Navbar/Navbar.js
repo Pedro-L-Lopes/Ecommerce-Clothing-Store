@@ -84,9 +84,6 @@ const Navbar = () => {
       </form>
       <div className="flex gap-4 ml-10">
         <div className="hover:border-b-2 hover:border-black p-2">
-          <Link to="/allproducts">Todos os produtos</Link>
-        </div>
-        <div className="hover:border-b-2 hover:border-black p-2">
           <div
             onMouseOver={() => setisOpen(true)}
             onMouseOut={() => setisOpen(false)}
@@ -113,6 +110,9 @@ const Navbar = () => {
                 ))}
             </div>
           )}
+        </div>
+        <div className="hover:border-b-2 hover:border-black p-2">
+          <Link to="/allproducts">Todos os produtos</Link>
         </div>
       </div>
       <div className="flex items-center">

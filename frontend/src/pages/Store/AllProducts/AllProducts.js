@@ -18,7 +18,7 @@ const AllProducts = () => {
   const { products, loading } = useSelector((state) => state.product);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 15;
+  const itemsPerPage = 12;
 
   const [categoryFilter, setCategoryFilter] = useState("");
   const [promotionFilter, setPromotionFilter] = useState("");
@@ -71,37 +71,41 @@ const AllProducts = () => {
   return (
     <main>
       <Navbar />
-      <ProductFilter
-        categoryFilter={categoryFilter}
-        promotionFilter={promotionFilter}
-        onCategoryChange={handleCategoryFilterChange}
-        onPromotionChange={handlePromotionFilterChange}
-      />
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {displayedProducts.map((product) => (
-          <div key={product._id}>
-            <Link to={`/products/${product._id}`}>
-              <MemoizedProductItemBox product={product} />
-            </Link>
-          </div>
-        ))}
+      <div className="flex mt-10">
+        <ProductFilter
+          categoryFilter={categoryFilter}
+          promotionFilter={promotionFilter}
+          onCategoryChange={handleCategoryFilterChange}
+          onPromotionChange={handlePromotionFilterChange}
+        />
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {displayedProducts.map((product) => (
+            <div key={product._id}>
+              <Link to={`/products/${product._id}`}>
+                <MemoizedProductItemBox product={product} />
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-      <ReactPaginate
-        previousLabel={"Anterior"}
-        nextLabel={"Próximo"}
-        breakLabel={"..."}
-        pageCount={totalPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        className="flex mt-10 p-2"
-        previousClassName="text-white bg-black rounded p-2 mt-2 mr-2"
-        nextClassName="text-white bg-black rounded p-2 mt-2 ml-2"
-        pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
-        activeLinkClassName="p-2 font-bold"
-      />
+      <div className="flex justify-end">
+        <ReactPaginate
+          previousLabel={"Anterior"}
+          nextLabel={"Próximo"}
+          breakLabel={"..."}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+          className="flex mt-10 p-2"
+          previousClassName="text-white bg-black rounded p-2 mt-2 mr-2"
+          nextClassName="text-white bg-black rounded p-2 mt-2 ml-2"
+          pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
+          activeLinkClassName="p-2 font-bold"
+        />
+      </div>
       <Footer />
     </main>
   );

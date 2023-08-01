@@ -20,7 +20,7 @@ const ProductItemBox = ({ product }) => {
                   className="w-64 h-80 object-cover object-top mx-auto rounded mb-2"
                 />
               </LazyLoad>
-              <div className="line-clamp-2 ml-4">
+              <div className="line-clamp-2 ml-4 truncate">
                 <p className="text-sm text-gray-400 ml-2">{product.name}</p>
                 {product.onSale ? (
                   <div className="flex items-center">

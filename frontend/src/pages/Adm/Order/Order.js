@@ -5,12 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 // Redux
-import { getOrderById } from "../../../slices/orderSlice";
+import { getOrderById, updateOrder, reset } from "../../../slices/orderSlice";
 import { getProduct } from "../../../slices/productSlice";
 
 // Components and functions
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import ReviseProductOrder from "../../../components/Revise/ReviseProductOrder";
+import Message from "../../../components/Message/Message";
 import { formattedDate } from "../../../components/AnotherComponentsAndFunctions/formattedDate";
 import { formatPrice } from "../../../components/AnotherComponentsAndFunctions/AnotherComponentsAndFunctions";
 
@@ -24,8 +25,10 @@ const Order = () => {
     (state) => state.order
   );
 
-  const [changeStatus, setChangeStatus] = useState("");
+  const [changeStatus, setChangeStatus] = useState(order.status ?? "");
+  const [observation, setObservation] = useState("");
   const [productData, setProductData] = useState(null);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
 
   useEffect(() => {
     dispatch(getOrderById(id, token));
@@ -50,11 +53,30 @@ const Order = () => {
     }
   }, [order, dispatch]);
 
-  useEffect(() => {
-    if (order) {
-      setChangeStatus(order.status);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    setLoadingUpdate(true);
+
+    const updatedOrder = {
+      status: changeStatus,
+      observation,
+      id: order._id,
+    };
+
+    try {
+      await dispatch(updateOrder(updatedOrder));
+      console.log("Pedido atualizado com sucesso!");
+    } catch (error) {
+      console.log("Erro ao atualizar o pedido:", error);
     }
-  }, [order]);
+
+    setLoadingUpdate(false);
+
+    setTimeout(() => {
+      dispatch(reset());
+    }, 2000);
+  };
 
   if (loading) {
     return <p>Carregando</p>;
@@ -65,7 +87,6 @@ const Order = () => {
   return (
     <div className="bg-slate-800 h-screen">
       <Sidebar />
-
       <div className="ml-20 flex gap-2">
         <div className="flex">
           <div className="font-bold">
@@ -79,14 +100,18 @@ const Order = () => {
                 </div>
               </Link>
 
-              <div className="flex text-xl bg-white  rounded mt-2">
-                <p className="flex items-center w-32 border-r-2 p-2">
-                  Observação
-                </p>
-                <textarea cols="40" rows="3" className="p-2">
-                  {order.clientObservation}
-                </textarea>
-              </div>
+              {order.clientObservation ? (
+                <div className="flex text-xl bg-white  rounded mt-2">
+                  <p className="flex items-center w-32 border-r-2 p-2">
+                    Observação do cliente
+                  </p>
+                  <textarea cols="40" rows="2" className="p-2">
+                    {order.clientObservation}
+                  </textarea>
+                </div>
+              ) : (
+                ""
+              )}
 
               <div className="flex text-xl bg-white rounded mt-2">
                 <p className="flex items-center w-32 border-r-2 p-2">
@@ -142,27 +167,49 @@ const Order = () => {
                 <p className="flex items-center p-2">{order.paymentMethod}</p>
               </div>
 
-              <div className="flex text-xl bg-white  rounded mt-2">
-                <p className="flex items-center w-32 border-r-2 p-2">Status</p>
-                <select
-                  name="changeStatus"
-                  id="changeStatus"
-                  value={changeStatus}
-                  onChange={(e) => setChangeStatus(e.target.value)}
-                  className="flex items-center p-2 rounded"
+              <form onSubmit={handleUpdate}>
+                <div className="flex text-xl bg-white  rounded mt-2">
+                  <p className="flex items-center w-32 border-r-2 p-2">
+                    Status
+                  </p>
+                  <select
+                    name="changeStatus"
+                    id="changeStatus"
+                    value={changeStatus}
+                    onChange={(e) => setChangeStatus(e.target.value)}
+                    className="flex items-center p-2 rounded"
+                  >
+                    <option value="Cancelado">Cancelado</option>
+                    <option value="Pagamento Pendente">
+                      Pagamento Pendente
+                    </option>
+                    <option value="Pagamento confirmado">
+                      Pagamento confirmado
+                    </option>
+                    <option value="Preparando">Preparando</option>
+                    <option value="A enviar">A enviar</option>
+                    <option value="Enviado">Enviado</option>
+                    <option value="Entregue">Entregue</option>
+                    <option value="Devolução">Devolução</option>
+                  </select>
+                  <textarea
+                    name="observation"
+                    cols="30"
+                    rows="2"
+                    placeholder="Digite aqui a observação"
+                    value={observation}
+                    onChange={(e) => setObservation(e.target.value)}
+                    className="flex border-l"
+                  ></textarea>
+                </div>
+                <button
+                  className="text-center text-lg bg-white mt-2 p-2 rounded"
+                  type="submit"
+                  disabled={loadingUpdate}
                 >
-                  <option value="Cancelado">Cancelado</option>
-                  <option value="Pagamento Pendente">Pagamento Pendente</option>
-                  <option value="Pagamento confirmado">
-                    Pagamento confirmado
-                  </option>
-                  <option value="Preparando">Preparando</option>
-                  <option value="A enviar">A enviar</option>
-                  <option value="Enviado">Enviado</option>
-                  <option value="Entregue">Entregue</option>
-                  <option value="Devolução">Devolução</option>
-                </select>
-              </div>
+                  {loadingUpdate ? "Atualizando..." : "Atualizar"}
+                </button>
+              </form>
             </div>
           </div>
 
@@ -192,6 +239,7 @@ const Order = () => {
           </section>
         </section>
       </div>
+      {message && <Message msg={message} type={"success"} />}
     </div>
   );
 };

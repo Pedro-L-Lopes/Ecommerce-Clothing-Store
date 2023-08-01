@@ -130,7 +130,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
               <p className="font-bold text-sm">Frete grátis</p>
             </div>
             <p className="text-sm text-gray-400 p-2 -mt-3">
-              Entrega grátis em Governador Valadares
+              Frete grátis para Governador Valadares
             </p>
             <div className="flex p-2">
               <AiFillSafetyCertificate
@@ -140,7 +140,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
               <p className="font-bold text-sm">Devolução grátis</p>
             </div>
             <p className="text-sm text-gray-400 p-2 -mt-3">
-              Devolução grátis em Governador Valadares e região
+              Devolução grátis para Governador Valadares e região
             </p>
           </div>
         </div>

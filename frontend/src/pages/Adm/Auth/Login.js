@@ -25,7 +25,7 @@ const Login = () => {
     };
 
     dispatch(login(user));
-    navigate("/dashboard");
+    navigate("/profile");
   };
 
   useEffect(() => {

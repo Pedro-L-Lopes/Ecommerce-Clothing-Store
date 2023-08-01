@@ -8,6 +8,8 @@ import ReactPaginate from "react-paginate";
 import "./Search.css";
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import ProductFilter from "../../../components/ProductFilter/ProductFilter";
+import Navbar from "../../../components/Navbar/Navbar";
+import Footer from "../../../components/Footer/Footer";
 
 const Search = () => {
   const query = useQuery();
@@ -84,33 +86,38 @@ const Search = () => {
 
   return (
     <div id="search">
-      <ProductFilter
-        categoryFilter={categoryFilter}
-        promotionFilter={promotionFilter}
-        onCategoryChange={handleCategoryFilterChange}
-        onPromotionChange={handlePromotionFilterChange}
-      />
-      <h2>Resultado para: {search}</h2>
-      <div id="products-container-box">{renderProducts()}</div>
-      {products.length === 0 && (
-        <h2>Não foram encontrados resultados para a sua busca.</h2>
-      )}
-      <ReactPaginate
-        previousLabel={"Anterior"}
-        nextLabel={"Próximo"}
-        breakLabel={"..."}
-        pageCount={Math.ceil(filteredProducts.length / itemsPerPage)}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        className="flex mt-10 p-2"
-        previousClassName="text-white bg-black rounded p-2 mt-2 mr-2"
-        nextClassName="text-white bg-black rounded p-2 mt-2 ml-2"
-        pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
-        activeLinkClassName="p-2 font-bold"
-      />
+      <Navbar />
+      <div className="flex mt-10">
+        <ProductFilter
+          categoryFilter={categoryFilter}
+          promotionFilter={promotionFilter}
+          onCategoryChange={handleCategoryFilterChange}
+          onPromotionChange={handlePromotionFilterChange}
+        />
+        <div id="products-container-box">{renderProducts()}</div>
+        {products.length === 0 && (
+          <h2 className="text-2xl font-bold text-center mt-14">Não foram encontrados resultados para a sua busca.</h2>
+        )}
+      </div>
+      <div className="flex justify-end">
+        <ReactPaginate
+          previousLabel={"Anterior"}
+          nextLabel={"Próximo"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(filteredProducts.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+          className="flex mt-10 p-2"
+          previousClassName="text-white bg-black rounded p-2 mt-2 mr-2"
+          nextClassName="text-white bg-black rounded p-2 mt-2 ml-2"
+          pageClassName="text-white bg-black rounded p-2 mt-2 ml-1"
+          activeLinkClassName="p-2 font-bold"
+        />
+      </div>
+      <Footer />
     </div>
   );
 };

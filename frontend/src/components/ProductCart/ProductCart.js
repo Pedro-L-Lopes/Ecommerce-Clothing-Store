@@ -44,11 +44,11 @@ const ProductCart = ({ product, hidden }) => {
   const removeProduct = () => {
     setRemovingProduct(true);
     dispatch(removeCart(product.cartItemId));
-    // Pode adicionar um atraso simulado aqui para exibir o loading
+
     setTimeout(() => {
       setRemovingProduct(false);
       setShowDeleteModal(false);
-    }, 1000); // Tempo de espera simulado de 1 segundo (1000 ms)
+    }, 1000);
   };
 
   return (

@@ -1,21 +1,23 @@
 // Components
 import ProductItemBox from "../../../components/ProductItemBox/ProductItemBox";
 import CategoryCard from "../../../components/CategoryCard/CategoryCard";
-import { Link } from "react-router-dom";
-import LazyLoad from "react-lazy-load";
 import Navbar from "../../../components/Navbar/Navbar";
 import Footer from "../../../components/Footer/Footer";
 
-// Hooks
+// Hooks and others
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import LazyLoad from "react-lazy-load";
 
 // Redux
 import { getAllProducts } from "../../../slices/productSlice";
 
 // Imagens
 import destaque from "../../../images/destaque.jpg";
-import banner2 from "../../../images/PROMOCAO.png";
+import banner2 from "../../../images/223.jpg";
+
+import { BsWhatsapp } from "react-icons/bs";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -111,6 +113,16 @@ const Home = () => {
         ))}
       </div>
       <Footer />
+      <div className="fixed bottom-0 right-0 ml-4 mb-4 group">
+        <Link>
+          <div className="flex text-white bg-green-600 p-4 rounded-full m-2">
+            <BsWhatsapp size={24} className="text-white" />
+            <p className="hidden group-hover:block ml-1">
+              Comprar ou tirar duvidas
+            </p>
+          </div>
+        </Link>
+      </div>
     </main>
   );
 };

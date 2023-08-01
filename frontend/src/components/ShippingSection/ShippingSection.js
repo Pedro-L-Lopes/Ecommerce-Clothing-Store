@@ -215,7 +215,7 @@ const ShippingSection = ({
         </div>
         {showMessage && (
           <p className="text-white text-center bg-red-500 rounded animate-pulse">
-            Selecione o tipo de frete antes de continuar.
+            Selecione o tipo de envio antes de continuar.
           </p>
         )}
       </div>

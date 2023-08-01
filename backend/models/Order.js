@@ -3,10 +3,7 @@ const { Schema } = mongoose;
 
 const orderSchema = new Schema(
   {
-    code: {
-      type: Number,
-      required: true,
-    },
+    code: Number,
     products: [
       {
         productId: {

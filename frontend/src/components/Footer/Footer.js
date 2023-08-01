@@ -31,13 +31,7 @@ const Footer = () => {
 
           <li>
             <a class="text-gray-700 transition hover:text-gray-700/75" href="/">
-              Services
-            </a>
-          </li>
-
-          <li>
-            <a class="text-gray-700 transition hover:text-gray-700/75" href="/">
-              Contato +55 33 999000000
+              Formas de pagamento
             </a>
           </li>
         </ul>
