@@ -8,7 +8,7 @@ const createOrderValidation = () => {
       .isMongoId()
       .withMessage("ID do cliente inválido!"),
     body("clientName").notEmpty().withMessage("Nome do cliente não fornecido!"),
-    body("products")
+    body("products") 
       .isArray({ min: 1 })
       .withMessage("Insira pelo menos um produto no pedido!")
       .custom((products) => {

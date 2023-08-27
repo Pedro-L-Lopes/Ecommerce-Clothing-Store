@@ -1,5 +1,3 @@
-// Validações de registro/login/
-
 const { body } = require("express-validator"); // Entrega tudo que vem no corpo da requisição
 
 // Validação da criação e usuário

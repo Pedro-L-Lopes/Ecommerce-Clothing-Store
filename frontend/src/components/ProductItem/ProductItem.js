@@ -154,7 +154,7 @@ const ProductItem = ({ product, addProductToCart, products }) => {
 
       <div>
         <h1 className="text-xl font-bold mt-10 ml-4">Relacionados</h1>
-        <div className="flex overflow-hidden">
+        <div className="flex items-center overflow-hidden">
           {products &&
             products
               .filter(

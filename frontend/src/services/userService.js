@@ -1,5 +1,4 @@
 // Requisição http que tem haver com o usuário
-
 import { api, requestConfig } from "../utils/config";
 
 // Pegando detalhes do usuário baseado no token
